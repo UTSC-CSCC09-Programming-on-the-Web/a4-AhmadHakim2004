@@ -32,7 +32,7 @@ Your code must be of good quality and follow all recommendations given throughou
 - proper use of id and class attributes
 - the page does not reload by itself 
 - the page should not need to be reloaded to work
-- use encapsulation (closure) and strict mode for Javascript code
+- use encapsulation (closure or Javascript module) and strict mode for Javascript code
 - use of JSHint to validate Javascript code
 - separates the **Frontend Controller** from **the Frontend API** as seen in the Javascript lab
 - correct coding style, indentation and comments (whenever appropriate)
@@ -76,11 +76,13 @@ In this part, you are going to design the UI (HTML and CSS) of *The Web Gallery*
         - a delete button
     - two buttons to move to the older or later series of 10 comments (still related to the same image)
 
+Your styling must be elegant, original and use some CSS animations.
+
 ##  Building the features
 
 In this part, you are going to build some frontend features. Data will be stored locally (HTML5 storage) and updated when users interacts with the app. The data should be persistent. This means that any comment or image previously added should appear (wherever appropriate) when the user browse through the gallery even if the page is reloaded. 
 
-As done for the lab, the javascript code must be separated in two: the **Frontend Controller** and the **the Frontend API**. For the **Frontend API** api, we provide a starter file called `api.js`. Your implementation of the **the Frontend API** will be auto-marked, so make sure to comply with the specifications.
+As done for the lab, the javascript code must be separated in two: the **Frontend Controller** and the **the Frontend API**. For the **Frontend API** api, we provide a starter file called `api.js`.
 
 ### Adding and deleting images to the gallery
 
@@ -107,6 +109,8 @@ As users browse through the gallery, the comment section should be updated to di
 The comment section should only show that last 10 comments with the most recent on top. The users can navigate through all comments by using buttons that will show the previous or next 10 comments for displayed image.
 
 Users should be able to delete any comment. 
+
+
 
 
 

@@ -38,15 +38,5 @@ let api = (function(){
         
     }
     
-    // call handler when an image is added or deleted from the gallery
-    module.onImageUpdate = function(handler){
-        
-    }
-    
-    // call handler when a comment is added or deleted to an image
-    module.onCommentUpdate = function(handler){
-        
-    }
-    
     return module;
 })();
