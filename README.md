@@ -46,15 +46,9 @@ Your code must be of good quality and follow all recommendations given throughou
 - all code found online and adapted are appropriately credited as comments and in `credits.html`.
 
 ### Submission
+You must deploy your web gallery on Github Pages and rename your index.html to `<uuid>.html`. More instructions from below.
 
-You should submit your work to your Github course repository. Before submitting your final version, it is strongly recommended to verify that your code is portable. To do so:
-
-- push your work to Github
-- clone it into a new directory
-- start your app and verify that it works as expected
-- IMPORANT: clear `localStorage` and ensure that it still works as intended.
-
-> Please note that you will receive a 0 if your code does not run on your TAs machines by directly cloning your repo.
+You must also submit your code through Gradescope by connecting your Github Repo to `a1`.
 
 ## Designing the UI
 
@@ -118,3 +112,26 @@ As users browse through the gallery, the comment section should be updated to di
 The comment section should only show that last 10 comments with the most recent on top. The users can navigate through all comments by using buttons that will show the previous or next 10 comments for displayed image.
 
 Users should be able to delete any comment.
+
+## Deploy this on Github Pages
+The TAs will mark your frontend through Github Pages. To prevent other students from being able to reverse
+engineer your site, at this point, rename `index.html` to `<uuid>.html`. You can generate that UUID randomly through
+https://www.uuidgenerator.net/.
+
+Enable Github Pages building and ensure that your site can be visited through your new `<uuid>.html` page.
+
+## Grading
+- Adding and deleting images [10pts]
+- Browsing through the gallery [10pts]
+- Commeting on images [10pts]
+- Overall application completeness [10pts]
+- UI Layout [10pts]
+- Credits in credits.html [2pts]
+- UI is elegent and original [10pts]
+- Repository Organization [2pts]
+- HTML written according to best practices [12pts]
+- CSS written according to best practices [7pts]
+- Javascript written according to best practices [13pts]
+- No debugging and or error messages in JS console [4pts]
+
+Total: 100pts
