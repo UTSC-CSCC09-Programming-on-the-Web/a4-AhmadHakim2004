@@ -1,5 +1,6 @@
 # Web Gallery: Frontend
-The objective of these assignments is to build an application called *The Web Gallery* where users can share pictures
+
+The objective of these assignments is to build an application called _The Web Gallery_ where users can share pictures
 and comments. This application is similar to existing web applications such as Facebook, Instagram or Tiktok.
 
 In this first assignment, we will concentrate on the frontend only. Users will be able to add images to the gallery.
@@ -8,7 +9,7 @@ Our app will have two URLs:
 - `/index.html` is the main page where users can browse through images, add new images and comment.
 
 - `/credits.html` is the credits page that should contain the references of the images, buttons and snippets of code
-that you have used for this assignment.
+  that you have used for this assignment.
 
 ## Instructions
 
@@ -26,6 +27,7 @@ You are not allowed to:
 - use any CSS frameworks like (but not limited to) Bootstrap or TailwindCSS
 - use any javascript library or framework (like jQuery, or React...)
 - use or develop any server-side feature
+- use CSS code developed in the labs. (your frontend must not)
 
 ### Code quality and organization
 
@@ -53,6 +55,7 @@ it means (non necessarily exhaustive):
 - all code found online and adapted are appropriately credited as comments and in `credits.html`.
 
 ### Submission
+
 You must deploy your web gallery on Github Pages and rename your index.html to `<uuid>.html`. More instructions from
 below.
 
@@ -77,8 +80,8 @@ components:
    - a delete button
 3. **the comment form** allows users to add comments to the current picture.
    - This component should contain at least:
-      - The author's name
-      - The comment
+     - The author's name
+     - The comment
 4. **the comment section** that shows the most recent comments for the current picture. This component should contain at least:
    - the 10 most recent comments only. Each comment should be composed of:
      - the author's name
@@ -139,9 +142,11 @@ all comments by using buttons that will show the previous or next 10 comments fo
 Users should be able to delete any comment.
 
 ## Deploy this on Github Pages
+
 Enable Github Pages building and ensure that your site can be visited through the `index.html` page.
 
 ## Grading
+
 - Adding and deleting images [10pts]
 - Browsing through the gallery [10pts]
 - Commeting on images [10pts]

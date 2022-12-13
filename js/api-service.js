@@ -18,16 +18,16 @@ let apiService = (function () {
   */
 
   // add an image to the gallery
-  module.addImage = function(title, author, url) {};
+  module.addImage = function (title, author, url) {};
 
   // delete an image from the gallery given its imageId
-  module.deleteImage = function(imageId) {};
+  module.deleteImage = function (imageId) {};
 
   // add a comment to an image
-  module.addComment = function(imageId, author, content) {};
+  module.addComment = function (imageId, author, content) {};
 
   // delete a comment to an image
-  module.deleteComment = function(commentId) {};
+  module.deleteComment = function (commentId) {};
 
   return module;
 })();
