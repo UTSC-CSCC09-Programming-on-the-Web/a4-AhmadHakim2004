@@ -47,8 +47,8 @@ Your code must be of good quality and follow all recommendations given throughou
 - the page does not reload by itself (it is a single page application)
 - the page should not need to be reloaded to work
 - use encapsulation and strict mode for Javascript code
-- use of JSHint to validate Javascript code
-- use of prettier to format HTML/CSS/JS
+- use of `eslint` to validate Javascript code
+- use of `prettier` to format HTML/CSS/JS
 - separates the **Frontend Controller** from **the Frontend API Service** as seen in the Javascript lab
 - correct coding style, indentation and comments (whenever appropriate)
 - all icons, images and other design elements are appropriately credited in `credits.html`.
@@ -59,6 +59,9 @@ Your code must be of good quality and follow all recommendations given throughou
 You must deploy your web gallery on Github Pages.
 
 You must also submit your code through Gradescope by connecting your Github Repo to `a1`.
+
+> [!CAUTION]
+> Please submit on Gradescope on top of pushing your code to Github. If you do not submit on Gradescope, your assignment cannot not be graded.
 
 ## Designing the UI
 
@@ -100,8 +103,7 @@ interacts with the app. The data should be persistent. This means that any comme
 > [!WARNING]  
 > Ensure that even when you do `localStorage.clear()`, the app should still work as expected.
 
-As done for the lab, the javascript code must be separated in two: the **Frontend Controller** and the **the Frontend API Service**. For the **Frontend API Service**, we provide a starter file
-called `api.js`.
+As done for the lab, the javascript code must be separated in two: the **Frontend Controller** and the **the Frontend API Service**. For the **Frontend API Service**, we provide a starter file called `api.js`.
 
 > [!CAUTION]
 > Do not modify the type contracts as this file will be automarked.
@@ -145,17 +147,17 @@ Enable Github Pages building and ensure that your site can be visited through th
 
 ## Grading
 
+> [!CAUTION]
+> Please submit on Gradescope on top of pushing your code to Github. If you do not submit on Gradescope, your assignment cannot not be graded.
+
 - Adding and deleting images [10pts]
-- Browsing through the gallery [10pts]
-- Commeting on images [10pts]
-- Overall application completeness [10pts]
-- UI Layout [10pts]
+- Browsing through the gallery [15pts]
+- Commenting on images [10pts]
+- UI Layout [15pts]
 - Credits in credits.html [2pts]
 - UI is elegent and original [10pts]
 - Repository Organization [2pts]
-- HTML written according to best practices [12pts]
-- CSS written according to best practices [7pts]
-- Javascript written according to best practices [13pts]
+- HTML/CSS/JS best practices [32pts]
 - No debugging and or error messages in JS console [4pts]
 
 Total: 100pts
