@@ -103,7 +103,7 @@ interacts with the app. The data should be persistent. This means that any comme
 > [!WARNING]  
 > Ensure that even when you do `localStorage.clear()`, the app should still work as expected.
 
-As done for the lab, the javascript code must be separated in two: the **Frontend Controller** and the **the Frontend API Service**. For the **Frontend API Service**, we provide a starter file called `api.js`.
+As done for the lab, the javascript code must be separated in two: the **Frontend Controller** and the **the Frontend API Service**. For the **Frontend API Service**, we provide a starter file called `api-service.js`.
 
 > [!CAUTION]
 > Do not modify the type contracts as this file will be automarked.
