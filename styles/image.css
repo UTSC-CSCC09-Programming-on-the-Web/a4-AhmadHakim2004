@@ -1,0 +1,57 @@
+.image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border-bottom: 1px solid black;
+}
+
+.image-title {
+  padding: 4px 16px;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.image-author, .image-total {
+  padding: 4px 16px;
+  font-size: 16px;
+  color: grey;
+  text-align: center;
+}
+
+.image {
+  max-height: 500px;
+  object-fit: contain;
+}
+
+.image-container .row {
+    margin: 8px;
+}
+
+.img-btn-container {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-image-action {
+  width: 50%;
+  aspect-ratio: 1;
+  border: none;
+  background-size: cover;
+  background-image: url("C:\\Users\\Mrhak\\Downloads\\back.png");
+  background-color: azure;
+}
+
+
+.previous-image {
+  background-image: url("C:\\Users\\Mrhak\\Downloads\\previous (1).png");
+}
+
+.delete-image {
+  background-image: url("C:\\Users\\Mrhak\\Downloads\\delete (2).png");
+}
+
+.next-image {
+  background-image: url("C:\\Users\\Mrhak\\Downloads\\next-button.png");
+}

@@ -1,3 +1,7 @@
+html {
+    background-color: azure;
+}
+
 header {
   border-bottom: 1px solid #E5E8EB;
   padding: 12px 40px;
@@ -19,5 +23,14 @@ footer {
   border-top: 1px solid #E5E8EB;
   text-align: center;
   padding-top: 8px;
-  margin-top: 16px;
+  margin: 16px 0px;
+}
+
+.main-body-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  max-width: 60%;
+  margin: auto;
+  padding: 20px 0px;
 }

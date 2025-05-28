@@ -6,12 +6,30 @@
     <title>Web Gallery</title>
     <link href="styles/cols.css" rel="stylesheet" type="text/css" />
     <link href="styles/main.css" rel="stylesheet" type="text/css" />
+    <link href="styles/image.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap" rel="stylesheet">
   </head>
   <body>
     <header>
       <div><a href="/" class="title-text">The Web Gallery</a></div>
     </header>
+    <div class="main-body-container">
+        <div class="image-container">
+            <div class="image-title">Sunny Day</div>
+            <div class="image-author">By Ahmad Hakim</div>
+            <img class="image" src="C:\Users\Mrhak\Pictures\Wedding Photo.jpg">
+            <div class="image-total">Total Images: 15</div>
+            <div class="row">
+                <div class="col-1 col-sm-1"></div>
+                <div class="col-2 col-sm-2 img-btn-container"><button class="btn-image-action previous-image"></button></div>
+                <div class="col-2 col-sm-2"></div>
+                <div class="col-2 col-sm-2 img-btn-container"><button class="btn-image-action delete-image"></button></div>
+                <div class="col-2 col-sm-2"></div>
+                <div class="col-2 col-sm-2 img-btn-container"><button class="btn-image-action next-image"></button></div>
+                <div class="col-1 col-sm-1"></div>
+            </div>
+        </div>
+    </div>
     <footer>
       <a href="/credits.html">credits</a>
     </footer>
