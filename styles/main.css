@@ -16,15 +16,7 @@ header {
 }
 
 body {
-  max-width: 60%;
-  margin: auto;
   font-family: 'Public Sans';
-}
-
-@media (max-width: 576px) {
-  body {
-    max-width: 80%;
-  }
 }
 
 footer {
@@ -39,4 +31,12 @@ footer {
   flex-direction: column;
   justify-content: center;
   padding: 20px 0px;
+  max-width: 60%;
+  margin: auto;
+}
+
+@media (max-width: 576px) {
+  .main-body-container {
+    max-width: 80%;
+  }
 }
