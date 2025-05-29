@@ -32,9 +32,9 @@
       const elmt = document.createElement("div");
       elmt.className = "row comment align-items-center";
       elmt.innerHTML = `
-          <div class="col-auto message-content">
-            <div >${comment.author} (${comment.date})</div>
-            <div>${comment.content}</div>
+          <div class="col-auto">
+            <div class="comment-header">${comment.author} (${new Date(comment.date).toLocaleString()})</div>
+            <div class="comment-content">${comment.content}</div>
           </div>
           <div class="col-1 delete-icon btn-comment-action"></div>
       `;
