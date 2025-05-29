@@ -22,13 +22,13 @@
     <div class="main-container">
       <button id="popupBtn" class="popup-btn popup-open">+</button>
 
-      <div id="popup" class="popup hidden">
+      <form id="popup" class="popup hidden">
         <div class="popup-header">Add Image</div>
-        <input type="text" placeholder="Image Title" class="popup-input">
-        <input type="text" placeholder="Author's Name" class="popup-input">
-        <input type="text" placeholder="Image URL" class="popup-input">
+        <input id="imageTitle" type="text" placeholder="Image Title" class="popup-input">
+        <input id="imageAuthor" type="text" placeholder="Author's Name" class="popup-input">
+        <input id="imageUrl" type="text" placeholder="Image URL" class="popup-input">
         <button class="popup-submit">Add Image</button>
-      </div>
+      </form>
 
       <div class="img-display hidden">
         <div class="img-header">View Images</div>

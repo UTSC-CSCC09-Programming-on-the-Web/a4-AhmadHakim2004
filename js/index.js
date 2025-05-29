@@ -19,5 +19,20 @@
             popup.classList.add('hidden');
         }
     });
+
+    document
+      .getElementById("popup")
+      .addEventListener("submit", function (e) {
+        // prevent from refreshing the page on submit
+        e.preventDefault();
+        // read form elements
+        const title = document.getElementById("imageTitle").value;
+        const author = document.getElementById("imageAuthor").value;
+        const url = document.getElementById("imageUrl").value;
+        // clean form
+        document.getElementById("popup").reset();
+
+        apiService.addImage(title, author, url);
+      });
    });
 })();
