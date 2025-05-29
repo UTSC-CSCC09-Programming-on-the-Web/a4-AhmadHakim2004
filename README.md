@@ -158,7 +158,7 @@ Enable Github Pages building and ensure that your site can be visited through th
 write a `url.txt` file in the root of your repository that contains the URL of your deployed site. The URL should be in the following format:
 
 ```
-https://<org-name>.github.io/<repository-name>/index.html
+https://bookish-happiness-w6nj9pl.pages.github.io/
 ```
 
 ## Grading
