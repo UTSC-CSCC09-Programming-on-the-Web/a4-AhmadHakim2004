@@ -39,3 +39,7 @@ footer {
     max-width: 95%;
   }
 }
+
+.hidden {
+  display: none;
+}
