@@ -4,6 +4,7 @@
   const [imageIndex, getImageIndex, setImageIndex] = meact.useState(null);
   const [imageCount, getImageCount, setImageCount] = meact.useState(null);
 
+
   function displayNoImages() {
     document.getElementById("imgDisplay").classList.add("hidden");
     document.getElementById("commentFormContainer").classList.add("hidden");
@@ -104,9 +105,25 @@
         // prevent from refreshing the page on submit
         e.preventDefault();
         const imgId = document.querySelector("#imgContainer img").id;
-        apiService.deleteImage(imgId);
+        apiService.deleteImage(Number(imgId));
         setImageIndex(apiService.getImageIndex(getImageIndex()))
         setImageCount(apiService.getImageCount())
+      });
+
+    document
+      .getElementById("commentForm")
+      .addEventListener("submit", function (e) {
+        // prevent from refreshing the page on submit
+        e.preventDefault();
+        // read form elements
+        const author = document.getElementById("commentAuthor").value;
+        const content = document.getElementById("commentContent").value;
+        const imgId = document.querySelector("#imgContainer img").id;
+
+        // clean form
+        document.getElementById("commentForm").reset();
+
+        apiService.addComment(Number(imgId), author, content);
       });
    });
 })();

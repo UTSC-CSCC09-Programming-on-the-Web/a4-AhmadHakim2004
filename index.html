@@ -56,10 +56,11 @@
 
       <div id="commentFormContainer" class="comment-form-container">
         <div class="comment-form-header">Add Comment</div>
-        <form class="comment-form">
+        <form id="commentForm" class="comment-form">
           <div class="comment-form-elem-container">
             <div class="comment-form-label" for="name">Your Name</div>
             <input
+              id="commentAuthor"
               class="comment-form-elem"
               type="text"
               placeholder="Enter your name"
@@ -71,6 +72,7 @@
           <div class="comment-form-elem-container">
             <div class="comment-form-label" for="comment-content">Comment</div>
             <textarea
+              id="commentContent"
               class="comment-form-elem"
               rows="5"
               placeholder="Enter your comment"
