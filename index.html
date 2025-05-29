@@ -30,32 +30,31 @@
         <button class="popup-submit">Add Image</button>
       </form>
 
-      <div class="img-display hidden">
+      <div id="imgDisplay" class="img-display">
         <div class="img-header">View Images</div>
-        <div class="img-title">Sunny Day</div>
-        <div class="img-author">By Ahmad Hakim</div>
-        <div class="img-container">
-          <img class="img" src="C:\Users\Mrhak\Pictures\Wedding Photo.jpg" />
+        <div id="imgTitle" class="img-title"></div>
+        <div id="imgAuthor" class="img-author"></div>
+        <div id="imgContainer" class="img-container">
         </div>
-        <div class="img-total">Total Images: 15</div>
+        <div id="imgTotal" class="img-total"></div>
         <div class="row">
           <div class="col-1 col-sm-1"></div>
           <div class="col-2 col-sm-2 img-btn-container">
-            <button class="btn-img-action previous-img"></button>
+            <button id="prevImgBtn" class="btn-img-action previous-img"></button>
           </div>
           <div class="col-2 col-sm-2"></div>
           <div class="col-2 col-sm-2 img-btn-container">
-            <button class="btn-img-action delete-img"></button>
+            <button id="deleteImgBtn" class="btn-img-action delete-img"></button>
           </div>
           <div class="col-2 col-sm-2"></div>
           <div class="col-2 col-sm-2 img-btn-container">
-            <button class="btn-img-action next-img"></button>
+            <button id="nextImgBtn" class="btn-img-action next-img"></button>
           </div>
           <div class="col-1 col-sm-1"></div>
         </div>
       </div>
 
-      <div class="comment-form-container hidden">
+      <div id="commentFormContainer" class="comment-form-container">
         <div class="comment-form-header">Add Comment</div>
         <form class="comment-form">
           <div class="comment-form-elem-container">
@@ -82,7 +81,7 @@
         </form>
       </div>
 
-      <div class="no-images-container">
+      <div id="noImages" class="no-images-container">
         <div class="no-images-pic"></div>
         <div class="no-images-title">No images yet</div>
         <div class="no-images-content">Be the first to upload an image!</div>

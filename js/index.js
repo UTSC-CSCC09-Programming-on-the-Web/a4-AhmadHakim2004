@@ -1,7 +1,51 @@
 (function () {
   "use strict";
+  
+  const [imageIndex, getImageIndex, setImageIndex] = meact.useState(null);
+  const [imageCount, getImageCount, setImageCount] = meact.useState(null);
+
+  function displayNoImages() {
+    document.getElementById("imgDisplay").classList.add("hidden");
+    document.getElementById("commentFormContainer").classList.add("hidden");
+    document.getElementById("noImages").classList.remove("hidden");
+  }  
+  
+  function displayImage(image) {
+    document.getElementById("noImages").classList.add("hidden");
+    document.getElementById("imgDisplay").classList.remove("hidden");
+    document.getElementById("commentFormContainer").classList.remove("hidden");
+    document.getElementById("imgTitle").textContent = image.title;
+    document.getElementById("imgAuthor").textContent = `By ${image.author}`;
+    document.getElementById("imgContainer").innerHTML = `<img class='img' src='${image.url}' />`;
+  }
+  
+  function updateImageCount() {
+    document.getElementById("imgTotal").textContent = `Total Images: ${getImageCount()}`;
+  }
 
    window.addEventListener("load", function () {
+    setImageIndex(apiService.getImageIndex());
+    setImageCount(apiService.getImageCount());
+
+    meact.useEffect(
+      function () {
+        const image = apiService.getImage(getImageIndex())
+        if (image) {
+            displayImage(image)
+        }
+        else {
+            displayNoImages();
+        }
+      },
+      [imageIndex],
+    );
+
+    meact.useEffect(
+      function () {
+        updateImageCount();
+      },
+      [imageCount],
+    );
 
     const popupBtn = document.getElementById("popupBtn");
     const popup = document.getElementById("popup");
@@ -33,6 +77,24 @@
         document.getElementById("popup").reset();
 
         apiService.addImage(title, author, url);
+        setImageIndex(apiService.getImageIndex())
+        setImageCount(apiService.getImageCount())
+      });
+
+    document
+      .getElementById("prevImgBtn")
+      .addEventListener("click", function (e) {
+        // prevent from refreshing the page on submit
+        e.preventDefault();
+        setImageIndex(apiService.getImageIndex(getImageIndex(), -1));
+      });
+
+    document
+      .getElementById("nextImgBtn")
+      .addEventListener("click", function (e) {
+        // prevent from refreshing the page on submit
+        e.preventDefault();
+        setImageIndex(apiService.getImageIndex(getImageIndex(), 1));
       });
    });
 })();

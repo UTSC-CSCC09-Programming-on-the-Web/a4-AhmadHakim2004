@@ -92,5 +92,20 @@ let apiService = (function () {
     }
   };
 
+  module.getImageIndex = function(current = 0, direction = 0) {
+    if (direction < -1 || direction > 1) return null;
+    if (database.length === 0) return null;
+    return (current + direction + database.length) % database.length;
+  }
+
+  module.getImage = function(imageIndex) {
+    if (imageIndex === null) return null;
+    return database[imageIndex];
+  } 
+
+  module.getImageCount = function() {
+    return database.length;
+  }
+
   return module;
 })();
