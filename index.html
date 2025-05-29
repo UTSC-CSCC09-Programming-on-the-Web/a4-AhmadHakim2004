@@ -12,28 +12,29 @@
   </head>
   <body>
     <header>
-      <div><a href="/" class="title-text">The Web Gallery</a></div>
+      <div><a href="/" class="title">The Web Gallery</a></div>
     </header>
-    <div class="main-body-container">
-        <div class="image-container">
-          <div class="image-header">View Images</div>
-            <div class="row image-and-info">
-              <div class="col-9 col-sm-9">
-                <img class="image" src="C:\Users\Mrhak\Pictures\Wedding Photo.jpg">
+    <div class="main-container">
+        <div class="img-display">
+          <div class="img-header">View Images</div>
+            <div class="row img-and-info">
+              <div class="col-8 col-sm-8">
+                <img class="img" src="C:\Users\Mrhak\Pictures\Wedding Photo.jpg">
               </div>
-              <div class="col-3 col-sm-3 image-info">
-                <div class="image-title">Sunny Day</div>
-                <div class="image-author">By Ahmad Hakim</div>
-                <div class="image-total">Total Images: 15</div>
+              <div class="col-1 col-sm-1"></div>
+              <div class="col-3 col-sm-3 img-info">
+                <div class="img-title">Sunny Day</div>
+                <div class="img-author">By Ahmad Hakim</div>
+                <div class="img-total">Total Images: 15</div>
               </div>
             </div>
             <div class="row">
                 <div class="col-1 col-sm-1"></div>
-                <div class="col-2 col-sm-2 img-btn-container"><button class="btn-image-action previous-image"></button></div>
+                <div class="col-2 col-sm-2 img-btn-container"><button class="btn-img-action previous-img"></button></div>
                 <div class="col-2 col-sm-2"></div>
-                <div class="col-2 col-sm-2 img-btn-container"><button class="btn-image-action delete-image"></button></div>
+                <div class="col-2 col-sm-2 img-btn-container"><button class="btn-img-action delete-img"></button></div>
                 <div class="col-2 col-sm-2"></div>
-                <div class="col-2 col-sm-2 img-btn-container"><button class="btn-image-action next-image"></button></div>
+                <div class="col-2 col-sm-2 img-btn-container"><button class="btn-img-action next-img"></button></div>
                 <div class="col-1 col-sm-1"></div>
             </div>
         </div>
@@ -41,14 +42,14 @@
         <div class="comment-form-container">
             <div class="comment-form-header">Add Comment</div>
             <form class="comment-form">
-                <div class="comment-form-element-container">
+                <div class="comment-form-elem-container">
                     <div class="comment-form-label" for="name">Your Name</div>
-                    <input class="comment-form-element" type="text" placeholder="Enter your name" name="name" required/>
+                    <input class="comment-form-elem" type="text" placeholder="Enter your name" name="name" required/>
                 </div>
 
-                <div class="comment-form-element-container">
+                <div class="comment-form-elem-container">
                     <div class="comment-form-label" for="comment-content">Comment</div>
-                    <textarea class="comment-form-element" rows="5" placeholder="Enter your comment" required></textarea>
+                    <textarea class="comment-form-elem" rows="5" placeholder="Enter your comment" required></textarea>
                 </div>
                 <button type="submit" class="comment-form-btn">Add Comment</button>
             </form>

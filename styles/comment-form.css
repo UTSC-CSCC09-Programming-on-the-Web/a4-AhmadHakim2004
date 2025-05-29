@@ -10,7 +10,7 @@
     padding-left: 16px;
 }
 
-.comment-form-element-container {
+.comment-form-elem-container {
     padding: 12px 0px;
 }
 
@@ -19,7 +19,7 @@
     margin-bottom: 8px;
 }
 
-.comment-form-element {
+.comment-form-elem {
     width: 50%;
     padding: 15px;
     border-radius: 8px;

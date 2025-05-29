@@ -1,3 +1,7 @@
+body {
+  font-family: 'Public Sans';
+}
+
 header {
   border-bottom: 1px solid #E5E8EB;
   padding: 12px 40px;
@@ -7,16 +11,12 @@ header {
   align-items: center;
 }
 
-.title-text {
+.title {
   color: black;
   text-decoration: none;
   font-family: 'Public Sans';
   font-weight: bold;
   font-size: 18px;
-}
-
-body {
-  font-family: 'Public Sans';
 }
 
 footer {
@@ -26,7 +26,7 @@ footer {
   margin: 16px 0px;
 }
 
-.main-body-container {
+.main-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -36,7 +36,7 @@ footer {
 }
 
 @media (max-width: 576px) {
-  .main-body-container {
+  .main-container {
     max-width: 80%;
   }
 }
