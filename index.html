@@ -6,6 +6,7 @@
     <title>Web Gallery</title>
     <link href="styles/cols.css" rel="stylesheet" type="text/css" />
     <link href="styles/main.css" rel="stylesheet" type="text/css" />
+    <link href="styles/add-image.css" rel="stylesheet" type="text/css" />
     <link href="styles/image.css" rel="stylesheet" type="text/css" />
     <link href="styles/comment-form.css" rel="stylesheet" type="text/css" />
     <link
@@ -18,6 +19,16 @@
       <a href="/" class="title">The Web Gallery</a>
     </header>
     <div class="main-container">
+      <button class="popup-btn popup-open">+</button>
+
+      <div class="popup hidden">
+        <div class="popup-header">Add Image</div>
+        <input type="text" placeholder="Image Title" class="popup-input">
+        <input type="text" placeholder="Author's Name" class="popup-input">
+        <input type="text" placeholder="Image URL" class="popup-input">
+        <button class="popup-submit">Add Image</button>
+      </div>
+
       <div class="img-display">
         <div class="img-header">View Images</div>
         <div class="img-title">Sunny Day</div>
