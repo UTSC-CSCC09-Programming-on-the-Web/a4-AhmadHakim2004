@@ -1,8 +1,4 @@
 .img-display {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
   border-bottom: 1px solid black;
 }
 
@@ -28,15 +24,13 @@
 
 .img-author {
   font-style: italic;
-  margin-bottom: 4px;
 }
 
 .img-container {
   height: 500px;
-  width: 100%;
   background-color: black;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 1);
   padding: 1rem;
   margin: 1rem auto;
 }
@@ -64,7 +58,6 @@
   background-size: cover;
   background-color: white;
 }
-
 
 .previous-img {
   background-image: url("../media/previous.png");

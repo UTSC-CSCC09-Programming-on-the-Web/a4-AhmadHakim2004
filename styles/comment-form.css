@@ -5,8 +5,6 @@
 }
 
 .comment-form {
-    display: flex;
-    flex-direction: column;
     padding-left: 16px;
 }
 
@@ -28,8 +26,6 @@
 }
 
 .comment-form-btn {
-    width: 20%;
-    margin: 12px 0px;
     background-color: black;
     color: white;
     border-radius: 8px;

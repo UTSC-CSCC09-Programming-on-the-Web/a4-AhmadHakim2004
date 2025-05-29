@@ -5,8 +5,6 @@ body {
 header {
   border-bottom: 1px solid #E5E8EB;
   padding: 12px 40px;
-  margin-bottom: 16px;
-  height: 64px;
   display: flex;
   align-items: center;
 }
@@ -27,16 +25,13 @@ footer {
 }
 
 .main-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   padding: 20px 0px;
-  max-width: 60%;
+  max-width: 70%;
   margin: auto;
 }
 
 @media (max-width: 576px) {
   .main-container {
-    max-width: 80%;
+    max-width: 90%;
   }
 }
