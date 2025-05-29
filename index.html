@@ -7,6 +7,7 @@
     <link href="styles/cols.css" rel="stylesheet" type="text/css" />
     <link href="styles/main.css" rel="stylesheet" type="text/css" />
     <link href="styles/image.css" rel="stylesheet" type="text/css" />
+    <link href="styles/comment-form.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap" rel="stylesheet">
   </head>
   <body>
@@ -28,6 +29,22 @@
                 <div class="col-2 col-sm-2 img-btn-container"><button class="btn-image-action next-image"></button></div>
                 <div class="col-1 col-sm-1"></div>
             </div>
+        </div>
+
+        <div class="comment-form-container">
+            <div class="comment-form-header">Add Comment</div>
+            <form class="comment-form">
+                <div class="comment-form-element-container">
+                    <div class="comment-form-label" for="name">Your Name</div>
+                    <input class="comment-form-element" type="text" placeholder="Enter your name" name="name" required/>
+                </div>
+
+                <div class="comment-form-element-container">
+                    <div class="comment-form-label" for="comment-content">Comment</div>
+                    <textarea class="comment-form-element" rows="5" placeholder="Enter your comment" required></textarea>
+                </div>
+                <button type="submit" class="comment-form-btn">Add Comment</button>
+            </form>
         </div>
     </div>
     <footer>

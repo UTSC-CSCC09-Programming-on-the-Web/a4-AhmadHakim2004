@@ -1,0 +1,40 @@
+.comment-form-header {
+    font-size: 22px;
+    font-weight: bold;
+    padding: 16px;
+}
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    padding-left: 16px;
+}
+
+.comment-form-element-container {
+    padding: 12px 0px;
+}
+
+.comment-form-label {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.comment-form-element {
+    width: 50%;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #DBDBDB;
+    font-family: 'Public Sans';
+}
+
+.comment-form-btn {
+    width: 20%;
+    margin: 12px 0px;
+    background-color: black;
+    color: white;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    width: fit-content;
+    padding: 8px 16px;
+}
