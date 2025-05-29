@@ -16,7 +16,7 @@
     document.getElementById("commentFormContainer").classList.remove("hidden");
     document.getElementById("imgTitle").textContent = image.title;
     document.getElementById("imgAuthor").textContent = `By ${image.author}`;
-    document.getElementById("imgContainer").innerHTML = `<img class='img' src='${image.url}' />`;
+    document.getElementById("imgContainer").innerHTML = `<img id='${image.imageId}' class='img' src='${image.url}' />`;
   }
   
   function updateImageCount() {
@@ -95,6 +95,18 @@
         // prevent from refreshing the page on submit
         e.preventDefault();
         setImageIndex(apiService.getImageIndex(getImageIndex(), 1));
+      });
+
+    
+    document
+      .getElementById("deleteImgBtn")
+      .addEventListener("click", function (e) {
+        // prevent from refreshing the page on submit
+        e.preventDefault();
+        const imgId = document.querySelector("#imgContainer img").id;
+        apiService.deleteImage(imgId);
+        setImageIndex(apiService.getImageIndex(getImageIndex()))
+        setImageCount(apiService.getImageCount())
       });
    });
 })();

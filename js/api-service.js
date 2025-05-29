@@ -58,7 +58,7 @@ let apiService = (function () {
   // delete an image from the gallery given its imageId
   module.deleteImage = function (imageId) {
     let index = database.findIndex(function (image) {
-      return image.imageId === imageId;
+      return image.imageId === Number(imageId);
     });
     if (index === -1) return null;
     database.splice(index, 1);
