@@ -107,5 +107,17 @@ let apiService = (function () {
     return database.length;
   }
 
+  module.getComments = function (imageId, page = 0, limit = 10) {
+    let image = database.find(function (image) {
+      return image.imageId === imageId;
+    });
+
+    if (image) {
+      const start = page * limit;
+      return image.comments.slice(start, start + limit);
+    }
+    return null
+  };
+
   return module;
 })();

@@ -3,11 +3,13 @@
   
   const [imageIndex, getImageIndex, setImageIndex] = meact.useState(null);
   const [imageCount, getImageCount, setImageCount] = meact.useState(null);
+  const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
 
 
   function displayNoImages() {
     document.getElementById("imgDisplay").classList.add("hidden");
     document.getElementById("commentFormContainer").classList.add("hidden");
+    document.getElementById("commentsContainer").classList.add("hidden");
     document.getElementById("noImages").classList.remove("hidden");
   }  
   
@@ -15,6 +17,7 @@
     document.getElementById("noImages").classList.add("hidden");
     document.getElementById("imgDisplay").classList.remove("hidden");
     document.getElementById("commentFormContainer").classList.remove("hidden");
+    document.getElementById("commentsContainer").classList.remove("hidden");
     document.getElementById("imgTitle").textContent = image.title;
     document.getElementById("imgAuthor").textContent = `By ${image.author}`;
     document.getElementById("imgContainer").innerHTML = `<img id='${image.imageId}' class='img' src='${image.url}' />`;
@@ -24,6 +27,26 @@
     document.getElementById("imgTotal").textContent = `Total Images: ${getImageCount()}`;
   }
 
+    function renderComment(comment) {
+      // create a new message element
+      const elmt = document.createElement("div");
+      elmt.className = "row comment align-items-center";
+      elmt.innerHTML = `
+          <div class="col-auto message-content">
+            <div >${comment.author} (${comment.date})</div>
+            <div>${comment.content}</div>
+          </div>
+          <div class="col-1 delete-icon btn-comment-action"></div>
+      `;
+      // add this element to the document
+      document.getElementById("comments").prepend(elmt);
+
+      elmt.querySelector(".delete-icon").addEventListener("click", function () {
+        apiService.deleteComment(comment.commentId);
+        setCommentsPage(getCommentsPage());
+      });
+    }
+
    window.addEventListener("load", function () {
     setImageIndex(apiService.getImageIndex());
     setImageCount(apiService.getImageCount());
@@ -32,7 +55,8 @@
       function () {
         const image = apiService.getImage(getImageIndex())
         if (image) {
-            displayImage(image)
+            displayImage(image);
+            setCommentsPage(0);
         }
         else {
             displayNoImages();
@@ -46,6 +70,16 @@
         updateImageCount();
       },
       [imageCount],
+    );
+
+    meact.useEffect(
+      function () {
+        const imgId = document.querySelector("#imgContainer img").id;
+        const comments = apiService.getComments(Number(imgId), getCommentsPage())
+        document.getElementById("comments").innerHTML = "";
+        comments.forEach(renderComment);
+      },
+      [commentsPage],
     );
 
     const popupBtn = document.getElementById("popupBtn");
@@ -124,6 +158,27 @@
         document.getElementById("commentForm").reset();
 
         apiService.addComment(Number(imgId), author, content);
+        setCommentsPage(getCommentsPage());
       });
+
+          document
+      .getElementById("prevCommentsBtn")
+      .addEventListener("click", function (e) {
+        // prevent from refreshing the page on submit
+        e.preventDefault();
+        const currPage = getCommentsPage();
+        if (currPage > 0) {
+            setCommentsPage(currPage-1);
+        }
+      });
+
+    document
+      .getElementById("nextCommentsBtn")
+      .addEventListener("click", function (e) {
+        // prevent from refreshing the page on submit
+        e.preventDefault();
+        const currPage = getCommentsPage();
+        setCommentsPage(currPage+1);
+    });
    });
 })();

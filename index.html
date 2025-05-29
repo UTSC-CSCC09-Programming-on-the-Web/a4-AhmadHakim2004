@@ -9,6 +9,7 @@
     <link href="styles/add-image.css" rel="stylesheet" type="text/css" />
     <link href="styles/image.css" rel="stylesheet" type="text/css" />
     <link href="styles/comment-form.css" rel="stylesheet" type="text/css" />
+    <link href="styles/comments.css" rel="stylesheet" type="text/css" />
     <link href="styles/main.css" rel="stylesheet" type="text/css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap"
@@ -81,6 +82,22 @@
           </div>
           <button type="submit" class="comment-form-btn">Add Comment</button>
         </form>
+      </div>
+
+      <div id="commentsContainer" class="comments-container">
+        <div class="comments-header">Comments</div>
+        <div id="comments"></div>
+        <div class="row">
+          <div class="col-4 col-sm-4"></div>
+          <div class="col-1 col-sm-1 comment-btn-container">
+            <button id="prevCommentsBtn" class="btn-comment-action previous-comments"></button>
+          </div>
+          <div class="col-2 col-sm-2"></div>
+          <div class="col-1 col-sm-1 comment-btn-container">
+            <button id="nextCommentsBtn" class="btn-comment-action next-comments"></button>
+          </div>
+          <div class="col-4 col-sm-4"></div>
+        </div>
       </div>
 
       <div id="noImages" class="no-images-container">

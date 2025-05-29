@@ -1,3 +1,7 @@
+.comment-form-container {
+    border-bottom: 1px solid black;
+}
+
 .comment-form-header {
   font-size: 22px;
   font-weight: bold;
@@ -42,6 +46,7 @@
   font-weight: bold;
   width: fit-content;
   padding: 8px 16px;
+  margin-bottom: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
