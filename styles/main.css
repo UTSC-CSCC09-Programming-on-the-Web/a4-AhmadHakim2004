@@ -1,13 +1,13 @@
 html {
-  background-color: #121C21;
+  background-color: #121c21;
 }
 
 body {
-  font-family: 'Public Sans';
+  font-family: "Public Sans";
 }
 
 header {
-  border-bottom: 1px solid #E5E8EB;
+  border-bottom: 1px solid #e5e8eb;
   padding: 12px 40px;
   display: flex;
   align-items: center;
@@ -16,13 +16,13 @@ header {
 .title {
   color: white;
   text-decoration: none;
-  font-family: 'Public Sans';
+  font-family: "Public Sans";
   font-weight: bold;
   font-size: 18px;
 }
 
 footer {
-  border-top: 1px solid #E5E8EB;
+  border-top: 1px solid #e5e8eb;
   text-align: center;
   padding-top: 8px;
   margin: 16px 0px;

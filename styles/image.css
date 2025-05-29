@@ -3,10 +3,10 @@
 }
 
 .img-header {
-    font-size: 22px;
-    font-weight: bold;
-    padding: 16px;
-    color: white;
+  font-size: 22px;
+  font-weight: bold;
+  padding: 16px;
+  color: white;
 }
 
 .img-title {
@@ -17,10 +17,11 @@
   color: white;
 }
 
-.img-author, .img-total {
+.img-author,
+.img-total {
   padding: 4px 16px;
   font-size: 12px;
-  color: #91B2C9;
+  color: #91b2c9;
   text-align: center;
 }
 
@@ -30,7 +31,7 @@
 
 .img-container {
   height: 500px;
-  background-color: #EFF0F1;
+  background-color: #eff0f1;
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(255, 255, 255, 0.33);
   padding: 1rem;
@@ -45,12 +46,12 @@
 }
 
 .img-display .row {
-    margin: 8px;
+  margin: 8px;
 }
 
 .img-btn-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .btn-img-action {
@@ -58,7 +59,7 @@
   aspect-ratio: 1;
   border: none;
   background-size: cover;
-  background-color:  #121C21;
+  background-color: #121c21;
   color: aliceblue;
 }
 

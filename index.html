@@ -8,45 +8,67 @@
     <link href="styles/main.css" rel="stylesheet" type="text/css" />
     <link href="styles/image.css" rel="stylesheet" type="text/css" />
     <link href="styles/comment-form.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <header>
       <a href="/" class="title">The Web Gallery</a>
     </header>
     <div class="main-container">
-        <div class="img-display">
-          <div class="img-header">View Images</div>
-            <div class="img-title">Sunny Day</div>
-            <div class="img-author">By Ahmad Hakim</div>
-            <div class="img-container"><img class="img" src="C:\Users\Mrhak\Pictures\Wedding Photo.jpg"></div>
-            <div class="img-total">Total Images: 15</div>
-            <div class="row">
-                <div class="col-1 col-sm-1"></div>
-                <div class="col-2 col-sm-2 img-btn-container"><button class="btn-img-action previous-img"></button></div>
-                <div class="col-2 col-sm-2"></div>
-                <div class="col-2 col-sm-2 img-btn-container"><button class="btn-img-action delete-img"></button></div>
-                <div class="col-2 col-sm-2"></div>
-                <div class="col-2 col-sm-2 img-btn-container"><button class="btn-img-action next-img"></button></div>
-                <div class="col-1 col-sm-1"></div>
-            </div>
+      <div class="img-display">
+        <div class="img-header">View Images</div>
+        <div class="img-title">Sunny Day</div>
+        <div class="img-author">By Ahmad Hakim</div>
+        <div class="img-container">
+          <img class="img" src="C:\Users\Mrhak\Pictures\Wedding Photo.jpg" />
         </div>
-
-        <div class="comment-form-container">
-            <div class="comment-form-header">Add Comment</div>
-            <form class="comment-form">
-                <div class="comment-form-elem-container">
-                    <div class="comment-form-label" for="name">Your Name</div>
-                    <input class="comment-form-elem" type="text" placeholder="Enter your name" name="name" required/>
-                </div>
-
-                <div class="comment-form-elem-container">
-                    <div class="comment-form-label" for="comment-content">Comment</div>
-                    <textarea class="comment-form-elem" rows="5" placeholder="Enter your comment" required></textarea>
-                </div>
-                <button type="submit" class="comment-form-btn">Add Comment</button>
-            </form>
+        <div class="img-total">Total Images: 15</div>
+        <div class="row">
+          <div class="col-1 col-sm-1"></div>
+          <div class="col-2 col-sm-2 img-btn-container">
+            <button class="btn-img-action previous-img"></button>
+          </div>
+          <div class="col-2 col-sm-2"></div>
+          <div class="col-2 col-sm-2 img-btn-container">
+            <button class="btn-img-action delete-img"></button>
+          </div>
+          <div class="col-2 col-sm-2"></div>
+          <div class="col-2 col-sm-2 img-btn-container">
+            <button class="btn-img-action next-img"></button>
+          </div>
+          <div class="col-1 col-sm-1"></div>
         </div>
+      </div>
+
+      <div class="comment-form-container">
+        <div class="comment-form-header">Add Comment</div>
+        <form class="comment-form">
+          <div class="comment-form-elem-container">
+            <div class="comment-form-label" for="name">Your Name</div>
+            <input
+              class="comment-form-elem"
+              type="text"
+              placeholder="Enter your name"
+              name="name"
+              required
+            />
+          </div>
+
+          <div class="comment-form-elem-container">
+            <div class="comment-form-label" for="comment-content">Comment</div>
+            <textarea
+              class="comment-form-elem"
+              rows="5"
+              placeholder="Enter your comment"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="comment-form-btn">Add Comment</button>
+        </form>
+      </div>
     </div>
     <footer>
       <a href="/credits.html">credits</a>
