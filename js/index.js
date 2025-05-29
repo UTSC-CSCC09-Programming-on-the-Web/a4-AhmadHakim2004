@@ -3,8 +3,8 @@
 
    window.addEventListener("load", function () {
 
-    const popupBtn = document.querySelector("#popupBtn");
-    const popup = document.querySelector("#popup");
+    const popupBtn = document.getElementById("popupBtn");
+    const popup = document.getElementById("popup");
     popupBtn.addEventListener("click", function (e) {
         if (popupBtn.textContent === '+') {
             popupBtn.textContent = 'X';
