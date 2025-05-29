@@ -92,20 +92,20 @@ let apiService = (function () {
     }
   };
 
-  module.getImageIndex = function(current = 0, direction = 0) {
+  module.getImageIndex = function (current = 0, direction = 0) {
     if (direction < -1 || direction > 1) return null;
     if (database.length === 0) return null;
     return (current + direction + database.length) % database.length;
-  }
+  };
 
-  module.getImage = function(imageIndex) {
+  module.getImage = function (imageIndex) {
     if (imageIndex === null) return null;
     return database[imageIndex];
-  } 
+  };
 
-  module.getImageCount = function() {
+  module.getImageCount = function () {
     return database.length;
-  }
+  };
 
   module.getComments = function (imageId, page = 0, limit = 10) {
     let image = database.find(function (image) {
@@ -116,7 +116,7 @@ let apiService = (function () {
       const start = page * limit;
       return image.comments.slice(start, start + limit);
     }
-    return null
+    return null;
   };
 
   return module;

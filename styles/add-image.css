@@ -11,21 +11,21 @@
 }
 
 .popup-open {
-  background-color: #16DB93;
+  background-color: #16db93;
   font-size: 30px;
 }
 
 .popup-open:hover {
-  background-color: #35CE8D;
+  background-color: #35ce8d;
 }
 
 .popup-close {
-  background-color: #E54B4B;
+  background-color: #e54b4b;
   font-size: 24px;
 }
 
 .popup-close:hover {
-  background-color:  #FF220C;
+  background-color: #ff220c;
 }
 
 .popup {
