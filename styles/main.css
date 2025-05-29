@@ -1,3 +1,7 @@
+html {
+  background-color: #121C21;
+}
+
 body {
   font-family: 'Public Sans';
 }
@@ -10,7 +14,7 @@ header {
 }
 
 .title {
-  color: black;
+  color: white;
   text-decoration: none;
   font-family: 'Public Sans';
   font-weight: bold;
@@ -26,12 +30,12 @@ footer {
 
 .main-container {
   padding: 20px 0px;
-  max-width: 70%;
+  max-width: 80%;
   margin: auto;
 }
 
 @media (max-width: 576px) {
   .main-container {
-    max-width: 90%;
+    max-width: 95%;
   }
 }

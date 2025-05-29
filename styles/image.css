@@ -6,6 +6,7 @@
     font-size: 22px;
     font-weight: bold;
     padding: 16px;
+    color: white;
 }
 
 .img-title {
@@ -13,12 +14,13 @@
   font-size: 22px;
   font-weight: bold;
   text-align: center;
+  color: white;
 }
 
 .img-author, .img-total {
   padding: 4px 16px;
   font-size: 12px;
-  color: grey;
+  color: #91B2C9;
   text-align: center;
 }
 
@@ -28,9 +30,9 @@
 
 .img-container {
   height: 500px;
-  background-color: black;
+  background-color: #EFF0F1;
   border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 1);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.33);
   padding: 1rem;
   margin: 1rem auto;
 }
@@ -56,17 +58,18 @@
   aspect-ratio: 1;
   border: none;
   background-size: cover;
-  background-color: white;
+  background-color:  #121C21;
+  color: aliceblue;
 }
 
 .previous-img {
-  background-image: url("../media/previous.png");
+  background-image: url("../media/back-arrow.png");
 }
 
 .delete-img {
-  background-image: url("../media/delete.png");
+  background-image: url("../media/bin.png");
 }
 
 .next-img {
-  background-image: url("../media/next.png");
+  background-image: url("../media/right-arrow.png");
 }

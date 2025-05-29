@@ -2,6 +2,7 @@
     font-size: 22px;
     font-weight: bold;
     padding: 16px;
+    color: white;
 }
 
 .comment-form {
@@ -15,19 +16,27 @@
 .comment-form-label {
     font-size: 16px;
     margin-bottom: 8px;
+    color: white;
 }
 
 .comment-form-elem {
     width: 50%;
     padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #DBDBDB;
+    border-radius: 12px;
+    border: none;
     font-family: 'Public Sans';
+    background-color: #243847;
+    color: #91B2C9;
+}
+
+.comment-form-elem::placeholder {
+  color: #91B2C9;
 }
 
 .comment-form-btn {
-    background-color: black;
-    color: white;
+    background-color:#BFDBED;
+    color: black;
+    border: none;
     border-radius: 8px;
     font-size: 14px;
     font-weight: bold;
