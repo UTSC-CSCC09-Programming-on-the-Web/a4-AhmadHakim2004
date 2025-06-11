@@ -1,0 +1,48 @@
+.comments-header {
+  font-size: 22px;
+  font-weight: bold;
+  padding: 16px;
+  color: white;
+}
+
+.btn-comment-action {
+  width: 40%;
+  aspect-ratio: 1;
+  border: none;
+  background-size: cover;
+  background-color: #121c21;
+  color: aliceblue;
+}
+
+.comment {
+  border-bottom: 1px solid white;
+  padding-bottom: 8px;
+}
+
+.comment-header {
+  color: #243847;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.comment-content {
+  color: white;
+  font-size: 12px;
+}
+
+.comment-btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+.previous-comments {
+  background-image: url("../media/back-arrow.png");
+}
+
+.next-comments {
+  background-image: url("../media/right-arrow.png");
+}
+
+.delete-icon {
+  background-image: url("../media/bin.png");
+}
