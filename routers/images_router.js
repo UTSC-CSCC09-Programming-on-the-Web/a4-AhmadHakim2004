@@ -61,3 +61,14 @@ imagesRouter.get("/", async (req, res, next) => {
     cursorId: image ? image.id : null,
   });
 });
+
+imagesRouter.delete("/:id", async (req, res, next) => {
+  const image = await Image.findByPk(req.params.id);
+  if (!image) {
+    return res
+      .status(404)
+      .json({ error: `image with id=${req.params.id} not found.` });
+  }
+  await image.destroy();
+  return res.json(image);
+});
