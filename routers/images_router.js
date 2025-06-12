@@ -47,7 +47,7 @@ imagesRouter.get("/", async (req, res, next) => {
 
   const cursorNum = parseInt(cursor);
 
-  if (cursor && !cursorNum || cursorNum < 0) {
+  if ((cursor && !cursorNum) || cursorNum < 0) {
     return res
       .status(422)
       .json({ error: `cursorId must be a valid id (integer > 0)` });
@@ -153,7 +153,7 @@ imagesRouter.get("/:id/comments", async (req, res, next) => {
       limit,
       offset,
     });
-    return res.json({comments});
+    return res.json({ comments });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ error: "Cannot get comments" });

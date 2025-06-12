@@ -23,7 +23,7 @@ let apiService = (function () {
     return fetch(`/api/images/${imageId}/commments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ author, content })
+      body: JSON.stringify({ author, content }),
     }).then((res) => res.json());
   };
 
@@ -35,23 +35,26 @@ let apiService = (function () {
   };
 
   module.getImage = function (cursor = null, direction = null) {
-    const directionQuery = (direction) ? `&direction=${direction}` : ""
-    const query = (cursor) 
-      ? `/api/images/?cursorId=${cursor}${directionQuery}` 
+    const directionQuery = direction ? `&direction=${direction}` : "";
+    const query = cursor
+      ? `/api/images/?cursorId=${cursor}${directionQuery}`
       : "/api/images";
 
-    return fetch(query, { method: 'GET' }).then((res) => res.json());
+    return fetch(query, { method: "GET" }).then((res) => res.json());
   };
 
   module.getComments = function (imageId, page = 0, limit = 10) {
-    return fetch(`/api/images/${imageId}/comments?page=${page}&limit=${limit}`, {
-      method: 'GET'
-    }).then((res) => res.json());
+    return fetch(
+      `/api/images/${imageId}/comments?page=${page}&limit=${limit}`,
+      {
+        method: "GET",
+      }
+    ).then((res) => res.json());
   };
 
   module.getImageCount = function () {
     return fetch(`/api/images/count`, {
-      method: 'GET'
+      method: "GET",
     }).then((res) => res.json());
   };
 
