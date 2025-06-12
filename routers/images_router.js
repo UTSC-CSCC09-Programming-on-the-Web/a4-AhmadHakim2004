@@ -4,6 +4,7 @@ import { Router } from "express";
 import multer from "multer";
 import { validateInput } from "../utils/validate-input.js";
 import { Image } from "../models/images.js";
+import { Comment } from "../models/comments.js";
 
 const upload = multer({ dest: "uploads/" });
 export const imagesRouter = Router();
@@ -92,5 +93,33 @@ imagesRouter.delete("/:id", async (req, res, next) => {
     return res.json(image);
   } catch (e) {
     return res.status(400).json({ error: "Cannot delete image" });
+  }
+});
+
+
+imagesRouter.post("/:id/comments", async (req, res, next) => {
+  const schema = [
+    { name: "content", required: true, type: "string", location: "body" },
+    { name: "author", required: true, type: "string", location: "body" },
+  ];
+
+  if (!validateInput(req, res, schema)) return;
+
+  try {
+    let image = await Image.findOne({ where: { id: req.params.id } });
+
+    if (!image) {
+      return res.status(404).json({ error: "Image not found." });
+    }
+
+    const comment = await Comment.create({
+      author: req.body.author,
+      content: req.body.content,
+      ImageId: req.params.id,
+    });
+    return res.json(comment);
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ error: "Cannot create comment" });
   }
 });
