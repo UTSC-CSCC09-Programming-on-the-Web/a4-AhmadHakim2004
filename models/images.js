@@ -2,10 +2,6 @@ import { sequelize } from "../datasource.js";
 import { DataTypes } from "sequelize";
 
 export const Image = sequelize.define("Image", {
-  imageId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
   title: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -14,12 +10,8 @@ export const Image = sequelize.define("Image", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  file: {
+  picture: {
     type: DataTypes.JSON,
-    allowNull: false,
-  },
-  date: {
-    type: DataTypes.DATE,
     allowNull: false,
   }
 });
