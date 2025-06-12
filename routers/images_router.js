@@ -1,3 +1,5 @@
+import { Op } from "sequelize";
+
 import { Router } from "express";
 import multer from "multer";
 import { validateInput } from "../utils/validate-input.js";
@@ -31,3 +33,48 @@ imagesRouter.post(
         }
     }
 );
+
+imagesRouter.get(
+    "/", 
+    async (req, res, next) => {
+        const cursor = req.query.cursorId;
+        
+        const images = (cursor) 
+        ? [await Image.findByPk(cursor)] 
+        : await Image.findAll({
+            limit: 1,
+            order: [["createdAt", "DESC"]],
+        });
+
+        if (images.length === 0 || !images[0]) {
+            return res.json({
+                image: null,
+                prev: null,
+                next: null
+            });
+        }
+
+        const image = images[0];
+
+        const prevWhere = { id: { [Op.gt]: image.id } }
+        const prevs = await Image.findAll({
+            limit: 1,
+            where: prevWhere,
+            order: [["createdAt", "ASC"]],
+        });
+        const prevId = (prevs.length === 0) ? null : prevs[0].id;
+
+        const nextWhere = { id: { [Op.lt]: image.id } }
+        const nexts = await Image.findAll({
+            limit: 1,
+            where: nextWhere,
+            order: [["createdAt", "DESC"]],
+        });
+        const nextId = (nexts.length === 0) ? null : nexts[0].id;
+
+        return res.json({
+            image,
+            prev: prevId,
+            next: nextId
+        });
+});
