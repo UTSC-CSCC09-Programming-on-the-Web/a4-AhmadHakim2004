@@ -20,7 +20,7 @@ let apiService = (function () {
 
   // add a comment to an image
   module.addComment = function (imageId, author, content) {
-    return fetch(`/api/images/${imageId}/commments`, {
+    return fetch(`/api/images/${imageId}/comments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ author, content }),
