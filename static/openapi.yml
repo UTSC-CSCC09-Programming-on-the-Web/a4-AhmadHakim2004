@@ -1,0 +1,255 @@
+openapi: 3.0.0
+info:
+  title: Image & Comments API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /images:
+    post:
+      summary: Upload a new image
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                author:
+                  type: string
+                picture:
+                  type: string
+                  format: binary
+              required:
+                - title
+                - author
+                - picture
+      responses:
+        '200':
+          description: Image created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+        '400':
+          description: Cannot create image
+    get:
+      summary: Get the latest image or paginate images
+      parameters:
+        - in: query
+          name: cursorId
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: direction
+          schema:
+            type: string
+            enum: [prev, next]
+          required: false
+      responses:
+        '200':
+          description: Image object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+        '400':
+          description: Cannot add image
+        '422':
+          description: Invalid query parameters
+
+  /images/{id}:
+    delete:
+      summary: Delete an image by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Image deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+        '404':
+          description: Image not found
+        '400':
+          description: Cannot delete image
+
+  /images/count:
+    get:
+      summary: Get total count of images
+      responses:
+        '200':
+          description: Total image count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+        '400':
+          description: Cannot get total count of images
+
+  /images/{id}/picture:
+    get:
+      summary: Get the image file by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Image file
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Image not found
+
+  /images/{id}/comments:
+    post:
+      summary: Add a comment to an image
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                author:
+                  type: string
+              required:
+                - content
+                - author
+      responses:
+        '200':
+          description: Comment created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '404':
+          description: Image not found
+        '400':
+          description: Cannot create comment
+    get:
+      summary: Get comments for an image (paginated)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          required: false
+      responses:
+        '200':
+          description: List of comments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comment'
+                  totalCount:
+                    type: integer
+        '404':
+          description: Image not found
+        '400':
+          description: Cannot get comments
+        '422':
+          description: Invalid query parameters
+
+  /comments/{id}:
+    delete:
+      summary: Delete a comment by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Comment deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '404':
+          description: Comment not found
+        '400':
+          description: Cannot delete comment
+
+components:
+  schemas:
+    Image:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        author:
+          type: string
+        picture:
+          type: object
+          properties:
+            path:
+              type: string
+            mimetype:
+              type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        author:
+          type: string
+        content:
+          type: string
+        ImageId:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
