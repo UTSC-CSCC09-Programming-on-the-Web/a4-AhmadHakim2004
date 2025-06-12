@@ -5,6 +5,9 @@
   const [imageCount, getImageCount, setImageCount] = meact.useState(null);
   const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
 
+  function showError(er) {
+    alert("Something went wrong: " + er.message)
+  }
 function showLoading() {
   document.body.style.overflow = "hidden";
   document.querySelector(".loader-container").style.display = "flex";
@@ -61,6 +64,7 @@ function hideLoading() {
       apiService
         .deleteComment(comment.id)
         .then(() => setCommentsPage(getCommentsPage()))
+        .catch(showError)
         .finally(() => hideLoading());;
     });
   }
@@ -70,10 +74,12 @@ function hideLoading() {
     apiService.getImage().then((image) => {
       if (image) setImage(image);
     })
+    .catch(showError)
     .finally(() => hideLoading());
 
     showLoading();
     apiService.getImageCount().then((count) => setImageCount(count.total))
+    .catch(showError)
     .finally(() => hideLoading());
 
     meact.useEffect(
@@ -108,6 +114,7 @@ function hideLoading() {
               document.getElementById("comments").innerHTML = "";
               data.comments.forEach(renderComment);
             })
+            .catch(showError)
             .finally(() => hideLoading());
         }
       },
@@ -144,6 +151,7 @@ function hideLoading() {
         })
         .then(() => apiService.getImageCount())
         .then((count) => setImageCount(count.total))
+        .catch(showError)
         .finally(() => hideLoading());;
       // clean form
       document.getElementById("popup").reset();
@@ -158,6 +166,7 @@ function hideLoading() {
         apiService.getImage(getImage().id, "prev").then((image) => {
           if (image) setImage(image);
         })
+        .catch(showError)
         .finally(() => hideLoading());
       });
 
@@ -170,6 +179,7 @@ function hideLoading() {
         apiService.getImage(getImage().id, "next").then((image) => {
           if (image) setImage(image);
         })
+        .catch(showError)
         .finally(() => hideLoading());;
       });
 
@@ -188,6 +198,7 @@ function hideLoading() {
           })
           .then(() => apiService.getImageCount())
           .then((count) => setImageCount(count.total))
+          .catch(showError)
           .finally(() => hideLoading());
       });
 
@@ -208,7 +219,8 @@ function hideLoading() {
         apiService
           .addComment(Number(imgId), author, content)
           .then(() => setCommentsPage(1))
-          .finally(() => hideLoading());;
+          .catch(showError)
+          .finally(() => hideLoading());
       });
 
     document

@@ -3,19 +3,29 @@ let apiService = (function () {
 
   let module = {};
 
+  function handleResponse(res) {
+  return res.json().then((data) => {
+    if (!res.ok) {
+      const err = new Error(data.error || "Unknown error");
+      throw err;
+    }
+    return data;
+  });
+}
+
   // add an image to the gallery
   module.addImage = function (imageData) {
     return fetch("/api/images", {
       method: "POST",
       body: imageData,
-    }).then((res) => res.json());
+    }).then(handleResponse);
   };
 
   // delete an image from the gallery given its imageId
   module.deleteImage = function (imageId) {
     return fetch(`/api/images/${imageId}`, {
       method: "DELETE",
-    }).then((res) => res.json());
+    }).then(handleResponse);
   };
 
   // add a comment to an image
@@ -24,14 +34,14 @@ let apiService = (function () {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ author, content }),
-    }).then((res) => res.json());
+    }).then(handleResponse);
   };
 
   // delete a comment to an image
   module.deleteComment = function (commentId) {
     return fetch(`/api/comments/${commentId}`, {
       method: "DELETE",
-    }).then((res) => res.json());
+    }).then(handleResponse);
   };
 
   module.getImage = function (cursor = null, direction = null) {
@@ -40,7 +50,7 @@ let apiService = (function () {
       ? `/api/images/?cursorId=${cursor}${directionQuery}`
       : "/api/images";
 
-    return fetch(query, { method: "GET" }).then((res) => res.json());
+    return fetch(query, { method: "GET" }).then(handleResponse);
   };
 
   module.getComments = function (imageId, page = 0, limit = 10) {
@@ -49,13 +59,13 @@ let apiService = (function () {
       {
         method: "GET",
       }
-    ).then((res) => res.json());
+    ).then(handleResponse);
   };
 
   module.getImageCount = function () {
     return fetch(`/api/images/count`, {
       method: "GET",
-    }).then((res) => res.json());
+    }).then(handleResponse);
   };
 
   return module;
