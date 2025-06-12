@@ -37,18 +37,24 @@ imagesRouter.get("/", async (req, res, next) => {
   const cursor = req.query.cursorId;
   const direction = req.query.direction;
 
+  if (direction && direction !== "prev" && direction !== "next") {
+    return res
+      .status(422)
+      .json({ error: `direction must be prev, next or ommitted` });
+  }
+
+  if (!cursor) {
+    return res
+      .status(422)
+      .json({ error: `Invalid input parameters. Expected cursorId` });
+  }
+
   const cursorNum = Number(cursor);
 
   if (!Number.isInteger(cursorNum) || cursorNum < 1){
     return res
       .status(422)
-      .json({ error: `cursor must be a valid id (integer > 0)` });
-  }
-
-  if (direction && direction !== "prev" && direction !== "next") {
-    return res
-      .status(422)
-      .json({ error: `direction must be prev, next or ommitted` });
+      .json({ error: `cursorId must be a valid id (integer > 0)` });
   }
 
   try {
@@ -75,12 +81,16 @@ imagesRouter.get("/", async (req, res, next) => {
 });
 
 imagesRouter.delete("/:id", async (req, res, next) => {
-  const image = await Image.findByPk(req.params.id);
-  if (!image) {
-    return res
-      .status(404)
-      .json({ error: `image with id=${req.params.id} not found.` });
+  try {
+    const image = await Image.findByPk(req.params.id);
+    if (!image) {
+      return res
+        .status(404)
+        .json({ error: `image with id=${req.params.id} not found.` });
+    }
+    await image.destroy();
+    return res.json(image);
+  } catch (e) {
+    return res.status(400).json({ error: "Cannot delete image" });
   }
-  await image.destroy();
-  return res.json(image);
 });
