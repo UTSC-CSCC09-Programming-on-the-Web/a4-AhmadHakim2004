@@ -10,7 +10,7 @@ export const Comment = sequelize.define("Comment", {
   content: {
     type: DataTypes.STRING,
     allowNull: false,
-  }
+  },
 });
 
 Comment.belongsTo(Image);

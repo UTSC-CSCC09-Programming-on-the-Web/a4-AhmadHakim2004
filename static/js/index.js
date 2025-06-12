@@ -19,13 +19,15 @@
     document.getElementById("commentsContainer").classList.remove("hidden");
     document.getElementById("imgTitle").textContent = image.title;
     document.getElementById("imgAuthor").textContent = `By ${image.author}`;
-    document.getElementById("imgContainer").innerHTML =
-      `<img id='${image.imageId}' class='img' src='${image.url}' />`;
+    document.getElementById(
+      "imgContainer"
+    ).innerHTML = `<img id='${image.imageId}' class='img' src='${image.url}' />`;
   }
 
   function updateImageCount() {
-    document.getElementById("imgTotal").textContent =
-      `Total Images: ${getImageCount()}`;
+    document.getElementById(
+      "imgTotal"
+    ).textContent = `Total Images: ${getImageCount()}`;
   }
 
   function renderComment(comment) {
@@ -34,7 +36,9 @@
     elmt.className = "row comment align-items-center";
     elmt.innerHTML = `
           <div class="col-auto">
-            <div class="comment-header">${comment.author} (${new Date(comment.date).toLocaleString()})</div>
+            <div class="comment-header">${comment.author} (${new Date(
+      comment.date
+    ).toLocaleString()})</div>
             <div class="comment-content">${comment.content}</div>
           </div>
           <div class="col-1 delete-icon btn-comment-action"></div>
@@ -62,14 +66,14 @@
           displayNoImages();
         }
       },
-      [imageIndex],
+      [imageIndex]
     );
 
     meact.useEffect(
       function () {
         updateImageCount();
       },
-      [imageCount],
+      [imageCount]
     );
 
     meact.useEffect(
@@ -77,12 +81,12 @@
         const imgId = document.querySelector("#imgContainer img").id;
         const comments = apiService.getComments(
           Number(imgId),
-          getCommentsPage(),
+          getCommentsPage()
         );
         document.getElementById("comments").innerHTML = "";
         comments.forEach(renderComment);
       },
-      [commentsPage],
+      [commentsPage]
     );
 
     const popupBtn = document.getElementById("popupBtn");

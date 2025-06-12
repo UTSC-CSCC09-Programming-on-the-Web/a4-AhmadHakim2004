@@ -13,6 +13,5 @@ export const Image = sequelize.define("Image", {
   picture: {
     type: DataTypes.JSON,
     allowNull: false,
-  }
+  },
 });
-

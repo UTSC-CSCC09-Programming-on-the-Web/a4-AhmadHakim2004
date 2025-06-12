@@ -9,56 +9,55 @@ const upload = multer({ dest: "uploads/" });
 export const imagesRouter = Router();
 
 imagesRouter.post(
-    "/", 
-    upload.single("picture"),
-    async function (req, res, next) {
-        const schema = [
-            { name: "title", required: true, type: "string", location: "body"},
-            { name: "author", required: true, type: "string", location: "body"},
-            { name: "picture", required: true, type: "file", location: "file"}
-        ];
+  "/",
+  upload.single("picture"),
+  async function (req, res, next) {
+    const schema = [
+      { name: "title", required: true, type: "string", location: "body" },
+      { name: "author", required: true, type: "string", location: "body" },
+      { name: "picture", required: true, type: "file", location: "file" },
+    ];
 
-        if (!validateInput(req, res, schema)) return;
+    if (!validateInput(req, res, schema)) return;
 
-        try {
-            const image = await Image.create({
-                title: req.body.title,
-                author: req.body.author,
-                picture: req.file
-            });
-            return res.json(image);
-        }
-        catch (e) {
-            return res.status(400).json({ error: "Cannot create image" });
-        }
+    try {
+      const image = await Image.create({
+        title: req.body.title,
+        author: req.body.author,
+        picture: req.file,
+      });
+      return res.json(image);
+    } catch (e) {
+      return res.status(400).json({ error: "Cannot create image" });
     }
+  }
 );
 
-imagesRouter.get(
-    "/", 
-    async (req, res, next) => {
-        const cursor = req.query.cursorId;
-        const direction = req.query.direction;
+imagesRouter.get("/", async (req, res, next) => {
+  const cursor = req.query.cursorId;
+  const direction = req.query.direction;
 
-        if (direction && direction !== "prev" && direction !== "next" ) {
-            return res.status(422).json({ error: `direction must be "prev", "next" or ommitted` });
-        }
+  if (direction && direction !== "prev" && direction !== "next") {
+    return res
+      .status(422)
+      .json({ error: `direction must be "prev", "next" or ommitted` });
+  }
 
-        const where = (direction === "prev") 
-        ? { id: { [Op.gt]: cursor} }
-        : { id: { [Op.lt]: cursor} }
-        const order = (direction === "prev") 
-        ? [["createdAt", "ASC"]]
-        : [["createdAt", "DESC"]]
+  const where =
+    direction === "prev"
+      ? { id: { [Op.gt]: cursor } }
+      : { id: { [Op.lt]: cursor } };
+  const order =
+    direction === "prev" ? [["createdAt", "ASC"]] : [["createdAt", "DESC"]];
 
-        const image = await Image.findOne({
-            limit: 1,
-            where,
-            order
-        });
+  const image = await Image.findOne({
+    limit: 1,
+    where,
+    order,
+  });
 
-        return res.json({
-            image,
-            cursorId: (image) ? image.id : null
-        });
+  return res.json({
+    image,
+    cursorId: image ? image.id : null,
+  });
 });
