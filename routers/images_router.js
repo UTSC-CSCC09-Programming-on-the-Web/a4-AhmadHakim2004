@@ -2,6 +2,7 @@ import { Op } from "sequelize";
 
 import { Router } from "express";
 import multer from "multer";
+import path from "path";
 import { validateInput } from "../utils/validate-input.js";
 import { Image } from "../models/images.js";
 import { Comment } from "../models/comments.js";
@@ -44,21 +45,24 @@ imagesRouter.get("/", async (req, res, next) => {
       .json({ error: `direction must be prev, next or ommitted` });
   }
 
-  if (!cursor) {
-    return res
-      .status(422)
-      .json({ error: `Invalid input parameters. Expected cursorId` });
-  }
-
   const cursorNum = parseInt(cursor);
 
-  if (!cursorNum || cursorNum < 0) {
+  if (cursor && !cursorNum || cursorNum < 0) {
     return res
       .status(422)
       .json({ error: `cursorId must be a valid id (integer > 0)` });
   }
 
   try {
+    if (!cursor) {
+      const image = await Image.findOne({
+        limit: 1,
+        order: [["createdAt", "DESC"]],
+      });
+
+      return res.json(image);
+    }
+
     const where =
       direction === "prev"
         ? { id: { [Op.gt]: cursor } }
@@ -72,10 +76,7 @@ imagesRouter.get("/", async (req, res, next) => {
       order,
     });
 
-    return res.json({
-      image,
-      cursorId: image ? image.id : null,
-    });
+    return res.json(image);
   } catch (e) {
     return res.status(400).json({ error: "Cannot add image" });
   }
@@ -152,9 +153,28 @@ imagesRouter.get("/:id/comments", async (req, res, next) => {
       limit,
       offset,
     });
-    return res.json(comments);
+    return res.json({comments});
   } catch (e) {
     console.log(e);
     return res.status(400).json({ error: "Cannot get comments" });
   }
+});
+
+imagesRouter.get("/count", async (req, res, next) => {
+  try {
+    const count = await Image.count();
+    return res.json({ total: count });
+  } catch (e) {
+    return res.status(400).json({ error: "Canot get total count of images" });
+  }
+});
+
+imagesRouter.get("/:id/picture", async (req, res) => {
+  let imageId = req.params.id;
+  const image = await Image.findByPk(imageId);
+  if (image === null) {
+    return res.status(404).json({ errors: "Image not found." });
+  }
+  res.setHeader("Content-Type", image.picture.mimetype);
+  res.sendFile(image.picture.path, { root: path.resolve() });
 });

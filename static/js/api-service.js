@@ -1,4 +1,6 @@
 let apiService = (function () {
+  "use strict";
+
   let module = {};
 
   // add an image to the gallery
@@ -32,15 +34,23 @@ let apiService = (function () {
     }).then((res) => res.json());
   };
 
-  module.getImage = function (cursor, direction) {
+  module.getImage = function (cursor = null, direction = null) {
     const directionQuery = (direction) ? `&direction=${direction}` : ""
-    return fetch(`/api/images/?cursorId=${cursor}${directionQuery}`, {
-      method: 'GET'
-    }).then((res) => res.json());
+    const query = (cursor) 
+      ? `/api/images/?cursorId=${cursor}${directionQuery}` 
+      : "/api/images";
+
+    return fetch(query, { method: 'GET' }).then((res) => res.json());
   };
 
   module.getComments = function (imageId, page = 0, limit = 10) {
     return fetch(`/api/images/${imageId}/comments?page=${page}&limit=${limit}`, {
+      method: 'GET'
+    }).then((res) => res.json());
+  };
+
+  module.getImageCount = function () {
+    return fetch(`/api/images/count`, {
       method: 'GET'
     }).then((res) => res.json());
   };
