@@ -38,43 +38,27 @@ imagesRouter.get(
     "/", 
     async (req, res, next) => {
         const cursor = req.query.cursorId;
-        
-        const images = (cursor) 
-        ? [await Image.findByPk(cursor)] 
-        : await Image.findAll({
-            limit: 1,
-            order: [["createdAt", "DESC"]],
-        });
+        const direction = req.query.direction;
 
-        if (images.length === 0 || !images[0]) {
-            return res.json({
-                image: null,
-                prev: null,
-                next: null
-            });
+        if (direction && direction !== "prev" && direction !== "next" ) {
+            return res.status(422).json({ error: `direction must be "prev", "next" or ommitted` });
         }
 
-        const image = images[0];
+        const where = (direction === "prev") 
+        ? { id: { [Op.gt]: cursor} }
+        : { id: { [Op.lt]: cursor} }
+        const order = (direction === "prev") 
+        ? [["createdAt", "ASC"]]
+        : [["createdAt", "DESC"]]
 
-        const prevWhere = { id: { [Op.gt]: image.id } }
-        const prevs = await Image.findAll({
+        const image = await Image.findOne({
             limit: 1,
-            where: prevWhere,
-            order: [["createdAt", "ASC"]],
+            where,
+            order
         });
-        const prevId = (prevs.length === 0) ? null : prevs[0].id;
-
-        const nextWhere = { id: { [Op.lt]: image.id } }
-        const nexts = await Image.findAll({
-            limit: 1,
-            where: nextWhere,
-            order: [["createdAt", "DESC"]],
-        });
-        const nextId = (nexts.length === 0) ? null : nexts[0].id;
 
         return res.json({
             image,
-            prev: prevId,
-            next: nextId
+            cursorId: (image) ? image.id : null
         });
 });
