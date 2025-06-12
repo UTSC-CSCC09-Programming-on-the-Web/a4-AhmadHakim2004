@@ -1,8 +1,8 @@
 (function () {
   "use strict";
 
-  const [imageIndex, getImageIndex, setImageIndex] = meact.useState(null);
-  const [imageCount, getImageCount, setImageCount] = meact.useState(null);
+  const [image, getImage, setImage] = meact.useState(null);
+  const [imageCount, getImageCount, setImageCount] = meact.useState(0);
   const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
 
   function displayNoImages() {
@@ -21,7 +21,7 @@
     document.getElementById("imgAuthor").textContent = `By ${image.author}`;
     document.getElementById(
       "imgContainer"
-    ).innerHTML = `<img id='${image.imageId}' class='img' src='${image.url}' />`;
+    ).innerHTML = `<img id='${image.id}' class='img' src='/api/images/${image.id}/picture/' />`;
   }
 
   function updateImageCount() {
@@ -37,7 +37,7 @@
     elmt.innerHTML = `
           <div class="col-auto">
             <div class="comment-header">${comment.author} (${new Date(
-      comment.date
+      comment.createdAt
     ).toLocaleString()})</div>
             <div class="comment-content">${comment.content}</div>
           </div>
@@ -47,44 +47,52 @@
     document.getElementById("comments").prepend(elmt);
 
     elmt.querySelector(".delete-icon").addEventListener("click", function () {
-      apiService.deleteComment(comment.commentId);
-      setCommentsPage(getCommentsPage());
+      apiService.deleteComment(comment.commentId)
+        .then(() => setCommentsPage(getCommentsPage()));
     });
   }
 
   window.addEventListener("load", function () {
-    setImageIndex(apiService.getImageIndex());
-    setImageCount(apiService.getImageCount());
+    apiService.getImageCount()
+      .then((count) => setImageCount(count.total));
+      
+    apiService.getImage()
+      .then((image) => {if (image) setImage(image)});
 
     meact.useEffect(
       function () {
-        const image = apiService.getImage(getImageIndex());
+        const image = getImage();
         if (image) {
           displayImage(image);
-          setCommentsPage(0);
-        } else {
-          displayNoImages();
+          setCommentsPage(1);
         }
       },
-      [imageIndex]
+      [image]
     );
 
     meact.useEffect(
       function () {
-        updateImageCount();
+        if (getImageCount() > 0)
+          updateImageCount();
+        else
+          displayNoImages()
       },
       [imageCount]
     );
 
     meact.useEffect(
       function () {
-        const imgId = document.querySelector("#imgContainer img").id;
-        const comments = apiService.getComments(
-          Number(imgId),
-          getCommentsPage()
-        );
-        document.getElementById("comments").innerHTML = "";
-        comments.forEach(renderComment);
+        const img = document.querySelector("#imgContainer img")
+        if (img) {
+          const imgId = img.id
+          apiService.getComments(
+            Number(imgId),
+            getCommentsPage()
+          ).then((data) => {
+            document.getElementById("comments").innerHTML = "";
+            data.comments.forEach(renderComment);
+          });
+        }
       },
       [commentsPage]
     );
@@ -108,16 +116,15 @@
     document.getElementById("popup").addEventListener("submit", function (e) {
       // prevent from refreshing the page on submit
       e.preventDefault();
-      // read form elements
-      const title = document.getElementById("imageTitle").value;
-      const author = document.getElementById("imageAuthor").value;
-      const url = document.getElementById("imageUrl").value;
+
+      const formData = new FormData(e.target);
+      apiService.addImage(formData)
+        .then(() => apiService.getImage())
+        .then((image) => {if (image) setImage(image)})
+        .then(() => apiService.getImageCount())
+        .then((count) => setImageCount(count.total));
       // clean form
       document.getElementById("popup").reset();
-
-      apiService.addImage(title, author, url);
-      setImageIndex(apiService.getImageIndex());
-      setImageCount(apiService.getImageCount());
     });
 
     document
@@ -125,7 +132,8 @@
       .addEventListener("click", function (e) {
         // prevent from refreshing the page on submit
         e.preventDefault();
-        setImageIndex(apiService.getImageIndex(getImageIndex(), -1));
+        apiService.getImage(getImage().id, "prev")
+          .then((image) => {if (image) setImage(image)});
       });
 
     document
@@ -133,7 +141,8 @@
       .addEventListener("click", function (e) {
         // prevent from refreshing the page on submit
         e.preventDefault();
-        setImageIndex(apiService.getImageIndex(getImageIndex(), 1));
+        apiService.getImage(getImage().id, "next")
+          .then((image) => {if (image) setImage(image)});
       });
 
     document
@@ -142,9 +151,11 @@
         // prevent from refreshing the page on submit
         e.preventDefault();
         const imgId = document.querySelector("#imgContainer img").id;
-        apiService.deleteImage(Number(imgId));
-        setImageIndex(apiService.getImageIndex(getImageIndex()));
-        setImageCount(apiService.getImageCount());
+        apiService.deleteImage(imgId)
+          .then(() => apiService.getImage())
+          .then((image) => {if (image) setImage(image)})
+          .then(() => apiService.getImageCount())
+          .then((count) => setImageCount(count.total));
       });
 
     document
@@ -160,8 +171,8 @@
         // clean form
         document.getElementById("commentForm").reset();
 
-        apiService.addComment(Number(imgId), author, content);
-        setCommentsPage(getCommentsPage());
+        apiService.addComment(Number(imgId), author, content)
+          .then(() => setCommentsPage(1));
       });
 
     document

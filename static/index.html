@@ -28,25 +28,26 @@
         <input
           id="imageTitle"
           type="text"
+          name="title"
           placeholder="Image Title"
           class="popup-input"
         />
         <input
           id="imageAuthor"
           type="text"
+          name="author"
           placeholder="Author's Name"
           class="popup-input"
         />
-        <input
-          id="imageUrl"
-          type="text"
-          placeholder="Image URL"
-          class="popup-input"
-        />
+        <input 
+          id="imagePicture"
+          type="file" 
+          name="picture" 
+          class="popup-input" />
         <button class="popup-submit">Add Image</button>
       </form>
 
-      <div id="imgDisplay" class="img-display">
+      <div id="imgDisplay" class="img-display hidden">
         <div class="img-header">View Images</div>
         <div id="imgTitle" class="img-title"></div>
         <div id="imgAuthor" class="img-author"></div>
@@ -75,7 +76,7 @@
         </div>
       </div>
 
-      <div id="commentFormContainer" class="comment-form-container">
+      <div id="commentFormContainer" class="comment-form-container hidden">
         <div class="comment-form-header">Add Comment</div>
         <form id="commentForm" class="comment-form">
           <div class="comment-form-elem-container">
@@ -104,7 +105,7 @@
         </form>
       </div>
 
-      <div id="commentsContainer" class="comments-container">
+      <div id="commentsContainer" class="comments-container hidden">
         <div class="comments-header">Comments</div>
         <div id="comments"></div>
         <div class="row">
