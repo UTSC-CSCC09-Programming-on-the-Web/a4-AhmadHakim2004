@@ -52,7 +52,7 @@ imagesRouter.get("/", async (req, res, next) => {
 
   const cursorNum = parseInt(cursor);
 
-  if (!cursorNum || cursorNum < 0){
+  if (!cursorNum || cursorNum < 0) {
     return res
       .status(422)
       .json({ error: `cursorId must be a valid id (integer > 0)` });
@@ -96,7 +96,6 @@ imagesRouter.delete("/:id", async (req, res, next) => {
   }
 });
 
-
 imagesRouter.post("/:id/comments", async (req, res, next) => {
   const schema = [
     { name: "content", required: true, type: "string", location: "body" },
@@ -129,15 +128,11 @@ imagesRouter.get("/:id/comments", async (req, res, next) => {
   const limit = req.query.limit ? parseInt(req.query.limit) : 10;
 
   if (!page || page < 1) {
-    return res
-      .status(422)
-      .json({ error: `page must be a positive integer` });
+    return res.status(422).json({ error: `page must be a positive integer` });
   }
 
   if (!limit || limit < 1) {
-    return res
-      .status(422)
-      .json({ error: `limit must be a positive integer` });
+    return res.status(422).json({ error: `limit must be a positive integer` });
   }
 
   try {
@@ -155,7 +150,7 @@ imagesRouter.get("/:id/comments", async (req, res, next) => {
       where,
       order,
       limit,
-      offset
+      offset,
     });
     return res.json(comments);
   } catch (e) {
