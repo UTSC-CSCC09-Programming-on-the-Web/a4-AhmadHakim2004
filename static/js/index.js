@@ -19,27 +19,27 @@ function hideLoading() {
 }
 
   function displayNoImages() {
-    document.getElementById("imgDisplay").classList.add("hidden");
-    document.getElementById("commentFormContainer").classList.add("hidden");
-    document.getElementById("commentsContainer").classList.add("hidden");
-    document.getElementById("noImages").classList.remove("hidden");
+    document.querySelector("#imgDisplay").classList.add("hidden");
+    document.querySelector("#commentFormContainer").classList.add("hidden");
+    document.querySelector("#commentsContainer").classList.add("hidden");
+    document.querySelector("#noImages").classList.remove("hidden");
   }
 
   function displayImage(image) {
-    document.getElementById("noImages").classList.add("hidden");
-    document.getElementById("imgDisplay").classList.remove("hidden");
-    document.getElementById("commentFormContainer").classList.remove("hidden");
-    document.getElementById("commentsContainer").classList.remove("hidden");
-    document.getElementById("imgTitle").textContent = image.title;
-    document.getElementById("imgAuthor").textContent = `By ${image.author}`;
-    document.getElementById(
-      "imgContainer"
+    document.querySelector("#noImages").classList.add("hidden");
+    document.querySelector("#imgDisplay").classList.remove("hidden");
+    document.querySelector("#commentFormContainer").classList.remove("hidden");
+    document.querySelector("#commentsContainer").classList.remove("hidden");
+    document.querySelector("#imgTitle").textContent = image.title;
+    document.querySelector("#imgAuthor").textContent = `By ${image.author}`;
+    document.querySelector(
+      "#imgContainer"
     ).innerHTML = `<img id='${image.id}' class='img' src='/api/images/${image.id}/picture/' />`;
   }
 
   function updateImageCount() {
-    document.getElementById(
-      "imgTotal"
+    document.querySelector(
+      "#imgTotal"
     ).textContent = `Total Images: ${getImageCount()}`;
   }
 
@@ -62,7 +62,7 @@ function hideLoading() {
           <div class="col-1 delete-icon btn-comment-action"></div>
       `;
     // add this element to the document
-    document.getElementById("comments").prepend(elmt);
+    document.querySelector("#comments").prepend(elmt);
 
     elmt.querySelector(".delete-icon").addEventListener("click", function () {
       showLoading();
@@ -116,7 +116,7 @@ function hideLoading() {
           apiService
             .getComments(Number(imgId), getCommentsPage())
             .then((data) => {
-              document.getElementById("comments").innerHTML = "";
+              document.querySelector("#comments").innerHTML = "";
               data.comments.forEach(renderComment);
             })
             .catch(showError)
@@ -126,8 +126,8 @@ function hideLoading() {
       [commentsPage]
     );
 
-    const popupBtn = document.getElementById("popupBtn");
-    const popup = document.getElementById("popup");
+    const popupBtn = document.querySelector("#popupBtn");
+    const popup = document.querySelector("#popup");
     popupBtn.addEventListener("click", function (e) {
       if (popupBtn.textContent === "+") {
         popupBtn.textContent = "X";
@@ -142,7 +142,7 @@ function hideLoading() {
       }
     });
 
-    document.getElementById("popup").addEventListener("submit", function (e) {
+    document.querySelector("#popup").addEventListener("submit", function (e) {
       // prevent from refreshing the page on submit
       e.preventDefault();
 
@@ -159,11 +159,11 @@ function hideLoading() {
         .catch(showError)
         .finally(() => hideLoading());;
       // clean form
-      document.getElementById("popup").reset();
+      document.querySelector("#popup").reset();
     });
 
     document
-      .getElementById("prevImgBtn")
+      .querySelector("#prevImgBtn")
       .addEventListener("click", function (e) {
         // prevent from refreshing the page on submit
         e.preventDefault();
@@ -176,7 +176,7 @@ function hideLoading() {
       });
 
     document
-      .getElementById("nextImgBtn")
+      .querySelector("#nextImgBtn")
       .addEventListener("click", function (e) {
         // prevent from refreshing the page on submit
         e.preventDefault();
@@ -189,7 +189,7 @@ function hideLoading() {
       });
 
     document
-      .getElementById("deleteImgBtn")
+      .querySelector("#deleteImgBtn")
       .addEventListener("click", function (e) {
         // prevent from refreshing the page on submit
         e.preventDefault();
@@ -208,17 +208,17 @@ function hideLoading() {
       });
 
     document
-      .getElementById("commentForm")
+      .querySelector("#commentForm")
       .addEventListener("submit", function (e) {
         // prevent from refreshing the page on submit
         e.preventDefault();
         // read form elements
-        const author = document.getElementById("commentAuthor").value;
-        const content = document.getElementById("commentContent").value;
+        const author = document.querySelector("#commentAuthor").value;
+        const content = document.querySelector("#commentContent").value;
         const imgId = document.querySelector("#imgContainer img").id;
 
         // clean form
-        document.getElementById("commentForm").reset();
+        document.querySelector("#commentForm").reset();
 
         showLoading();
         apiService
@@ -229,7 +229,7 @@ function hideLoading() {
       });
 
     document
-      .getElementById("prevCommentsBtn")
+      .querySelector("#prevCommentsBtn")
       .addEventListener("click", function (e) {
         // prevent from refreshing the page on submit
         e.preventDefault();
@@ -240,7 +240,7 @@ function hideLoading() {
       });
 
     document
-      .getElementById("nextCommentsBtn")
+      .querySelector("#nextCommentsBtn")
       .addEventListener("click", function (e) {
         // prevent from refreshing the page on submit
         e.preventDefault();
