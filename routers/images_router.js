@@ -50,9 +50,9 @@ imagesRouter.get("/", async (req, res, next) => {
       .json({ error: `Invalid input parameters. Expected cursorId` });
   }
 
-  const cursorNum = Number(cursor);
+  const cursorNum = parseInt(cursor);
 
-  if (!Number.isInteger(cursorNum) || cursorNum < 1){
+  if (!cursorNum || cursorNum < 0){
     return res
       .status(422)
       .json({ error: `cursorId must be a valid id (integer > 0)` });
