@@ -123,3 +123,43 @@ imagesRouter.post("/:id/comments", async (req, res, next) => {
     return res.status(400).json({ error: "Cannot create comment" });
   }
 });
+
+imagesRouter.get("/:id/comments", async (req, res, next) => {
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
+  if (!page || page < 1) {
+    return res
+      .status(422)
+      .json({ error: `page must be a positive integer` });
+  }
+
+  if (!limit || limit < 1) {
+    return res
+      .status(422)
+      .json({ error: `limit must be a positive integer` });
+  }
+
+  try {
+    let image = await Image.findOne({ where: { id: req.params.id } });
+
+    if (!image) {
+      return res.status(404).json({ error: "Image not found." });
+    }
+
+    const where = { ImageId: req.params.id };
+    const order = [["createdAt", "DESC"]];
+    const offset = (page - 1) * limit;
+
+    const comments = await Comment.findAll({
+      where,
+      order,
+      limit,
+      offset
+    });
+    return res.json(comments);
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ error: "Cannot get comments" });
+  }
+});
