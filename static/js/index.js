@@ -2,8 +2,18 @@
   "use strict";
 
   const [image, getImage, setImage] = meact.useState(null);
-  const [imageCount, getImageCount, setImageCount] = meact.useState(0);
+  const [imageCount, getImageCount, setImageCount] = meact.useState(null);
   const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
+
+function showLoading() {
+  document.body.style.overflow = "hidden";
+  document.querySelector(".loader-container").style.display = "flex";
+}
+
+function hideLoading() {
+  document.body.style.overflow = "auto";
+  document.querySelector(".loader-container").style.display = "none";
+}
 
   function displayNoImages() {
     document.getElementById("imgDisplay").classList.add("hidden");
@@ -47,18 +57,24 @@
     document.getElementById("comments").prepend(elmt);
 
     elmt.querySelector(".delete-icon").addEventListener("click", function () {
+      showLoading();
       apiService
-        .deleteComment(comment.commentId)
-        .then(() => setCommentsPage(getCommentsPage()));
+        .deleteComment(comment.id)
+        .then(() => setCommentsPage(getCommentsPage()))
+        .finally(() => hideLoading());;
     });
   }
 
   window.addEventListener("load", function () {
+    showLoading();
     apiService.getImage().then((image) => {
       if (image) setImage(image);
-    });
+    })
+    .finally(() => hideLoading());
 
-    apiService.getImageCount().then((count) => setImageCount(count.total));
+    showLoading();
+    apiService.getImageCount().then((count) => setImageCount(count.total))
+    .finally(() => hideLoading());
 
     meact.useEffect(
       function () {
@@ -85,12 +101,14 @@
         const img = document.querySelector("#imgContainer img");
         if (img) {
           const imgId = img.id;
+          showLoading();
           apiService
             .getComments(Number(imgId), getCommentsPage())
             .then((data) => {
               document.getElementById("comments").innerHTML = "";
               data.comments.forEach(renderComment);
-            });
+            })
+            .finally(() => hideLoading());
         }
       },
       [commentsPage]
@@ -117,6 +135,7 @@
       e.preventDefault();
 
       const formData = new FormData(e.target);
+      showLoading();
       apiService
         .addImage(formData)
         .then(() => apiService.getImage())
@@ -124,7 +143,8 @@
           if (image) setImage(image);
         })
         .then(() => apiService.getImageCount())
-        .then((count) => setImageCount(count.total));
+        .then((count) => setImageCount(count.total))
+        .finally(() => hideLoading());;
       // clean form
       document.getElementById("popup").reset();
     });
@@ -134,9 +154,11 @@
       .addEventListener("click", function (e) {
         // prevent from refreshing the page on submit
         e.preventDefault();
+        showLoading();
         apiService.getImage(getImage().id, "prev").then((image) => {
           if (image) setImage(image);
-        });
+        })
+        .finally(() => hideLoading());
       });
 
     document
@@ -144,9 +166,11 @@
       .addEventListener("click", function (e) {
         // prevent from refreshing the page on submit
         e.preventDefault();
+        showLoading();
         apiService.getImage(getImage().id, "next").then((image) => {
           if (image) setImage(image);
-        });
+        })
+        .finally(() => hideLoading());;
       });
 
     document
@@ -155,6 +179,7 @@
         // prevent from refreshing the page on submit
         e.preventDefault();
         const imgId = document.querySelector("#imgContainer img").id;
+        showLoading()
         apiService
           .deleteImage(imgId)
           .then(() => apiService.getImage())
@@ -162,7 +187,8 @@
             if (image) setImage(image);
           })
           .then(() => apiService.getImageCount())
-          .then((count) => setImageCount(count.total));
+          .then((count) => setImageCount(count.total))
+          .finally(() => hideLoading());
       });
 
     document
@@ -178,9 +204,11 @@
         // clean form
         document.getElementById("commentForm").reset();
 
+        showLoading();
         apiService
           .addComment(Number(imgId), author, content)
-          .then(() => setCommentsPage(1));
+          .then(() => setCommentsPage(1))
+          .finally(() => hideLoading());;
       });
 
     document
