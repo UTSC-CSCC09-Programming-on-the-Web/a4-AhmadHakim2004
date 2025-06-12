@@ -4,14 +4,14 @@ let apiService = (function () {
   let module = {};
 
   function handleResponse(res) {
-  return res.json().then((data) => {
-    if (!res.ok) {
-      const err = new Error(data.error || "Unknown error");
-      throw err;
-    }
-    return data;
-  });
-}
+    return res.json().then((data) => {
+      if (!res.ok) {
+        const err = new Error(data.error || "Unknown error");
+        throw err;
+      }
+      return data;
+    });
+  }
 
   // add an image to the gallery
   module.addImage = function (imageData) {

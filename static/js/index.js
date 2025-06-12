@@ -6,17 +6,17 @@
   const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
 
   function showError(er) {
-    alert("Something went wrong: " + er.message)
+    alert("Something went wrong: " + er.message);
   }
-function showLoading() {
-  document.body.style.overflow = "hidden";
-  document.querySelector(".loader-container").style.display = "flex";
-}
+  function showLoading() {
+    document.body.style.overflow = "hidden";
+    document.querySelector(".loader-container").style.display = "flex";
+  }
 
-function hideLoading() {
-  document.body.style.overflow = "auto";
-  document.querySelector(".loader-container").style.display = "none";
-}
+  function hideLoading() {
+    document.body.style.overflow = "auto";
+    document.querySelector(".loader-container").style.display = "none";
+  }
 
   function displayNoImages() {
     document.querySelector("#imgDisplay").classList.add("hidden");
@@ -48,12 +48,12 @@ function hideLoading() {
     const elmt = document.createElement("div");
     elmt.className = "row comment align-items-center";
     const date = new Date(comment.createdAt).toLocaleString("en-US", {
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true,
-      });
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
     elmt.innerHTML = `
           <div class="col-auto">
             <div class="comment-header">${comment.author} (${date})</div>
@@ -70,22 +70,26 @@ function hideLoading() {
         .deleteComment(comment.id)
         .then(() => setCommentsPage(getCommentsPage()))
         .catch(showError)
-        .finally(() => hideLoading());;
+        .finally(() => hideLoading());
     });
   }
 
   window.addEventListener("load", function () {
     showLoading();
-    apiService.getImage().then((image) => {
-      if (image) setImage(image);
-    })
-    .catch(showError)
-    .finally(() => hideLoading());
+    apiService
+      .getImage()
+      .then((image) => {
+        if (image) setImage(image);
+      })
+      .catch(showError)
+      .finally(() => hideLoading());
 
     showLoading();
-    apiService.getImageCount().then((count) => setImageCount(count.total))
-    .catch(showError)
-    .finally(() => hideLoading());
+    apiService
+      .getImageCount()
+      .then((count) => setImageCount(count.total))
+      .catch(showError)
+      .finally(() => hideLoading());
 
     meact.useEffect(
       function () {
@@ -101,7 +105,7 @@ function hideLoading() {
     meact.useEffect(
       function () {
         if (getImageCount() !== null) {
-          (getImageCount() > 0) ? updateImageCount() : displayNoImages();
+          getImageCount() > 0 ? updateImageCount() : displayNoImages();
         }
       },
       [imageCount]
@@ -118,13 +122,21 @@ function hideLoading() {
             .then((data) => {
               document.querySelector("#comments").innerHTML = "";
               data.comments.reverse().forEach(renderComment);
-              (getCommentsPage() === 1) 
-              ? document.querySelector("#prevCommentsBtn").classList.add("hidden")
-              : document.querySelector("#prevCommentsBtn").classList.remove("hidden");
+              getCommentsPage() === 1
+                ? document
+                    .querySelector("#prevCommentsBtn")
+                    .classList.add("hidden")
+                : document
+                    .querySelector("#prevCommentsBtn")
+                    .classList.remove("hidden");
 
-              (getCommentsPage() * 10 >= data.totalCount) 
-              ? document.querySelector("#nextCommentsBtn").classList.add("hidden")
-              : document.querySelector("#nextCommentsBtn").classList.remove("hidden");
+              getCommentsPage() * 10 >= data.totalCount
+                ? document
+                    .querySelector("#nextCommentsBtn")
+                    .classList.add("hidden")
+                : document
+                    .querySelector("#nextCommentsBtn")
+                    .classList.remove("hidden");
             })
             .catch(showError)
             .finally(() => hideLoading());
@@ -164,7 +176,7 @@ function hideLoading() {
         .then(() => apiService.getImageCount())
         .then((count) => setImageCount(count.total))
         .catch(showError)
-        .finally(() => hideLoading());;
+        .finally(() => hideLoading());
       // clean form
       document.querySelector("#popup").reset();
     });
@@ -175,11 +187,13 @@ function hideLoading() {
         // prevent from refreshing the page on submit
         e.preventDefault();
         showLoading();
-        apiService.getImage(getImage().id, "prev").then((image) => {
-          if (image) setImage(image);
-        })
-        .catch(showError)
-        .finally(() => hideLoading());
+        apiService
+          .getImage(getImage().id, "prev")
+          .then((image) => {
+            if (image) setImage(image);
+          })
+          .catch(showError)
+          .finally(() => hideLoading());
       });
 
     document
@@ -188,11 +202,13 @@ function hideLoading() {
         // prevent from refreshing the page on submit
         e.preventDefault();
         showLoading();
-        apiService.getImage(getImage().id, "next").then((image) => {
-          if (image) setImage(image);
-        })
-        .catch(showError)
-        .finally(() => hideLoading());;
+        apiService
+          .getImage(getImage().id, "next")
+          .then((image) => {
+            if (image) setImage(image);
+          })
+          .catch(showError)
+          .finally(() => hideLoading());
       });
 
     document
@@ -201,7 +217,7 @@ function hideLoading() {
         // prevent from refreshing the page on submit
         e.preventDefault();
         const imgId = document.querySelector("#imgContainer img").id;
-        showLoading()
+        showLoading();
         apiService
           .deleteImage(imgId)
           .then(() => apiService.getImage())
