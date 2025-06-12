@@ -27,13 +27,13 @@ paths:
                 - author
                 - picture
       responses:
-        '200':
+        "200":
           description: Image created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Image'
-        '400':
+                $ref: "#/components/schemas/Image"
+        "400":
           description: Cannot create image
     get:
       summary: Get the latest image or paginate images
@@ -50,15 +50,15 @@ paths:
             enum: [prev, next]
           required: false
       responses:
-        '200':
+        "200":
           description: Image object
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Image'
-        '400':
+                $ref: "#/components/schemas/Image"
+        "400":
           description: Cannot add image
-        '422':
+        "422":
           description: Invalid query parameters
 
   /images/{id}:
@@ -71,22 +71,22 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Image deleted
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Image'
-        '404':
+                $ref: "#/components/schemas/Image"
+        "404":
           description: Image not found
-        '400':
+        "400":
           description: Cannot delete image
 
   /images/count:
     get:
       summary: Get total count of images
       responses:
-        '200':
+        "200":
           description: Total image count
           content:
             application/json:
@@ -95,7 +95,7 @@ paths:
                 properties:
                   total:
                     type: integer
-        '400':
+        "400":
           description: Cannot get total count of images
 
   /images/{id}/picture:
@@ -108,14 +108,14 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Image file
           content:
             image/*:
               schema:
                 type: string
                 format: binary
-        '404':
+        "404":
           description: Image not found
 
   /images/{id}/comments:
@@ -142,15 +142,15 @@ paths:
                 - content
                 - author
       responses:
-        '200':
+        "200":
           description: Comment created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Comment'
-        '404':
+                $ref: "#/components/schemas/Comment"
+        "404":
           description: Image not found
-        '400':
+        "400":
           description: Cannot create comment
     get:
       summary: Get comments for an image (paginated)
@@ -171,7 +171,7 @@ paths:
             type: integer
           required: false
       responses:
-        '200':
+        "200":
           description: List of comments
           content:
             application/json:
@@ -181,14 +181,14 @@ paths:
                   comments:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Comment'
+                      $ref: "#/components/schemas/Comment"
                   totalCount:
                     type: integer
-        '404':
+        "404":
           description: Image not found
-        '400':
+        "400":
           description: Cannot get comments
-        '422':
+        "422":
           description: Invalid query parameters
 
   /comments/{id}:
@@ -201,15 +201,15 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Comment deleted
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Comment'
-        '404':
+                $ref: "#/components/schemas/Comment"
+        "404":
           description: Comment not found
-        '400':
+        "400":
           description: Cannot delete comment
 
 components:
