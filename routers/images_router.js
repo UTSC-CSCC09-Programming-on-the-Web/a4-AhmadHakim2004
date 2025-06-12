@@ -37,29 +37,41 @@ imagesRouter.get("/", async (req, res, next) => {
   const cursor = req.query.cursorId;
   const direction = req.query.direction;
 
+  const cursorNum = Number(cursor);
+
+  if (!Number.isInteger(cursorNum) || cursorNum < 1){
+    return res
+      .status(422)
+      .json({ error: `cursor must be a valid id (integer > 0)` });
+  }
+
   if (direction && direction !== "prev" && direction !== "next") {
     return res
       .status(422)
-      .json({ error: `direction must be "prev", "next" or ommitted` });
+      .json({ error: `direction must be prev, next or ommitted` });
   }
 
-  const where =
-    direction === "prev"
-      ? { id: { [Op.gt]: cursor } }
-      : { id: { [Op.lt]: cursor } };
-  const order =
-    direction === "prev" ? [["createdAt", "ASC"]] : [["createdAt", "DESC"]];
+  try {
+    const where =
+      direction === "prev"
+        ? { id: { [Op.gt]: cursor } }
+        : { id: { [Op.lt]: cursor } };
+    const order =
+      direction === "prev" ? [["createdAt", "ASC"]] : [["createdAt", "DESC"]];
 
-  const image = await Image.findOne({
-    limit: 1,
-    where,
-    order,
-  });
+    const image = await Image.findOne({
+      limit: 1,
+      where,
+      order,
+    });
 
-  return res.json({
-    image,
-    cursorId: image ? image.id : null,
-  });
+    return res.json({
+      image,
+      cursorId: image ? image.id : null,
+    });
+  } catch (e) {
+    return res.status(400).json({ error: "Cannot add image" });
+  }
 });
 
 imagesRouter.delete("/:id", async (req, res, next) => {
