@@ -54,11 +54,11 @@
   }
 
   window.addEventListener("load", function () {
-    apiService.getImageCount().then((count) => setImageCount(count.total));
-
     apiService.getImage().then((image) => {
       if (image) setImage(image);
     });
+
+    apiService.getImageCount().then((count) => setImageCount(count.total));
 
     meact.useEffect(
       function () {
@@ -73,8 +73,9 @@
 
     meact.useEffect(
       function () {
-        if (getImageCount() > 0) updateImageCount();
-        else displayNoImages();
+        if (getImageCount() !== null) {
+          (getImageCount() > 0) ? updateImageCount() : displayNoImages();
+        }
       },
       [imageCount]
     );
