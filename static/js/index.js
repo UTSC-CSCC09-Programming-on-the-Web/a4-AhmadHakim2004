@@ -47,11 +47,16 @@ function hideLoading() {
     // create a new message element
     const elmt = document.createElement("div");
     elmt.className = "row comment align-items-center";
+    const date = new Date(comment.createdAt).toLocaleString("en-US", {
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
     elmt.innerHTML = `
           <div class="col-auto">
-            <div class="comment-header">${comment.author} (${new Date(
-      comment.createdAt
-    ).toLocaleString()})</div>
+            <div class="comment-header">${comment.author} (${date})</div>
             <div class="comment-content">${comment.content}</div>
           </div>
           <div class="col-1 delete-icon btn-comment-action"></div>

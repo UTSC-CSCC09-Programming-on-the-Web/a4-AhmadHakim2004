@@ -20,14 +20,15 @@
 }
 
 .comment-header {
-  color: #243847;
+  color: white;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .comment-content {
   color: white;
-  font-size: 12px;
+  font-size: 14px;
+  margin-top: 16px;
 }
 
 .comment-btn-container {
