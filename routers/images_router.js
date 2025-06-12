@@ -153,7 +153,8 @@ imagesRouter.get("/:id/comments", async (req, res, next) => {
       limit,
       offset,
     });
-    return res.json({ comments });
+    const totalCount = await Comment.count({where})
+    return res.json({ comments, totalCount });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ error: "Cannot get comments" });

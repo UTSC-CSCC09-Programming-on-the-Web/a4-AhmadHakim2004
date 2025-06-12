@@ -117,7 +117,14 @@ function hideLoading() {
             .getComments(Number(imgId), getCommentsPage())
             .then((data) => {
               document.querySelector("#comments").innerHTML = "";
-              data.comments.forEach(renderComment);
+              data.comments.reverse().forEach(renderComment);
+              (getCommentsPage() === 1) 
+              ? document.querySelector("#prevCommentsBtn").classList.add("hidden")
+              : document.querySelector("#prevCommentsBtn").classList.remove("hidden");
+
+              (getCommentsPage() * 10 >= data.totalCount) 
+              ? document.querySelector("#nextCommentsBtn").classList.add("hidden")
+              : document.querySelector("#nextCommentsBtn").classList.remove("hidden");
             })
             .catch(showError)
             .finally(() => hideLoading());
