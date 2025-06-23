@@ -120,6 +120,10 @@
           apiService
             .getComments(Number(imgId), getCommentsPage())
             .then((data) => {
+              if (data.comments.length === 0 && getCommentsPage() > 1) {
+                setCommentsPage(getCommentsPage() - 1);
+                return;
+              }
               document.querySelector("#comments").innerHTML = "";
               data.comments.reverse().forEach(renderComment);
               getCommentsPage() === 1
