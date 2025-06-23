@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Web Gallery</title>
+    <link href="styles/cols.css" rel="stylesheet" type="text/css" />
+    <link href="styles/no-images.css" rel="stylesheet" type="text/css" />
+    <link href="styles/add-image.css" rel="stylesheet" type="text/css" />
+    <link href="styles/image.css" rel="stylesheet" type="text/css" />
+    <link href="styles/comment-form.css" rel="stylesheet" type="text/css" />
+    <link href="styles/comments.css" rel="stylesheet" type="text/css" />
+    <link href="styles/main.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <a href="/" class="title">The Web Gallery</a>
+    </header>
+    <div class="loader-container"><div class="loader"></div></div>
+    <div class="main-container">
+      <button id="popupBtn" class="popup-btn popup-open">+</button>
+
+      <form id="popup" class="popup hidden">
+        <div class="popup-header">Add Image</div>
+        <input
+          id="imageTitle"
+          type="text"
+          name="title"
+          placeholder="Image Title"
+          class="popup-input"
+        />
+        <input
+          id="imageAuthor"
+          type="text"
+          name="author"
+          placeholder="Author's Name"
+          class="popup-input"
+        />
+        <input
+          id="imagePicture"
+          type="file"
+          name="picture"
+          class="popup-input"
+        />
+        <button class="popup-submit">Add Image</button>
+      </form>
+
+      <div id="imgDisplay" class="img-display hidden">
+        <div class="img-header">View Images</div>
+        <div id="imgTitle" class="img-title"></div>
+        <div id="imgAuthor" class="img-author"></div>
+        <div id="imgContainer" class="img-container"></div>
+        <div id="imgTotal" class="img-total"></div>
+        <div class="row">
+          <div class="col-1 col-sm-1"></div>
+          <div class="col-2 col-sm-2 img-btn-container">
+            <button
+              id="prevImgBtn"
+              class="btn-img-action previous-img"
+            ></button>
+          </div>
+          <div class="col-2 col-sm-2"></div>
+          <div class="col-2 col-sm-2 img-btn-container">
+            <button
+              id="deleteImgBtn"
+              class="btn-img-action delete-img"
+            ></button>
+          </div>
+          <div class="col-2 col-sm-2"></div>
+          <div class="col-2 col-sm-2 img-btn-container">
+            <button id="nextImgBtn" class="btn-img-action next-img"></button>
+          </div>
+          <div class="col-1 col-sm-1"></div>
+        </div>
+      </div>
+
+      <div id="commentFormContainer" class="comment-form-container hidden">
+        <div class="comment-form-header">Add Comment</div>
+        <form id="commentForm" class="comment-form">
+          <div class="comment-form-elem-container">
+            <div class="comment-form-label" for="name">Your Name</div>
+            <input
+              id="commentAuthor"
+              class="comment-form-elem"
+              type="text"
+              placeholder="Enter your name"
+              name="name"
+              required
+            />
+          </div>
+
+          <div class="comment-form-elem-container">
+            <div class="comment-form-label" for="comment-content">Comment</div>
+            <textarea
+              id="commentContent"
+              class="comment-form-elem"
+              rows="5"
+              placeholder="Enter your comment"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="comment-form-btn">Add Comment</button>
+        </form>
+      </div>
+
+      <div id="commentsContainer" class="comments-container hidden">
+        <div class="comments-header">Comments</div>
+        <div id="comments"></div>
+        <div class="row">
+          <div class="col-4 col-sm-4"></div>
+          <div class="col-1 col-sm-1 comment-btn-container">
+            <button
+              id="prevCommentsBtn"
+              class="btn-comment-action previous-comments"
+            ></button>
+          </div>
+          <div class="col-2 col-sm-2"></div>
+          <div class="col-1 col-sm-1 comment-btn-container">
+            <button
+              id="nextCommentsBtn"
+              class="btn-comment-action next-comments"
+            ></button>
+          </div>
+          <div class="col-4 col-sm-4"></div>
+        </div>
+      </div>
+
+      <div id="noImages" class="no-images-container hidden">
+        <div class="no-images-pic"></div>
+        <div class="no-images-title">No images yet</div>
+        <div class="no-images-content">Be the first to upload an image!</div>
+      </div>
+    </div>
+    <footer>
+      <a href="/credits.html">credits</a>
+    </footer>
+    <script src="js/meact.js"></script>
+    <script src="js/api-service.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>

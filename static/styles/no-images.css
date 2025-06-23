@@ -1,0 +1,25 @@
+.no-images-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.no-images-pic {
+  background-image: url("../media/image-not-available.png");
+  width: 50%;
+  aspect-ratio: 2.2;
+  background-size: contain;
+  margin-bottom: 24px;
+}
+
+.no-images-title {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.no-images-content {
+  color: white;
+  font-size: 14px;
+}
