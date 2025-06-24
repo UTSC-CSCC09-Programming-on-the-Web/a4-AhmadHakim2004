@@ -4,43 +4,10 @@
   const [image, getImage, setImage] = meact.useState(null);
   const [imageCount, getImageCount, setImageCount] = meact.useState(null);
   const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
+  const [loadingState, getLoadingState, setLoadingState] = meact.useState(null);
 
   function showError(er) {
     alert("Something went wrong: " + er.message);
-  }
-  function showLoading() {
-    document.body.style.overflow = "hidden";
-    document.querySelector(".loader-container").style.display = "flex";
-  }
-
-  function hideLoading() {
-    document.body.style.overflow = "auto";
-    document.querySelector(".loader-container").style.display = "none";
-  }
-
-  function displayNoImages() {
-    document.querySelector("#imgDisplay").classList.add("hidden");
-    document.querySelector("#commentFormContainer").classList.add("hidden");
-    document.querySelector("#commentsContainer").classList.add("hidden");
-    document.querySelector("#noImages").classList.remove("hidden");
-  }
-
-  function displayImage(image) {
-    document.querySelector("#noImages").classList.add("hidden");
-    document.querySelector("#imgDisplay").classList.remove("hidden");
-    document.querySelector("#commentFormContainer").classList.remove("hidden");
-    document.querySelector("#commentsContainer").classList.remove("hidden");
-    document.querySelector("#imgTitle").textContent = image.title;
-    document.querySelector("#imgAuthor").textContent = `By ${image.author}`;
-    document.querySelector(
-      "#imgContainer"
-    ).innerHTML = `<img id='${image.id}' class='img' src='/api/images/${image.id}/picture/' />`;
-  }
-
-  function updateImageCount() {
-    document.querySelector(
-      "#imgTotal"
-    ).textContent = `Total Images: ${getImageCount()}`;
   }
 
   function renderComment(comment) {
@@ -65,37 +32,44 @@
     document.querySelector("#comments").prepend(elmt);
 
     elmt.querySelector(".delete-icon").addEventListener("click", function () {
-      showLoading();
+      setLoadingState(true);
       apiService
         .deleteComment(comment.id)
         .then(() => setCommentsPage(getCommentsPage()))
         .catch(showError)
-        .finally(() => hideLoading());
+        .finally(() => setLoadingState(false));
     });
   }
 
   window.addEventListener("load", function () {
-    showLoading();
+    setLoadingState(true);
     apiService
       .getImage()
       .then((image) => {
         if (image) setImage(image);
       })
       .catch(showError)
-      .finally(() => hideLoading());
+      .finally(() => setLoadingState(false));
 
-    showLoading();
+    setLoadingState(true);
     apiService
       .getImageCount()
       .then((count) => setImageCount(count.total))
       .catch(showError)
-      .finally(() => hideLoading());
+      .finally(() => setLoadingState(false));
 
     meact.useEffect(
       function () {
         const image = getImage();
         if (image) {
-          displayImage(image);
+          document.querySelector("#imgTitle").textContent = image.title;
+          document.querySelector("#imgAuthor").textContent = `By ${image.author}`;
+          document.querySelector("#imgContainer").innerHTML = `
+            <img 
+              id='${image.id}' 
+              class='img' 
+              src='/api/images/${image.id}/picture/' 
+            />`;
           setCommentsPage(1);
         }
       },
@@ -105,7 +79,14 @@
     meact.useEffect(
       function () {
         if (getImageCount() !== null) {
-          getImageCount() > 0 ? updateImageCount() : displayNoImages();
+          if (getImageCount() > 0) {
+            document.querySelector("#noImages").classList.add("hidden");
+            document.querySelector("#imgAvailableContainer").classList.remove("hidden");
+            document.querySelector("#imgTotal").textContent = `Total Images: ${getImageCount()}`;
+          } else {
+            document.querySelector("#imgAvailableContainer").classList.add("hidden");
+            document.querySelector("#noImages").classList.remove("hidden");
+          } 
         }
       },
       [imageCount]
@@ -116,7 +97,7 @@
         const img = document.querySelector("#imgContainer img");
         if (img) {
           const imgId = img.id;
-          showLoading();
+          setLoadingState(true);
           apiService
             .getComments(Number(imgId), getCommentsPage())
             .then((data) => {
@@ -143,14 +124,27 @@
                     .classList.remove("hidden");
             })
             .catch(showError)
-            .finally(() => hideLoading());
+            .finally(() => setLoadingState(false));
         }
       },
       [commentsPage]
     );
 
+    meact.useEffect(
+      function () {
+        if (getLoadingState()) {
+          document.body.style.overflow = "hidden";
+          document.querySelector(".loader-container").style.display = "flex";
+        } else {
+          document.body.style.overflow = "auto";
+          document.querySelector(".loader-container").style.display = "none";
+        }
+      },
+      [loadingState]
+    );
+
     const popupBtn = document.querySelector("#popupBtn");
-    const popup = document.querySelector("#popup");
+    const popup = document.querySelector("#addImgPopup");
     popupBtn.addEventListener("click", function (e) {
       if (popupBtn.textContent === "+") {
         popupBtn.textContent = "X";
@@ -165,12 +159,12 @@
       }
     });
 
-    document.querySelector("#popup").addEventListener("submit", function (e) {
+    popup.addEventListener("submit", function (e) {
       // prevent from refreshing the page on submit
       e.preventDefault();
 
       const formData = new FormData(e.target);
-      showLoading();
+      setLoadingState(true);
       apiService
         .addImage(formData)
         .then(() => apiService.getImage())
@@ -180,9 +174,9 @@
         .then(() => apiService.getImageCount())
         .then((count) => setImageCount(count.total))
         .catch(showError)
-        .finally(() => hideLoading());
+        .finally(() => setLoadingState(false));
       // clean form
-      document.querySelector("#popup").reset();
+      document.querySelector("#addImgPopup").reset();
     });
 
     document
@@ -190,14 +184,14 @@
       .addEventListener("click", function (e) {
         // prevent from refreshing the page on submit
         e.preventDefault();
-        showLoading();
+        setLoadingState(true);
         apiService
           .getImage(getImage().id, "prev")
           .then((image) => {
             if (image) setImage(image);
           })
           .catch(showError)
-          .finally(() => hideLoading());
+          .finally(() => setLoadingState(false));
       });
 
     document
@@ -205,14 +199,14 @@
       .addEventListener("click", function (e) {
         // prevent from refreshing the page on submit
         e.preventDefault();
-        showLoading();
+        setLoadingState(true);
         apiService
           .getImage(getImage().id, "next")
           .then((image) => {
             if (image) setImage(image);
           })
           .catch(showError)
-          .finally(() => hideLoading());
+          .finally(() => setLoadingState(false));
       });
 
     document
@@ -221,7 +215,7 @@
         // prevent from refreshing the page on submit
         e.preventDefault();
         const imgId = document.querySelector("#imgContainer img").id;
-        showLoading();
+        setLoadingState(true);
         apiService
           .deleteImage(imgId)
           .then(() => apiService.getImage())
@@ -231,7 +225,7 @@
           .then(() => apiService.getImageCount())
           .then((count) => setImageCount(count.total))
           .catch(showError)
-          .finally(() => hideLoading());
+          .finally(() => setLoadingState(false));
       });
 
     document
@@ -247,12 +241,12 @@
         // clean form
         document.querySelector("#commentForm").reset();
 
-        showLoading();
+        setLoadingState(true);
         apiService
           .addComment(Number(imgId), author, content)
           .then(() => setCommentsPage(1))
           .catch(showError)
-          .finally(() => hideLoading());
+          .finally(() => setLoadingState(false));
       });
 
     document
