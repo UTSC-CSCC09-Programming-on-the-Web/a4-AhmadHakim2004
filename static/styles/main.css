@@ -40,10 +40,6 @@ footer {
   }
 }
 
-.hidden {
-  display: none;
-}
-
 .loader-container {
   position: fixed;
   top: 0;
@@ -73,4 +69,31 @@ footer {
   to {
     transform: rotate(1turn);
   }
+}
+
+.error-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffdddd;
+  color: #a94442;
+  padding: 12px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-weight: bold;
+}
+
+.close-error-btn {
+  background: transparent;
+  border: none;
+  color: #a94442;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+
+.hidden {
+  display: none;
 }

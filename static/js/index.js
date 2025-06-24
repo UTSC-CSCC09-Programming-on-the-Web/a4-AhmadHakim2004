@@ -5,10 +5,7 @@
   const [imageCount, getImageCount, setImageCount] = meact.useState(null);
   const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
   const [loadingState, getLoadingState, setLoadingState] = meact.useState(null);
-
-  function showError(er) {
-    alert("Something went wrong: " + er.message);
-  }
+  const [error, getError, setError] = meact.useState(null);
 
   function renderComment(comment) {
     // create a new message element
@@ -36,7 +33,7 @@
       apiService
         .deleteComment(comment.id)
         .then(() => setCommentsPage(getCommentsPage()))
-        .catch(showError)
+        .catch(setError)
         .finally(() => setLoadingState(false));
     });
   }
@@ -48,14 +45,14 @@
       .then((image) => {
         if (image) setImage(image);
       })
-      .catch(showError)
+      .catch(setError)
       .finally(() => setLoadingState(false));
 
     setLoadingState(true);
     apiService
       .getImageCount()
       .then((count) => setImageCount(count.total))
-      .catch(showError)
+      .catch(setError)
       .finally(() => setLoadingState(false));
 
     meact.useEffect(
@@ -123,7 +120,7 @@
                     .querySelector("#nextCommentsBtn")
                     .classList.remove("hidden");
             })
-            .catch(showError)
+            .catch(setError)
             .finally(() => setLoadingState(false));
         }
       },
@@ -141,6 +138,21 @@
         }
       },
       [loadingState]
+    );
+
+    meact.useEffect(
+      function () {
+        const banner = document.getElementById("errorBanner");
+        const message = document.getElementById("errorMessage");
+        if (getError()) {
+          message.textContent = "Something went wrong: " + getError().message;
+          banner.classList.remove("hidden");
+        } else {
+          banner.classList.add("hidden");
+          message.textContent = "";
+        }
+      },
+      [error]
     );
 
     const popupBtn = document.querySelector("#popupBtn");
@@ -173,7 +185,7 @@
         })
         .then(() => apiService.getImageCount())
         .then((count) => setImageCount(count.total))
-        .catch(showError)
+        .catch(setError)
         .finally(() => setLoadingState(false));
       // clean form
       document.querySelector("#addImgPopup").reset();
@@ -190,7 +202,7 @@
           .then((image) => {
             if (image) setImage(image);
           })
-          .catch(showError)
+          .catch(setError)
           .finally(() => setLoadingState(false));
       });
 
@@ -205,7 +217,7 @@
           .then((image) => {
             if (image) setImage(image);
           })
-          .catch(showError)
+          .catch(setError)
           .finally(() => setLoadingState(false));
       });
 
@@ -224,7 +236,7 @@
           })
           .then(() => apiService.getImageCount())
           .then((count) => setImageCount(count.total))
-          .catch(showError)
+          .catch(setError)
           .finally(() => setLoadingState(false));
       });
 
@@ -245,7 +257,7 @@
         apiService
           .addComment(Number(imgId), author, content)
           .then(() => setCommentsPage(1))
-          .catch(showError)
+          .catch(setError)
           .finally(() => setLoadingState(false));
       });
 
@@ -268,5 +280,7 @@
         const currPage = getCommentsPage();
         setCommentsPage(currPage + 1);
       });
+
+    document.querySelector("#closeErrorBtn").onclick = () => setError(null);
   });
 })();
