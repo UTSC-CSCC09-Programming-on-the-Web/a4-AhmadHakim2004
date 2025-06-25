@@ -1,6 +1,7 @@
 (function () {
   "use strict";
 
+  const [gallery, getGallery, setGallery] = meact.useState(null);
   const [image, getImage, setImage] = meact.useState(null);
   const [imageCount, getImageCount, setImageCount] = meact.useState(null);
   const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
@@ -61,28 +62,41 @@
   }
 
   window.addEventListener("load", function () {
+    setSigningIn(false);
+    
     setLoadingState(true);
     apiService
-      .getImage()
-      .then((image) => {
-        if (image) setImage(image);
+      .getGallery()
+      .then((gallery) => {
+        if (gallery) setImage(gallery);
       })
       .catch(setError)
       .finally(() => setLoadingState(false));
 
-    setLoadingState(true);
-    apiService
-      .getImageCount()
-      .then((count) => setImageCount(count.total))
-      .catch(setError)
-      .finally(() => setLoadingState(false));
+    meact.useEffect(
+      function () {
+        const gallery = getGallery();
+        if (gallery) {
+          setLoadingState(true);
+          apiService
+            .getImage(gallery.id)
+            .then((image) => {
+              if (image) setImage(image);
+            })
+
+            .catch(setError)
+            .finally(() => setLoadingState(false));
+        }
+      },
+      [gallery]
+    );
 
     meact.useEffect(
       function () {
         const image = getImage();
         if (image) {
           document.querySelector("#imgTitle").textContent = image.title;
-          document.querySelector("#imgAuthor").textContent = `By ${image.author}`;
+          document.querySelector("#imgAuthor").textContent = `By ${image.Gallery.User.username}`;
           document.querySelector("#imgContainer").innerHTML = `
             <img 
               id='${image.id}' 
@@ -91,6 +105,12 @@
             />`;
           setCommentsPage(1);
         }
+        setLoadingState(false);
+        apiService
+          .getImageCount(getGallery().id)
+          .then((count) => setImageCount(count.total))
+          .catch(setError)
+          .finally(() => setLoadingState(false));
       },
       [image]
     );
@@ -165,12 +185,10 @@
     meact.useEffect(
       function () {
         if (getSigningIn()) {
-          document.querySelector("#noImages").classList.add("hidden");
-          document.querySelector("#imgAvailableContainer").classList.add("hidden");
+          document.querySelector("#notSigningInContainer").classList.add("hidden");
           document.querySelector("#signFormContainer").classList.remove("hidden");
         } else {
-          document.querySelector("#noImages").classList.remove("hidden");
-          document.querySelector("#imgAvailableContainer").classList.remove("hidden");
+          document.querySelector("#notSigningInContainer").classList.remove("hidden");
           document.querySelector("#signFormContainer").classList.add("hidden");
         }
       },
@@ -230,8 +248,6 @@
         .then((image) => {
           if (image) setImage(image);
         })
-        .then(() => apiService.getImageCount())
-        .then((count) => setImageCount(count.total))
         .catch(setError)
         .finally(() => setLoadingState(false));
       // clean form
@@ -281,8 +297,6 @@
           .then((image) => {
             if (image) setImage(image);
           })
-          .then(() => apiService.getImageCount())
-          .then((count) => setImageCount(count.total))
           .catch(setError)
           .finally(() => setLoadingState(false));
       });
@@ -339,9 +353,13 @@
         .then(() => {
           setSignedIn(false);
           setSigningIn(false);
-          setImage(null);
-          setImageCount(null);
-          setCommentsPage(null);
+          setLoadingState
+          apiService.getGallery()
+            .then((gallery) => {
+              if (gallery) setGallery(gallery);
+            })
+            .catch(setError)
+            .finally(() => setLoadingState(false));
         })
         .catch(setError);
     });    
