@@ -88,7 +88,7 @@
             .classList.remove("hidden");
           document.querySelector("#noGalleries").classList.add("hidden");
           document.querySelector(
-            "#imgAuthor"
+            "#galleryAuthor"
           ).textContent = `By ${gallery.User.username}`;
         } else {
           document.querySelector("#galleriesAvailable").classList.add("hidden");
