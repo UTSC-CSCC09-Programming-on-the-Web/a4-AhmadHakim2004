@@ -41,6 +41,7 @@ footer {
   margin-right: 16px;
   border-radius: 8px;
   background-color: #bfdbed;
+  cursor: pointer;
 }
 
 .main-container {

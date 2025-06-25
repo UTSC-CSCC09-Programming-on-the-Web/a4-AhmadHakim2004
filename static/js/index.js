@@ -4,8 +4,30 @@
   const [image, getImage, setImage] = meact.useState(null);
   const [imageCount, getImageCount, setImageCount] = meact.useState(null);
   const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
+  const [signingIn, getSigningIn, setSigningIn] = meact.useState(null);
+  const [signedIn, getSignedIn, setSignedIn] = meact.useState(null);
   const [loadingState, getLoadingState, setLoadingState] = meact.useState(null);
   const [error, getError, setError] = meact.useState(null);
+
+  function submit() {
+    if (document.querySelector("form").checkValidity()) {
+      const username = document.querySelector("form [name=username]").value;
+      const password = document.querySelector("form [name=password]").value;
+      const action = document.querySelector("form [name=action]").value;
+      setLoadingState(true);
+      apiService[action](username, password)
+        .then(function (res) {
+          if (res.error) {
+            setSignedIn(false);
+            setError(res.error);
+            return;
+          }
+          setSignedIn(true);
+        })
+        .catch(setError)
+        .finally(() => setLoadingState(false));
+    }
+  }
 
   function renderComment(comment) {
     // create a new message element
@@ -129,6 +151,34 @@
 
     meact.useEffect(
       function () {
+        if (getSignedIn()) {
+          document.querySelector("#signinButton").classList.add("hidden");
+          document.querySelector("#signoutButton").classList.remove("hidden");
+        } else {
+          document.querySelector("#signinButton").classList.remove("hidden");
+          document.querySelector("#signoutButton").classList.add("hidden");
+        }
+      },
+      [signedIn]
+    );
+
+    meact.useEffect(
+      function () {
+        if (getSigningIn()) {
+          document.querySelector("#noImages").classList.add("hidden");
+          document.querySelector("#imgAvailableContainer").classList.add("hidden");
+          document.querySelector("#signFormContainer").classList.remove("hidden");
+        } else {
+          document.querySelector("#noImages").classList.remove("hidden");
+          document.querySelector("#imgAvailableContainer").classList.remove("hidden");
+          document.querySelector("#signFormContainer").classList.add("hidden");
+        }
+      },
+      [signingIn]
+    );
+
+    meact.useEffect(
+      function () {
         if (getLoadingState()) {
           document.body.style.overflow = "hidden";
           document.querySelector(".loader-container").style.display = "flex";
@@ -172,9 +222,6 @@
     });
 
     popup.addEventListener("submit", function (e) {
-      // prevent from refreshing the page on submit
-      e.preventDefault();
-
       const formData = new FormData(e.target);
       setLoadingState(true);
       apiService
@@ -243,8 +290,6 @@
     document
       .querySelector("#commentForm")
       .addEventListener("submit", function (e) {
-        // prevent from refreshing the page on submit
-        e.preventDefault();
         // read form elements
         const author = document.querySelector("#commentAuthor").value;
         const content = document.querySelector("#commentContent").value;
@@ -281,6 +326,39 @@
         setCommentsPage(currPage + 1);
       });
 
-    document.querySelector("#closeErrorBtn").onclick = () => setError(null);
+    document.querySelector("#closeErrorBtn").addEventListener("click", function (e) {
+      setError(null);
+    });
+
+    document.querySelector("#signinButton").addEventListener("click", function (e) {
+      setSigningIn(true);
+    });
+
+    document.querySelector("#signoutButton").addEventListener("click", function (e) {
+      apiService
+        .signout()
+        .then(() => {
+          setSignedIn(false);
+          setSigningIn(false);
+          setImage(null);
+          setImageCount(null);
+          setCommentsPage(null);
+        })
+        .catch(setError);
+    });    
+    
+    document.querySelector("#signin").addEventListener("click", function (e) {
+      document.querySelector("form [name=action]").value = "signin";
+      submit();
+    });
+
+    document.querySelector("#signup").addEventListener("click", function (e) {
+      document.querySelector("form [name=action]").value = "signup";
+      submit();
+    });
+
+    document.querySelector("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+    });
   });
 })();

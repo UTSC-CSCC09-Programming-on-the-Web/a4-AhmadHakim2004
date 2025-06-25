@@ -68,5 +68,28 @@ let apiService = (function () {
     }).then(handleResponse);
   };
 
+  module.signin = function (username, password) {
+    return fetch("/users/signin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    }).then((res) => res.json());
+  };
+
+  module.signup = function (username, password) {
+    return fetch("/users/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    }).then((res) => res.json());
+  };
+
+  module.signout = function (username, password) {
+    return fetch("/users/signout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }
+    }).then((res) => res.json());
+  };
+
   return module;
 })();

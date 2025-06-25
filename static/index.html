@@ -8,6 +8,7 @@
     <link href="styles/no-images.css" rel="stylesheet" type="text/css" />
     <link href="styles/add-image.css" rel="stylesheet" type="text/css" />
     <link href="styles/image.css" rel="stylesheet" type="text/css" />
+    <link href="styles/login.css" rel="stylesheet" type="text/css" />
     <link href="styles/comment-form.css" rel="stylesheet" type="text/css" />
     <link href="styles/comments.css" rel="stylesheet" type="text/css" />
     <link href="styles/main.css" rel="stylesheet" type="text/css" />
@@ -20,10 +21,10 @@
     <header>
       <a href="/" class="title">The Web Gallery</a>
 
-      <a href="/login.html" id="signin-button" class="header-btn"
+      <a id="signinButton" class="header-btn hidden"
         >Sign in/up</a
       >
-      <a href="users/signout" id="signout-button" class="header-btn"
+      <a id="signoutButton" class="header-btn hidden"
         >Sign out</a
       >
     </header>
@@ -149,6 +150,39 @@
         <div class="no-images-title">No images yet</div>
         <div class="no-images-content">Be the first to upload an image!</div>
       </div>
+
+      <div id="signFormContainer" class="sign-form-container hidden">
+        <div class="sign-form-flex">
+          <div class="sign-form-header">Sign In or Sign Up</div>
+          <form id="signForm" class="sign-form">
+            <div class="sign-form-elem-container">
+              <div class="sign-form-label" for="username">Your Name</div>
+              <input
+                id="username"
+                class="sign-form-elem"
+                type="text"
+                placeholder="Enter your name"
+                name="username"
+                required
+              />
+            </div>
+
+            <div class="sign-form-elem-container">
+              <div class="sign-form-label" for="password">Password</div>
+              <textarea
+                id="password"
+                class="sign-form-elem"
+                rows="5"
+                placeholder="Enter your password"
+                required
+              ></textarea>
+            </div>
+            <div class="sign-form-elem-container sign-btns-container">
+              <button id="signin" name="action" class="sign-form-btn">Sign in</button>
+              <button id="signup" name="action" class="sign-form-btn">Sign up</button>
+            </div>
+          </form>
+        </div>
     </div>
     <footer>
       <a href="/credits.html">credits</a>
