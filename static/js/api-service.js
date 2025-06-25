@@ -32,7 +32,7 @@ let apiService = (function () {
 
   // add an image to the gallery
   module.addImage = function (galleryId, imageData) {
-    return fetch(`/api/galleries/${galleryId}/image`, {
+    return fetch(`/api/galleries/${galleryId}/images`, {
       method: "POST",
       body: imageData,
       headers: addTokenToHeaders({}),
@@ -67,8 +67,8 @@ let apiService = (function () {
   module.getImage = function (galleryId, cursor = null, direction = null) {
     const directionQuery = direction ? `&direction=${direction}` : "";
     const query = cursor
-      ? `/api/galleries/${galleryId}/image/?cursorId=${cursor}${directionQuery}`
-      : `/api/galleries/${galleryId}/image`;
+      ? `/api/galleries/${galleryId}/images/?cursorId=${cursor}${directionQuery}`
+      : `/api/galleries/${galleryId}/images`;
 
     return fetch(query, { method: "GET" }).then(handleResponse);
   };
