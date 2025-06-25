@@ -72,7 +72,6 @@ galleriesRouter.post(
   async function (req, res, next) {
     const schema = [
       { name: "title", required: true, type: "string", location: "body" },
-      { name: "author", required: true, type: "string", location: "body" },
       { name: "picture", required: true, type: "file", location: "file" },
     ];
 
@@ -92,7 +91,6 @@ galleriesRouter.post(
     try {
       const image = await Image.create({
         title: req.body.title,
-        author: req.body.author,
         picture: req.file,
         GalleryId: req.params.id,
       });
