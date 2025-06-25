@@ -6,7 +6,7 @@ let apiService = (function () {
   function addTokenToHeaders(headers) {
     const token = sessionStorage.getItem("token");
     if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
+      headers["authorization"] = `Bearer ${token}`;
     }
     return headers;
   }
@@ -67,8 +67,8 @@ let apiService = (function () {
   module.getImage = function (galleryId, cursor = null, direction = null) {
     const directionQuery = direction ? `&direction=${direction}` : "";
     const query = cursor
-      ? `/api/galleries/${galleryId}/images/?cursorId=${cursor}${directionQuery}`
-      : `/api/galleries/${galleryId}/images`;
+      ? `/api/galleries/${galleryId}/image/?cursorId=${cursor}${directionQuery}`
+      : `/api/galleries/${galleryId}/image`;
 
     return fetch(query, { method: "GET" }).then(handleResponse);
   };
@@ -90,26 +90,26 @@ let apiService = (function () {
   };
 
   module.signin = function (username, password) {
-    return fetch("/users/signin", {
+    return fetch("/api/users/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
-    }).then((res) => res.json());
+    }).then(handleResponse);
   };
 
   module.signup = function (username, password) {
-    return fetch("/users/signup", {
+    return fetch("/api/users/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
-    }).then((res) => res.json());
+    }).then(handleResponse);
   };
 
-  module.signout = function (username, password) {
-    return fetch("/users/signout", {
-      method: "POST",
+  module.signout = function () {
+    return fetch("/api/users/signout", {
+      method: "GET",
       headers: addTokenToHeaders({ "Content-Type": "application/json" }),
-    }).then((res) => res.json());
+    }).then(handleResponse);
   };
 
   return module;
