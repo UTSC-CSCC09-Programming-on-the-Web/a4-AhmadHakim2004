@@ -3,6 +3,14 @@ let apiService = (function () {
 
   let module = {};
 
+  function addTokenToHeaders(headers) {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+    return headers;
+  }
+
   function handleResponse(res) {
     return res.json().then((data) => {
       if (!res.ok) {
@@ -13,11 +21,21 @@ let apiService = (function () {
     });
   }
 
+  module.getGallery = function (cursor = null, direction = null) {
+    const directionQuery = direction ? `&direction=${direction}` : "";
+    const query = cursor
+      ? `/api/galleries/?cursorId=${cursor}${directionQuery}`
+      : "/api/galleries";
+
+    return fetch(query, { method: "GET" }).then(handleResponse);
+  };
+
   // add an image to the gallery
-  module.addImage = function (imageData) {
-    return fetch("/api/images", {
+  module.addImage = function (galleryId, imageData) {
+    return fetch(`/api/galleries/${galleryId}/image`, {
       method: "POST",
       body: imageData,
+      headers: addTokenToHeaders({}),
     }).then(handleResponse);
   };
 
@@ -25,15 +43,16 @@ let apiService = (function () {
   module.deleteImage = function (imageId) {
     return fetch(`/api/images/${imageId}`, {
       method: "DELETE",
+      headers: addTokenToHeaders({}),
     }).then(handleResponse);
   };
 
   // add a comment to an image
-  module.addComment = function (imageId, author, content) {
+  module.addComment = function (imageId, content) {
     return fetch(`/api/images/${imageId}/comments`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ author, content }),
+      headers: addTokenToHeaders({ "Content-Type": "application/json" }),
+      body: JSON.stringify({ content }),
     }).then(handleResponse);
   };
 
@@ -41,14 +60,15 @@ let apiService = (function () {
   module.deleteComment = function (commentId) {
     return fetch(`/api/comments/${commentId}`, {
       method: "DELETE",
+      headers: addTokenToHeaders({}),
     }).then(handleResponse);
   };
 
-  module.getImage = function (cursor = null, direction = null) {
+  module.getImage = function (galleryId, cursor = null, direction = null) {
     const directionQuery = direction ? `&direction=${direction}` : "";
     const query = cursor
-      ? `/api/images/?cursorId=${cursor}${directionQuery}`
-      : "/api/images";
+      ? `/api/galleries/${galleryId}/images/?cursorId=${cursor}${directionQuery}`
+      : `/api/galleries/${galleryId}/images`;
 
     return fetch(query, { method: "GET" }).then(handleResponse);
   };
@@ -58,12 +78,13 @@ let apiService = (function () {
       `/api/images/${imageId}/comments?page=${page}&limit=${limit}`,
       {
         method: "GET",
+        headers: addTokenToHeaders({}),
       }
     ).then(handleResponse);
   };
 
-  module.getImageCount = function () {
-    return fetch(`/api/images/count`, {
+  module.getImageCount = function (galleryId) {
+    return fetch(`/api/galleries/${galleryId}/count`, {
       method: "GET",
     }).then(handleResponse);
   };
@@ -87,7 +108,7 @@ let apiService = (function () {
   module.signout = function (username, password) {
     return fetch("/users/signout", {
       method: "POST",
-      headers: { "Content-Type": "application/json" }
+      headers: addTokenToHeaders({ "Content-Type": "application/json" })
     }).then((res) => res.json());
   };
 
