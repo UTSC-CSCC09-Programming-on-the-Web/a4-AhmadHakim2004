@@ -21,43 +21,24 @@
     <header>
       <a href="/" class="title">The Web Gallery</a>
 
-      <a id="signinButton" class="header-btn hidden"
-        >Sign in/up</a
-      >
-      <a id="signoutButton" class="header-btn hidden"
-        >Sign out</a
-      >
+      <a id="signinButton" class="header-btn hidden">Sign in/up</a>
+      <a id="signoutButton" class="header-btn hidden">Sign out</a>
     </header>
     <div class="loader-container"><div class="loader"></div></div>
-    
+
     <div id="errorBanner" class="error-banner hidden">
       <span id="errorMessage"></span>
-      <button id="closeErrorBtn" class="close-error-btn" aria-label="Close error" style="margin-left:16px;">&times;</button>
+      <button
+        id="closeErrorBtn"
+        class="close-error-btn"
+      >
+        &times;
+      </button>
     </div>
 
     <div class="main-container">
       <div id="notSigningInContainer" class="hidden">
-        <button id="popupBtn" class="popup-btn popup-open">+</button>
-
-        <form id="addImgPopup" class="popup hidden">
-          <div class="popup-header">Add Image</div>
-          <input
-            id="imageTitle"
-            type="text"
-            name="title"
-            placeholder="Image Title"
-            class="popup-input"
-          />
-          <input
-            id="imagePicture"
-            type="file"
-            name="picture"
-            class="popup-input"
-          />
-          <button class="popup-submit">Add Image</button>
-        </form>
-
-        <div id="imgAvailableContainer" class="hidden">
+        <div id="galleriesAvailable" class="hidden">
           <div id="imgDisplay" class="img-display">
             <div class="img-header">View Images</div>
             <div class="row">
@@ -69,87 +50,121 @@
                 ></button>
               </div>
               <div class="col-2 col-sm-2"></div>
-              <div id="imgAuthor" class="col-2 col-sm-2 img-author">
-              </div>
+              <div id="imgAuthor" class="col-2 col-sm-2 img-author"></div>
               <div class="col-2 col-sm-2"></div>
               <div class="col-2 col-sm-2 img-btn-container">
-                <button id="nextImgBtn" class="btn-img-action next-img"></button>
+                <button
+                  id="nextImgBtn"
+                  class="btn-img-action next-img"
+                ></button>
               </div>
               <div class="col-1 col-sm-1"></div>
             </div>
-            <div id="imgContainer" class="img-container"></div>
-            <div id="imgTitle" class="img-title"></div>
-            <div id="imgTotal" class="img-total"></div>
-            <div class="row">
-              <div class="col-1 col-sm-1"></div>
-              <div class="col-2 col-sm-2 img-btn-container">
-                <button
-                  id="prevImgBtn"
-                  class="btn-img-action previous-img"
-                ></button>
+            <div id="imgAvailableContainer" class="hidden">
+              <div id="imgContainer" class="img-container"></div>
+              <div id="imgTitle" class="img-title"></div>
+              <div id="imgTotal" class="img-total"></div>
+              <div class="row">
+                <div class="col-1 col-sm-1"></div>
+                <div class="col-2 col-sm-2 img-btn-container">
+                  <button
+                    id="prevImgBtn"
+                    class="btn-img-action previous-img"
+                  ></button>
+                </div>
+                <div class="col-2 col-sm-2"></div>
+                <div class="col-2 col-sm-2 img-btn-container">
+                  <button
+                    id="deleteImgBtn"
+                    class="btn-img-action delete-img"
+                  ></button>
+                </div>
+                <div class="col-2 col-sm-2"></div>
+                <div class="col-2 col-sm-2 img-btn-container">
+                  <button
+                    id="nextImgBtn"
+                    class="btn-img-action next-img"
+                  ></button>
+                </div>
+                <div class="col-1 col-sm-1"></div>
               </div>
-              <div class="col-2 col-sm-2"></div>
-              <div class="col-2 col-sm-2 img-btn-container">
-                <button
-                  id="deleteImgBtn"
-                  class="btn-img-action delete-img"
-                ></button>
-              </div>
-              <div class="col-2 col-sm-2"></div>
-              <div class="col-2 col-sm-2 img-btn-container">
-                <button id="nextImgBtn" class="btn-img-action next-img"></button>
-              </div>
-              <div class="col-1 col-sm-1"></div>
+            </div>
+            <div id="noImages" class="no-images-container hidden">
+              <div class="no-images-pic"></div>
+              <div class="no-images-title">No images in this gallery</div>
             </div>
           </div>
 
-          <div id="commentFormContainer" class="comment-form-container">
-            <div class="comment-form-header">Add Comment</div>
-            <form id="commentForm" class="comment-form">
-              <div class="comment-form-elem-container">
-                <div class="comment-form-label" for="comment-content">Comment</div>
-                <textarea
-                  id="commentContent"
-                  class="comment-form-elem"
-                  rows="5"
-                  placeholder="Enter your comment"
-                  required
-                ></textarea>
+          <div id="signedInContainer" class="hidden">
+            <div id="commentFormContainer" class="comment-form-container">
+              <div class="comment-form-header">Add Comment</div>
+              <form id="commentForm" class="comment-form">
+                <div class="comment-form-elem-container">
+                  <div class="comment-form-label" for="comment-content">
+                    Comment
+                  </div>
+                  <textarea
+                    id="commentContent"
+                    class="comment-form-elem"
+                    rows="5"
+                    placeholder="Enter your comment"
+                    required
+                  ></textarea>
+                </div>
+                <button type="submit" class="comment-form-btn">
+                  Add Comment
+                </button>
+              </form>
+            </div>
+
+            <div id="commentsContainer" class="comments-container">
+              <div class="comments-header">Comments</div>
+              <div id="comments"></div>
+              <div class="row">
+                <div class="col-4 col-sm-4"></div>
+                <div class="col-1 col-sm-1 comment-btn-container">
+                  <button
+                    id="prevCommentsBtn"
+                    class="btn-comment-action previous-comments"
+                  ></button>
+                </div>
+                <div class="col-2 col-sm-2"></div>
+                <div class="col-1 col-sm-1 comment-btn-container">
+                  <button
+                    id="nextCommentsBtn"
+                    class="btn-comment-action next-comments"
+                  ></button>
+                </div>
+                <div class="col-4 col-sm-4"></div>
               </div>
-              <button type="submit" class="comment-form-btn">Add Comment</button>
+            </div>
+
+            <button id="popupBtn" class="popup-btn popup-open">+</button>
+
+            <form id="addImgPopup" class="popup hidden">
+              <div class="popup-header">Add Image</div>
+              <input
+                id="imageTitle"
+                type="text"
+                name="title"
+                placeholder="Image Title"
+                class="popup-input"
+              />
+              <input
+                id="imagePicture"
+                type="file"
+                name="picture"
+                class="popup-input"
+              />
+              <button class="popup-submit">Add Image</button>
             </form>
           </div>
-
-          <div id="commentsContainer" class="comments-container">
-            <div class="comments-header">Comments</div>
-            <div id="comments"></div>
-            <div class="row">
-              <div class="col-4 col-sm-4"></div>
-              <div class="col-1 col-sm-1 comment-btn-container">
-                <button
-                  id="prevCommentsBtn"
-                  class="btn-comment-action previous-comments"
-                ></button>
-              </div>
-              <div class="col-2 col-sm-2"></div>
-              <div class="col-1 col-sm-1 comment-btn-container">
-                <button
-                  id="nextCommentsBtn"
-                  class="btn-comment-action next-comments"
-                ></button>
-              </div>
-              <div class="col-4 col-sm-4"></div>
-            </div>
-          </div>
         </div>
-
-        <div id="noImages" class="no-images-container hidden">
-          <div class="no-images-pic"></div>
-          <div class="no-images-title">No images yet</div>
-          <div class="no-images-content">Be the first to upload an image!</div>
+        <div id="noGalleries" class="no-galleries-container hidden">
+          <div class="no-galleries-pic"></div>
+          <div class="no-galleries-title">There's no galleries yet</div>
         </div>
       </div>
-
       <div id="signFormContainer" class="sign-form-container hidden">
         <div class="sign-form-flex">
           <div class="sign-form-header">Sign In or Sign Up</div>
@@ -170,6 +185,7 @@
               <div class="sign-form-label" for="password">Password</div>
               <textarea
                 id="password"
+                name="password"
                 class="sign-form-elem"
                 rows="5"
                 placeholder="Enter your password"
@@ -177,11 +193,16 @@
               ></textarea>
             </div>
             <div class="sign-form-elem-container sign-btns-container">
-              <button id="signin" name="action" class="sign-form-btn">Sign in</button>
-              <button id="signup" name="action" class="sign-form-btn">Sign up</button>
+              <button id="signin" name="action" class="sign-form-btn">
+                Sign in
+              </button>
+              <button id="signup" name="action" class="sign-form-btn">
+                Sign up
+              </button>
             </div>
           </form>
         </div>
+      </div>
     </div>
     <footer>
       <a href="/credits.html">credits</a>
