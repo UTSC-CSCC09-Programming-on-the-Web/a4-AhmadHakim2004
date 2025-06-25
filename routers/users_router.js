@@ -2,7 +2,9 @@ import { User } from "../models/users.js";
 import { Router } from "express";
 import multer from "multer";
 import bcrypt from "bcrypt";
-import path from "path";
+import { Token } from "../models/tokens.js";
+import { isAuthenticated } from "../middleware/auth.js";
+import { extractTokenFromReq } from "../utils/token-helpers.js";
 
 export const usersRouter = Router();
 const upload = multer({ dest: "uploads/" });
@@ -16,14 +18,29 @@ usersRouter.post("/signup", upload.single("picture"), async (req, res) => {
   const salt = bcrypt.genSaltSync(saltRounds);
   const password = bcrypt.hashSync(req.body.password, salt);
   user.password = password;
+  const access_token = crypto.randomBytes(32).toString('hex');
+
   try {
     await user.save();
   } catch (err) {
     console.log(err);
     return res.status(422).json({ error: "User creation failed." });
   }
+
+  try {
+    const token = Token.build({
+        token: access_token,
+    });
+    token.UserId = user.id;
+    await token.save();
+  } catch (err) {
+    console.log(err);
+    return res.status(422).json({ error: "User created but token creation failed." });
+  }
+  
   return res.json({
-    username: user.username,
+    token_type: "Bearer",
+    access_token,
   });
 });
 
@@ -41,37 +58,42 @@ usersRouter.post("/signin", async (req, res) => {
     return res.status(401).json({ error: "Incorrect username or password." });
   }
 
-  return res.json(user);
-});
-
-usersRouter.get("/me", async (req, res) => {
-  if (!req.session.userId) {
-    return res.status(401).json({ error: "Not signed in." });
+    const access_token = crypto.randomBytes(32).toString('hex');
+  try {
+    const token = Token.build({
+        token: access_token,
+    });
+    token.UserId = user.id;
+    await token.save();
+  } catch (err) {
+    console.log(err);
+    return res.status(422).json({ error: "Token creation failed." });
   }
 
-  const user = await User.findByPk(req.session.userId);
+  return res.json({
+    token_type: "Bearer",
+    access_token,
+  });
+});
+
+usersRouter.get("/signout", isAuthenticated, async function (req, res, next) {
+  try {
+    const token = await extractTokenFromReq(req);
+    await Token.destroy({ where: { token } });
+  } catch(err) {
+    console.log(err);
+    return res.status(422).json({ error: "Couldn't sign out." });
+  }
+  return res.json({ message: "Signed out successfully." });
+});
+
+usersRouter.get("/me", isAuthenticated, async (req, res) => {
+  const token = await extractTokenFromReq(req);
+  const user = await token.getUser();
 
   if (!user) {
     return res.status(404).json({ error: "User not found." });
   }
 
   return res.json({ username: user.username });
-});
-
-usersRouter.get("/signout", function (req, res, next) {
-  return res.redirect("/");
-});
-
-usersRouter.get("/:id/profile/picture", async (req, res) => {
-  let userId = req.params.id;
-  const user = await User.findByPk(userId);
-  if (user === null) {
-    return res.status(404).json({ errors: "User not found." });
-  }
-
-  if (user.picture === null) {
-    return res.status(404).json({ errors: "User profile picture not found." });
-  }
-  res.setHeader("Content-Type", user.picture.mimetype);
-  res.sendFile(user.picture.path, { root: path.resolve() });
 });

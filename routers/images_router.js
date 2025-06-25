@@ -1,94 +1,26 @@
-import { Op } from "sequelize";
-
 import { Router } from "express";
-import multer from "multer";
 import path from "path";
 import { validateInput } from "../utils/validate-input.js";
 import { Image } from "../models/images.js";
 import { Comment } from "../models/comments.js";
+import { User } from "../models/users.js";
+import { isAuthenticated } from "../middleware/auth.js";
+import { extractTokenFromReq } from "../utils/token-helpers.js";
 
-const upload = multer({ dest: "uploads/" });
 export const imagesRouter = Router();
 
-imagesRouter.post(
-  "/",
-  upload.single("picture"),
-  async function (req, res, next) {
-    const schema = [
-      { name: "title", required: true, type: "string", location: "body" },
-      { name: "author", required: true, type: "string", location: "body" },
-      { name: "picture", required: true, type: "file", location: "file" },
-    ];
-
-    if (!validateInput(req, res, schema)) return;
-
-    try {
-      const image = await Image.create({
-        title: req.body.title,
-        author: req.body.author,
-        picture: req.file,
-      });
-      return res.json(image);
-    } catch (e) {
-      return res.status(400).json({ error: "Cannot create image" });
-    }
-  }
-);
-
-imagesRouter.get("/", async (req, res, next) => {
-  const cursor = req.query.cursorId;
-  const direction = req.query.direction;
-
-  if (direction && direction !== "prev" && direction !== "next") {
-    return res
-      .status(422)
-      .json({ error: `direction must be prev, next or ommitted` });
-  }
-
-  const cursorNum = parseInt(cursor);
-
-  if ((cursor && !cursorNum) || cursorNum < 0) {
-    return res
-      .status(422)
-      .json({ error: `cursorId must be a valid id (integer > 0)` });
-  }
-
-  try {
-    if (!cursor) {
-      const image = await Image.findOne({
-        limit: 1,
-        order: [["createdAt", "DESC"]],
-      });
-
-      return res.json(image);
-    }
-
-    const where =
-      direction === "prev"
-        ? { id: { [Op.gt]: cursor } }
-        : { id: { [Op.lt]: cursor } };
-    const order =
-      direction === "prev" ? [["createdAt", "ASC"]] : [["createdAt", "DESC"]];
-
-    const image = await Image.findOne({
-      limit: 1,
-      where,
-      order,
-    });
-
-    return res.json(image);
-  } catch (e) {
-    return res.status(400).json({ error: "Cannot add image" });
-  }
-});
-
-imagesRouter.delete("/:id", async (req, res, next) => {
+imagesRouter.delete("/:id", isAuthenticated, async (req, res, next) => {
   try {
     const image = await Image.findByPk(req.params.id);
     if (!image) {
       return res
         .status(404)
         .json({ error: `image with id=${req.params.id} not found.` });
+    }
+    const gallery = await image.getGallery();
+    const token = extractTokenFromReq(req);
+    if (token.UserId !== gallery.UserId) {
+      return res.status(403).json({ error: "Forbidden." });
     }
     await image.destroy();
     return res.json(image);
@@ -97,10 +29,9 @@ imagesRouter.delete("/:id", async (req, res, next) => {
   }
 });
 
-imagesRouter.post("/:id/comments", async (req, res, next) => {
+imagesRouter.post("/:id/comments", isAuthenticated, async (req, res, next) => {
   const schema = [
     { name: "content", required: true, type: "string", location: "body" },
-    { name: "author", required: true, type: "string", location: "body" },
   ];
 
   if (!validateInput(req, res, schema)) return;
@@ -112,10 +43,12 @@ imagesRouter.post("/:id/comments", async (req, res, next) => {
       return res.status(404).json({ error: "Image not found." });
     }
 
+    const token = await extractTokenFromReq(req);
+
     const comment = await Comment.create({
-      author: req.body.author,
       content: req.body.content,
       ImageId: req.params.id,
+      UserId: token.UserId
     });
     return res.json(comment);
   } catch (e) {
@@ -124,7 +57,7 @@ imagesRouter.post("/:id/comments", async (req, res, next) => {
   }
 });
 
-imagesRouter.get("/:id/comments", async (req, res, next) => {
+imagesRouter.get("/:id/comments", isAuthenticated, async (req, res, next) => {
   const page = req.query.page ? parseInt(req.query.page) : 1;
   const limit = req.query.limit ? parseInt(req.query.limit) : 10;
 
@@ -152,21 +85,18 @@ imagesRouter.get("/:id/comments", async (req, res, next) => {
       order,
       limit,
       offset,
+      include: [
+        {
+          model: User,
+          attributes: ["username"]
+        }
+      ]
     });
     const totalCount = await Comment.count({ where });
     return res.json({ comments, totalCount });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ error: "Cannot get comments" });
-  }
-});
-
-imagesRouter.get("/count", async (req, res, next) => {
-  try {
-    const count = await Image.count();
-    return res.json({ total: count });
-  } catch (e) {
-    return res.status(400).json({ error: "Canot get total count of images" });
   }
 });
 

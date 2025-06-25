@@ -3,6 +3,8 @@ import bodyParser from "body-parser";
 import { sequelize } from "./datasource.js";
 import { imagesRouter } from "./routers/images_router.js";
 import { commentsRouter } from "./routers/comments_router.js";
+import { galleriesRouter } from "./routers/galleries_router.js";
+import { usersRouter } from "./routers/users_router.js";
 
 export const app = express();
 const PORT = 3000;
@@ -30,6 +32,8 @@ app.use(function (req, res, next) {
 
 app.use("/api/comments", commentsRouter);
 app.use("/api/images", imagesRouter);
+app.use("/api/galleries", galleriesRouter);
+app.use("/api/users", usersRouter);
 
 app.listen(PORT, (err) => {
   if (err) console.log(err);
