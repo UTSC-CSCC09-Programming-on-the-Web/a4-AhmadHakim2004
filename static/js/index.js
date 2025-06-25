@@ -52,7 +52,7 @@
     });
     elmt.innerHTML = `
           <div class="col-auto">
-            <div class="comment-header">${comment.author} (${date})</div>
+            <div class="comment-header">${comment.User.username} (${date})</div>
             <div class="comment-content">${comment.content}</div>
           </div>
           <div class="col-1 delete-icon btn-comment-action"></div>
