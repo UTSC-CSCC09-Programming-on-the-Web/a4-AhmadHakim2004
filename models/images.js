@@ -1,5 +1,6 @@
 import { sequelize } from "../datasource.js";
 import { DataTypes } from "sequelize";
+import { Gallery } from "./galleries.js";
 
 export const Image = sequelize.define("Image", {
   title: {
@@ -15,3 +16,6 @@ export const Image = sequelize.define("Image", {
     allowNull: false,
   },
 });
+
+Image.belongsTo(Gallery);
+Gallery.hasMany(Image);
