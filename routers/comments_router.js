@@ -13,7 +13,7 @@ commentsRouter.delete("/:id", async (req, res, next) => {
         .json({ error: `comment with id=${req.params.id} not found.` });
     }
 
-    const token = extractTokenFromReq(req);
+    const token = await extractTokenFromReq(req);
     const image = await comment.getImage();
     const gallery = await image.getGallery();
 

@@ -1,7 +1,7 @@
 import { Token } from "../models/tokens.js";
 
 export async function extractTokenFromReq(req) {
-  const authHeader = req.headers["Authorization"];
+  const authHeader = req.headers["authorization"];
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return null;
   }
