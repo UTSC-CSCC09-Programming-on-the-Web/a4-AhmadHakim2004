@@ -31,6 +31,7 @@ usersRouter.post("/signup", upload.single("picture"), async (req, res) => {
   try {
     const token = Token.build({
       token: access_token,
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
       UserId: user.id
     });
     await token.save();
@@ -65,8 +66,9 @@ usersRouter.post("/signin", async (req, res) => {
   try {
     const token = Token.build({
       token: access_token,
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      UserId: user.id,
     });
-    token.UserId = user.id;
     await token.save();
   } catch (err) {
     console.log(err);
