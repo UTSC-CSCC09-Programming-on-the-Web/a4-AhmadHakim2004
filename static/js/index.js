@@ -291,7 +291,6 @@
       .querySelector("#commentForm")
       .addEventListener("submit", function (e) {
         // read form elements
-        const author = document.querySelector("#commentAuthor").value;
         const content = document.querySelector("#commentContent").value;
         const imgId = document.querySelector("#imgContainer img").id;
 
@@ -300,7 +299,7 @@
 
         setLoadingState(true);
         apiService
-          .addComment(Number(imgId), author, content)
+          .addComment(Number(imgId), content)
           .then(() => setCommentsPage(1))
           .catch(setError)
           .finally(() => setLoadingState(false));
