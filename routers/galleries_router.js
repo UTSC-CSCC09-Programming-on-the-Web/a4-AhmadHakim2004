@@ -4,7 +4,6 @@ import { Router } from "express";
 import multer from "multer";
 import { validateInput } from "../utils/validate-input.js";
 import { Image } from "../models/images.js";
-import { Gallery } from "../models/galleries.js";
 import { isAuthenticated } from "../middleware/auth.js";
 import { extractTokenFromReq } from "../utils/token-helpers.js";
 import { User } from "../models/users.js";
@@ -35,16 +34,10 @@ galleriesRouter.get("/", async (req, res, next) => {
       const token = await extractTokenFromReq(req);
       const where = token ? { UserId: token.UserId } : {};
 
-      const gallery = await Gallery.findOne({
+      const gallery = await User.findOne({
         limit: 1,
         where,
-        order: [["createdAt", "DESC"]],
-        include: [
-          {
-            model: User,
-            attributes: ["username"],
-          },
-        ],
+        order: [["createdAt", "DESC"]]
       });
 
       return res.json(gallery);
@@ -57,16 +50,10 @@ galleriesRouter.get("/", async (req, res, next) => {
     const order =
       direction === "prev" ? [["createdAt", "ASC"]] : [["createdAt", "DESC"]];
 
-    const gallery = await Gallery.findOne({
+    const gallery = await User.findOne({
       limit: 1,
       where,
-      order,
-      include: [
-        {
-          model: User,
-          attributes: ["username"],
-        },
-      ],
+      order
     });
 
     return res.json(gallery);
@@ -87,14 +74,14 @@ galleriesRouter.post(
 
     if (!validateInput(req, res, schema)) return;
 
-    let gallery = await Gallery.findOne({ where: { id: req.params.id } });
+    let user = await User.findOne({ where: { id: req.params.id } });
 
-    if (!gallery) {
+    if (!user) {
       return res.status(404).json({ error: "Gallery not found." });
     }
 
     const token = await extractTokenFromReq(req);
-    if (token.UserId !== gallery.UserId) {
+    if (token.UserId !== user.UserId) {
       return res.status(403).json({ error: "Forbidden" });
     }
 
@@ -102,7 +89,7 @@ galleriesRouter.post(
       const image = await Image.create({
         title: req.body.title,
         picture: req.file,
-        GalleryId: req.params.id,
+        UserId: req.params.id,
       });
       return res.json(image);
     } catch (e) {
@@ -115,9 +102,9 @@ galleriesRouter.get("/:id/images", async (req, res, next) => {
   const cursor = req.query.cursorId;
   const direction = req.query.direction;
 
-  let gallery = await Gallery.findOne({ where: { id: req.params.id } });
+  let user = await User.findOne({ where: { id: req.params.id } });
 
-  if (!gallery) {
+  if (!user) {
     return res.status(404).json({ error: "Gallery not found." });
   }
 
@@ -140,13 +127,10 @@ galleriesRouter.get("/:id/images", async (req, res, next) => {
       const image = await Image.findOne({
         limit: 1,
         order: [["createdAt", "DESC"]],
-        where: { GalleryId: req.params.id },
+        where: { UserId: req.params.id },
         include: {
-          model: Gallery,
-          include: {
-            model: User,
-            attributes: ["username"], // only get the username
-          },
+          model: User,
+          attributes: ["username"]
         },
       });
 
@@ -155,8 +139,8 @@ galleriesRouter.get("/:id/images", async (req, res, next) => {
 
     const where =
       direction === "prev"
-        ? { id: { [Op.gt]: cursor }, GalleryId: req.params.id }
-        : { id: { [Op.lt]: cursor }, GalleryId: req.params.id };
+        ? { id: { [Op.gt]: cursor }, UserId: req.params.id }
+        : { id: { [Op.lt]: cursor }, UserId: req.params.id };
     const order =
       direction === "prev" ? [["createdAt", "ASC"]] : [["createdAt", "DESC"]];
 
@@ -165,11 +149,8 @@ galleriesRouter.get("/:id/images", async (req, res, next) => {
       where,
       order,
       include: {
-        model: Gallery,
-        include: {
-          model: User,
-          attributes: ["username"], // only get the username
-        },
+        model: User,
+        attributes: ["username"]
       },
     });
 
@@ -180,14 +161,14 @@ galleriesRouter.get("/:id/images", async (req, res, next) => {
 });
 
 galleriesRouter.get("/:id/count", async (req, res, next) => {
-  let gallery = await Gallery.findOne({ where: { id: req.params.id } });
+  let user = await User.findOne({ where: { id: req.params.id } });
 
-  if (!gallery) {
+  if (!user) {
     return res.status(404).json({ error: "Gallery not found." });
   }
 
   try {
-    const count = await Image.count({ GalleryId: req.params.id });
+    const count = await Image.count({ UserId: req.params.id });
     return res.json({ total: count });
   } catch (e) {
     return res.status(400).json({ error: "Canot get total count of images" });

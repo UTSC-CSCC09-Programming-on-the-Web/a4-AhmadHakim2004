@@ -4,7 +4,6 @@ import multer from "multer";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { Token } from "../models/tokens.js";
-import { Gallery } from "../models/galleries.js";
 import { isAuthenticated } from "../middleware/auth.js";
 import { extractTokenFromReq } from "../utils/token-helpers.js";
 
@@ -40,18 +39,6 @@ usersRouter.post("/signup", upload.single("picture"), async (req, res) => {
     return res
       .status(422)
       .json({ error: "User created but token creation failed." });
-  }
-
-  try {
-    const gallery = Gallery.build({
-      UserId: user.id,
-    });
-    await gallery.save();
-  } catch (err) {
-    console.log(err);
-    return res
-      .status(422)
-      .json({ error: "User created but gallery wasnt created." });
   }
 
   return res.json({

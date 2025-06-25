@@ -89,7 +89,7 @@
           document.querySelector("#noGalleries").classList.add("hidden");
           document.querySelector(
             "#galleryAuthor"
-          ).textContent = `By ${gallery.User.username}`;
+          ).textContent = `By ${gallery.username}`;
         } else {
           document.querySelector("#galleriesAvailable").classList.add("hidden");
           document.querySelector("#noGalleries").classList.remove("hidden");
