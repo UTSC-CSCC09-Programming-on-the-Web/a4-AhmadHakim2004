@@ -76,7 +76,7 @@ galleriesRouter.get("/", async (req, res, next) => {
 });
 
 galleriesRouter.post(
-  "/:id/image",
+  "/:id/images",
   isAuthenticated,
   upload.single("picture"),
   async function (req, res, next) {
@@ -111,7 +111,7 @@ galleriesRouter.post(
   }
 );
 
-galleriesRouter.get("/:id/image", async (req, res, next) => {
+galleriesRouter.get("/:id/images", async (req, res, next) => {
   const cursor = req.query.cursorId;
   const direction = req.query.direction;
 
