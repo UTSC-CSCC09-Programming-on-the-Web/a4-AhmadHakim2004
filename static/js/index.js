@@ -281,7 +281,7 @@
       setLoadingState(true);
       apiService
         .addImage(getGallery().id, formData)
-        .then(() => apiService.getImage())
+        .then(() => apiService.getImage(getGallery().id))
         .then((image) => {
           if (image) setImage(image);
         })
@@ -299,7 +299,7 @@
         if (!getImage()) return;
         setLoadingState(true);
         apiService
-          .getImage(getImage().id, "prev")
+          .getImage(getGallery().id, getImage().id, "prev")
           .then((image) => {
             if (image) setImage(image);
           })
@@ -315,7 +315,7 @@
         if (!getImage()) return;
         setLoadingState(true);
         apiService
-          .getImage(getImage().id, "next")
+          .getImage(getGallery().id, getImage().id, "next")
           .then((image) => {
             if (image) setImage(image);
           })
@@ -332,10 +332,8 @@
         setLoadingState(true);
         apiService
           .deleteImage(imgId)
-          .then(() => apiService.getImage())
-          .then((image) => {
-            if (image) setImage(image);
-          })
+          .then(() => apiService.getImage(getGallery().id))
+          .then(setImage)
           .catch(setError)
           .finally(() => setLoadingState(false));
       });
