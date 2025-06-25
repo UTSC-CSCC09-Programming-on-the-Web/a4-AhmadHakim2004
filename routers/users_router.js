@@ -18,7 +18,7 @@ usersRouter.post("/signup", upload.single("picture"), async (req, res) => {
   const salt = bcrypt.genSaltSync(saltRounds);
   const password = bcrypt.hashSync(req.body.password, salt);
   user.password = password;
-  const access_token = crypto.randomBytes(32).toString('hex');
+  const access_token = crypto.randomBytes(32).toString("hex");
 
   try {
     await user.save();
@@ -29,15 +29,17 @@ usersRouter.post("/signup", upload.single("picture"), async (req, res) => {
 
   try {
     const token = Token.build({
-        token: access_token,
+      token: access_token,
     });
     token.UserId = user.id;
     await token.save();
   } catch (err) {
     console.log(err);
-    return res.status(422).json({ error: "User created but token creation failed." });
+    return res
+      .status(422)
+      .json({ error: "User created but token creation failed." });
   }
-  
+
   return res.json({
     token_type: "Bearer",
     access_token,
@@ -58,10 +60,10 @@ usersRouter.post("/signin", async (req, res) => {
     return res.status(401).json({ error: "Incorrect username or password." });
   }
 
-    const access_token = crypto.randomBytes(32).toString('hex');
+  const access_token = crypto.randomBytes(32).toString("hex");
   try {
     const token = Token.build({
-        token: access_token,
+      token: access_token,
     });
     token.UserId = user.id;
     await token.save();
@@ -80,7 +82,7 @@ usersRouter.get("/signout", isAuthenticated, async function (req, res, next) {
   try {
     const token = await extractTokenFromReq(req);
     await Token.destroy({ where: { token } });
-  } catch(err) {
+  } catch (err) {
     console.log(err);
     return res.status(422).json({ error: "Couldn't sign out." });
   }

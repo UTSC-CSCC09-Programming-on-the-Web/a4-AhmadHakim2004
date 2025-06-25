@@ -48,7 +48,7 @@ imagesRouter.post("/:id/comments", isAuthenticated, async (req, res, next) => {
     const comment = await Comment.create({
       content: req.body.content,
       ImageId: req.params.id,
-      UserId: token.UserId
+      UserId: token.UserId,
     });
     return res.json(comment);
   } catch (e) {
@@ -88,9 +88,9 @@ imagesRouter.get("/:id/comments", isAuthenticated, async (req, res, next) => {
       include: [
         {
           model: User,
-          attributes: ["username"]
-        }
-      ]
+          attributes: ["username"],
+        },
+      ],
     });
     const totalCount = await Comment.count({ where });
     return res.json({ comments, totalCount });

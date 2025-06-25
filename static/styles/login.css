@@ -1,6 +1,6 @@
 .sign-form-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
   border-bottom: 1px solid black;
 }
 
@@ -58,7 +58,7 @@
 }
 
 .sign-form-flex {
-    width: 50%;
+  width: 50%;
 }
 
 .sign-btns-container {

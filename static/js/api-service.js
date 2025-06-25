@@ -108,7 +108,7 @@ let apiService = (function () {
   module.signout = function (username, password) {
     return fetch("/users/signout", {
       method: "POST",
-      headers: addTokenToHeaders({ "Content-Type": "application/json" })
+      headers: addTokenToHeaders({ "Content-Type": "application/json" }),
     }).then((res) => res.json());
   };
 

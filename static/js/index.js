@@ -63,7 +63,7 @@
 
   window.addEventListener("load", function () {
     setSigningIn(false);
-    
+
     setLoadingState(true);
     apiService
       .getGallery()
@@ -96,7 +96,9 @@
         const image = getImage();
         if (image) {
           document.querySelector("#imgTitle").textContent = image.title;
-          document.querySelector("#imgAuthor").textContent = `By ${image.Gallery.User.username}`;
+          document.querySelector(
+            "#imgAuthor"
+          ).textContent = `By ${image.Gallery.User.username}`;
           document.querySelector("#imgContainer").innerHTML = `
             <img 
               id='${image.id}' 
@@ -120,12 +122,18 @@
         if (getImageCount() !== null) {
           if (getImageCount() > 0) {
             document.querySelector("#noImages").classList.add("hidden");
-            document.querySelector("#imgAvailableContainer").classList.remove("hidden");
-            document.querySelector("#imgTotal").textContent = `Total Images: ${getImageCount()}`;
+            document
+              .querySelector("#imgAvailableContainer")
+              .classList.remove("hidden");
+            document.querySelector(
+              "#imgTotal"
+            ).textContent = `Total Images: ${getImageCount()}`;
           } else {
-            document.querySelector("#imgAvailableContainer").classList.add("hidden");
+            document
+              .querySelector("#imgAvailableContainer")
+              .classList.add("hidden");
             document.querySelector("#noImages").classList.remove("hidden");
-          } 
+          }
         }
       },
       [imageCount]
@@ -185,10 +193,16 @@
     meact.useEffect(
       function () {
         if (getSigningIn()) {
-          document.querySelector("#notSigningInContainer").classList.add("hidden");
-          document.querySelector("#signFormContainer").classList.remove("hidden");
+          document
+            .querySelector("#notSigningInContainer")
+            .classList.add("hidden");
+          document
+            .querySelector("#signFormContainer")
+            .classList.remove("hidden");
         } else {
-          document.querySelector("#notSigningInContainer").classList.remove("hidden");
+          document
+            .querySelector("#notSigningInContainer")
+            .classList.remove("hidden");
           document.querySelector("#signFormContainer").classList.add("hidden");
         }
       },
@@ -339,31 +353,38 @@
         setCommentsPage(currPage + 1);
       });
 
-    document.querySelector("#closeErrorBtn").addEventListener("click", function (e) {
-      setError(null);
-    });
+    document
+      .querySelector("#closeErrorBtn")
+      .addEventListener("click", function (e) {
+        setError(null);
+      });
 
-    document.querySelector("#signinButton").addEventListener("click", function (e) {
-      setSigningIn(true);
-    });
+    document
+      .querySelector("#signinButton")
+      .addEventListener("click", function (e) {
+        setSigningIn(true);
+      });
 
-    document.querySelector("#signoutButton").addEventListener("click", function (e) {
-      apiService
-        .signout()
-        .then(() => {
-          setSignedIn(false);
-          setSigningIn(false);
-          setLoadingState
-          apiService.getGallery()
-            .then((gallery) => {
-              if (gallery) setGallery(gallery);
-            })
-            .catch(setError)
-            .finally(() => setLoadingState(false));
-        })
-        .catch(setError);
-    });    
-    
+    document
+      .querySelector("#signoutButton")
+      .addEventListener("click", function (e) {
+        apiService
+          .signout()
+          .then(() => {
+            setSignedIn(false);
+            setSigningIn(false);
+            setLoadingState;
+            apiService
+              .getGallery()
+              .then((gallery) => {
+                if (gallery) setGallery(gallery);
+              })
+              .catch(setError)
+              .finally(() => setLoadingState(false));
+          })
+          .catch(setError);
+      });
+
     document.querySelector("#signin").addEventListener("click", function (e) {
       document.querySelector("form [name=action]").value = "signin";
       submit();
