@@ -22,6 +22,7 @@ imagesRouter.delete("/:id", isAuthenticated, async (req, res, next) => {
     if (token.UserId !== gallery.UserId) {
       return res.status(403).json({ error: "Forbidden." });
     }
+    await Comment.destroy({ where: { ImageId: image.id } });
     await image.destroy();
     return res.json(image);
   } catch (e) {
