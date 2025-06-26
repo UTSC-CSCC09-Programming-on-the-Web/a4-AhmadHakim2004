@@ -40,7 +40,7 @@ galleriesRouter.get("/", async (req, res, next) => {
         order: [["createdAt", "DESC"]],
       });
 
-      return res.json({ id: gallery.id, username: gallery.username });
+      return res.json( gallery ? { id: gallery.id, username: gallery.username } : null);
     }
 
     const where =
