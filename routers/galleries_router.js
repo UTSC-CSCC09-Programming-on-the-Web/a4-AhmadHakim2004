@@ -32,7 +32,7 @@ galleriesRouter.get("/", async (req, res, next) => {
   try {
     if (!cursor) {
       const token = await extractTokenFromReq(req);
-      const where = token ? { UserId: token.UserId } : {};
+      const where = token ? { id: token.UserId } : {};
 
       const gallery = await User.findOne({
         limit: 1,
@@ -168,7 +168,7 @@ galleriesRouter.get("/:id/count", async (req, res, next) => {
   }
 
   try {
-    const count = await Image.count({ UserId: req.params.id });
+    const count = await Image.count({ where: { UserId: req.params.id } });
     return res.json({ total: count });
   } catch (e) {
     return res.status(400).json({ error: "Canot get total count of images" });

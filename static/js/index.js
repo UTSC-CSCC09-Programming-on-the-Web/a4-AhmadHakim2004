@@ -324,6 +324,38 @@
       document.querySelector("#addImgPopup").reset();
     });
 
+        document
+      .querySelector("#prevGalleryBtn")
+      .addEventListener("click", function (e) {
+        // prevent from refreshing the page on submit
+        e.preventDefault();
+        if (!getGallery()) return;
+        setLoadingState(true);
+        apiService
+          .getGallery(getGallery().id, "prev")
+          .then((gallery) => {
+            if (gallery) setGallery(gallery);
+          })
+          .catch(setError)
+          .finally(() => setLoadingState(false));
+      });
+
+    document
+      .querySelector("#nextGalleryBtn")
+      .addEventListener("click", function (e) {
+        // prevent from refreshing the page on submit
+        e.preventDefault();
+        if (!getGallery()) return;
+        setLoadingState(true);
+        apiService
+          .getGallery(getGallery().id, "next")
+          .then((gallery) => {
+            if (gallery) setGallery(gallery);
+          })
+          .catch(setError)
+          .finally(() => setLoadingState(false));
+      });
+
     document
       .querySelector("#prevImgBtn")
       .addEventListener("click", function (e) {

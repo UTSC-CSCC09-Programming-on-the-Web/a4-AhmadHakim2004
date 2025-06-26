@@ -28,7 +28,10 @@ let apiService = (function () {
       ? `/api/galleries/?cursorId=${cursor}${directionQuery}`
       : "/api/galleries";
 
-    return fetch(query, { method: "GET" }).then(handleResponse);
+    return fetch(query, { 
+      method: "GET",
+      headers: addTokenToHeaders({}) 
+    }).then(handleResponse);
   };
 
   // add an image to the gallery
