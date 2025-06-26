@@ -5,6 +5,7 @@
   const [gallery, getGallery, setGallery] = meact.useState(null);
   const [image, getImage, setImage] = meact.useState(null);
   const [imageCount, getImageCount, setImageCount] = meact.useState(null);
+  const [comments, getComments, setComments] = meact.useState(null);
   const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
   const [signingIn, getSigningIn, setSigningIn] = meact.useState(null);
   const [loadingState, getLoadingState, setLoadingState] = meact.useState(null);
@@ -137,6 +138,7 @@
           apiService
             .getImageCount(getGallery().id)
             .then((count) => setImageCount(count.total))
+            .then(() => setComments(null))
             .catch(setError)
             .finally(() => setLoadingState(false));
         }
@@ -179,8 +181,6 @@
                 setCommentsPage(getCommentsPage() - 1);
                 return;
               }
-              document.querySelector("#comments").innerHTML = "";
-              data.comments.reverse().forEach(renderComment);
               getCommentsPage() === 1
                 ? document
                     .querySelector("#prevCommentsBtn")
@@ -196,12 +196,24 @@
                 : document
                     .querySelector("#nextCommentsBtn")
                     .classList.remove("hidden");
+
+              setComments(data.comments);
             })
             .catch(setError)
             .finally(() => setLoadingState(false));
         }
       },
       [commentsPage]
+    );
+
+    meact.useEffect(
+      function () {
+        document.querySelector("#comments").innerHTML = "";
+        if (getComments()) {
+          getComments().reverse().forEach(renderComment);
+        }
+      },
+      [comments]
     );
 
     meact.useEffect(
