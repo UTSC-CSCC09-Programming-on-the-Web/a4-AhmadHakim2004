@@ -14,9 +14,10 @@ let apiService = (function () {
   function handleResponse(res) {
     return res.json().then((data) => {
       if (!res.ok) {
-        const err = new Error(data.error || "Unknown error");
-        err.status = res.status;
-        throw err;
+        throw {
+          message: data.error || "Unknown error",
+          status: res.status,
+        };
       }
       return data;
     });

@@ -317,9 +317,13 @@
       function () {
         const banner = document.getElementById("errorBanner");
         const message = document.getElementById("errorMessage");
-        if (getError()) {
-          message.textContent = "Something went wrong: " + getError().message;
+        const err = getError();
+        if (err) {
+          message.textContent = "Something went wrong: " + err.message;
           banner.classList.remove("hidden");
+          if (err.status === 401) {
+            setUser(null);
+          }
         } else {
           banner.classList.add("hidden");
           message.textContent = "";
