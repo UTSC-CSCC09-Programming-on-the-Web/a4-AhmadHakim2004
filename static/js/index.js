@@ -3,13 +3,13 @@
 
   const [user, getUser, setUser] = meact.useState(null);
   const [gallery, getGallery, setGallery] = meact.useState(null);
-  const [image, getImage, setImage] = meact.useState(null);
   const [imageCount, getImageCount, setImageCount] = meact.useState(null);
-  const [comments, getComments, setComments] = meact.useState(null);
-  const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
-  const [signingIn, getSigningIn, setSigningIn] = meact.useState(false);
   const [onUserGallery, getOnUserGallery, setOnUserGallery] =
     meact.useState(null);
+  const [image, getImage, setImage] = meact.useState(null);
+  const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
+  const [comments, getComments, setComments] = meact.useState(null);
+  const [signingIn, getSigningIn, setSigningIn] = meact.useState(false);
   const [imgPopupOpen, getImgPopupOpen, setImgPopupOpen] =
     meact.useState(false);
   const [loadingState, getLoadingState, setLoadingState] = meact.useState(null);
@@ -109,6 +109,30 @@
 
     meact.useEffect(
       function () {
+        if (getUser()) {
+          document.querySelector("#signinButton").classList.add("hidden");
+          document.querySelector("#signoutButton").classList.remove("hidden");
+          document
+            .querySelector("#signedInContainer")
+            .classList.remove("hidden");
+        } else {
+          document.querySelector("#signinButton").classList.remove("hidden");
+          document.querySelector("#signoutButton").classList.add("hidden");
+          document.querySelector("#signedInContainer").classList.add("hidden");
+        }
+
+        setLoadingState(true);
+        apiService
+          .getGallery()
+          .then(setGallery)
+          .catch(setError)
+          .finally(() => setLoadingState(false));
+      },
+      [user]
+    );
+
+    meact.useEffect(
+      function () {
         const gallery = getGallery();
         if (gallery) {
           document
@@ -131,23 +155,6 @@
         }
       },
       [gallery]
-    );
-
-    meact.useEffect(
-      function () {
-        const image = getImage();
-        if (image) {
-          document.querySelector("#imgTitle").textContent = image.title;
-          document.querySelector("#imgContainer").innerHTML = `
-            <img 
-              id='${image.id}' 
-              class='img' 
-              src='/api/images/${image.id}/picture/' 
-            />`;
-          if (getUser()) setCommentsPage(1);
-        }
-      },
-      [image]
     );
 
     meact.useEffect(
@@ -178,6 +185,33 @@
         }
       },
       [imageCount]
+    );
+
+    meact.useEffect(
+      function () {
+        const imgDeleteBtn = document.querySelector("#deleteImgBtn");
+        getOnUserGallery()
+          ? imgDeleteBtn.classList.remove("hidden")
+          : imgDeleteBtn.classList.add("hidden");
+      },
+      [onUserGallery]
+    );
+
+    meact.useEffect(
+      function () {
+        const image = getImage();
+        if (image) {
+          document.querySelector("#imgTitle").textContent = image.title;
+          document.querySelector("#imgContainer").innerHTML = `
+            <img 
+              id='${image.id}' 
+              class='img' 
+              src='/api/images/${image.id}/picture/' 
+            />`;
+          if (getUser()) setCommentsPage(1);
+        }
+      },
+      [image]
     );
 
     meact.useEffect(
@@ -230,30 +264,6 @@
 
     meact.useEffect(
       function () {
-        if (getUser()) {
-          document.querySelector("#signinButton").classList.add("hidden");
-          document.querySelector("#signoutButton").classList.remove("hidden");
-          document
-            .querySelector("#signedInContainer")
-            .classList.remove("hidden");
-        } else {
-          document.querySelector("#signinButton").classList.remove("hidden");
-          document.querySelector("#signoutButton").classList.add("hidden");
-          document.querySelector("#signedInContainer").classList.add("hidden");
-        }
-
-        setLoadingState(true);
-        apiService
-          .getGallery()
-          .then(setGallery)
-          .catch(setError)
-          .finally(() => setLoadingState(false));
-      },
-      [user]
-    );
-
-    meact.useEffect(
-      function () {
         if (getSigningIn()) {
           document
             .querySelector("#notSigningInContainer")
@@ -288,16 +298,6 @@
         }
       },
       [imgPopupOpen]
-    );
-
-    meact.useEffect(
-      function () {
-        const imgDeleteBtn = document.querySelector("#deleteImgBtn");
-        getOnUserGallery()
-          ? imgDeleteBtn.classList.remove("hidden")
-          : imgDeleteBtn.classList.add("hidden");
-      },
-      [onUserGallery]
     );
 
     meact.useEffect(
