@@ -126,6 +126,8 @@
           document.querySelector(
             "#galleryAuthor"
           ).textContent = `By ${gallery.username}`;
+
+          setOnUserGallery(gallery.id === getUser()?.id);
         } else {
           document.querySelector("#galleriesAvailable").classList.add("hidden");
           document.querySelector("#noGalleries").classList.remove("hidden");
@@ -296,8 +298,15 @@
       [imgPopupOpen]
     );
 
-    const [onUserGallery, getOnUserGallery, setOnUserGallery] =
-      meact.useState(null);
+    meact.useEffect(
+      function () {
+        const imgDeleteBtn = document.querySelector("#deleteImgBtn");
+        getOnUserGallery()
+          ? imgDeleteBtn.classList.remove("hidden")
+          : imgDeleteBtn.classList.add("hidden");
+      },
+      [onUserGallery]
+    );
 
     meact.useEffect(
       function () {
