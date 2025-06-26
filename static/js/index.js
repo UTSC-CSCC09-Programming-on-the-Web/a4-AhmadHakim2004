@@ -421,8 +421,8 @@
         setLoadingState(true);
         apiService
           .deleteImage(imgId)
-          .then(() => apiService.getImage(getGallery().id))
-          .then(setImage)
+          .then(() => apiService.getImageCount(getGallery().id))
+          .then((data) => setImageCount(data.total))
           .catch(setError)
           .finally(() => setLoadingState(false));
       });
