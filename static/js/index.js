@@ -8,6 +8,8 @@
   const [comments, getComments, setComments] = meact.useState(null);
   const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
   const [signingIn, getSigningIn, setSigningIn] = meact.useState(null);
+  const [onUserGallery, getOnUserGallery, setOnUserGallery] = meact.useState(null);
+  const [imgPopupOpen, getImgPopupOpen, setImgPopupOpen] = meact.useState(null);
   const [loadingState, getLoadingState, setLoadingState] = meact.useState(null);
   const [error, getError, setError] = meact.useState(null);
 
