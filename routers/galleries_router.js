@@ -11,7 +11,7 @@ import { User } from "../models/users.js";
 const upload = multer({ dest: "uploads/" });
 export const galleriesRouter = Router();
 
-galleriesRouter.get("/", async (req, res, next) => {
+galleriesRouter.get("/", async (req, res) => {
   const cursor = req.query.cursorId;
   const direction = req.query.direction;
 
@@ -61,7 +61,7 @@ galleriesRouter.get("/", async (req, res, next) => {
     return res.json(
       gallery ? { id: gallery.id, username: gallery.username } : null
     );
-  } catch (e) {
+  } catch {
     return res.status(400).json({ error: "Cannot get gallery" });
   }
 });
@@ -70,7 +70,7 @@ galleriesRouter.post(
   "/:id/images",
   isAuthenticated,
   upload.single("picture"),
-  async function (req, res, next) {
+  async function (req, res) {
     const schema = [
       { name: "title", required: true, type: "string", location: "body" },
       { name: "picture", required: true, type: "file", location: "file" },
@@ -96,13 +96,13 @@ galleriesRouter.post(
         UserId: req.params.id,
       });
       return res.json(image);
-    } catch (e) {
+    } catch {
       return res.status(400).json({ error: "Cannot post image" });
     }
   }
 );
 
-galleriesRouter.get("/:id/images", async (req, res, next) => {
+galleriesRouter.get("/:id/images", async (req, res) => {
   const cursor = req.query.cursorId;
   const direction = req.query.direction;
 
@@ -151,12 +151,12 @@ galleriesRouter.get("/:id/images", async (req, res, next) => {
     });
 
     return res.json(image);
-  } catch (e) {
+  } catch {
     return res.status(400).json({ error: "Cannot get image" });
   }
 });
 
-galleriesRouter.get("/:id/count", async (req, res, next) => {
+galleriesRouter.get("/:id/count", async (req, res) => {
   let user = await User.findOne({ where: { id: req.params.id } });
 
   if (!user) {
@@ -166,7 +166,7 @@ galleriesRouter.get("/:id/count", async (req, res, next) => {
   try {
     const count = await Image.count({ where: { UserId: req.params.id } });
     return res.json({ total: count });
-  } catch (e) {
+  } catch {
     return res.status(400).json({ error: "Canot get total count of images" });
   }
 });

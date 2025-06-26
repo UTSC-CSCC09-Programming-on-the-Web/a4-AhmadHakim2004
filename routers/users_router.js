@@ -81,7 +81,7 @@ usersRouter.post("/signin", async (req, res) => {
   });
 });
 
-usersRouter.get("/signout", isAuthenticated, async function (req, res, next) {
+usersRouter.get("/signout", isAuthenticated, async function (req, res) {
   try {
     const token = await extractTokenFromReq(req);
     await token.destroy();

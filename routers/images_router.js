@@ -9,7 +9,7 @@ import { extractTokenFromReq } from "../utils/token-helpers.js";
 
 export const imagesRouter = Router();
 
-imagesRouter.delete("/:id", isAuthenticated, async (req, res, next) => {
+imagesRouter.delete("/:id", isAuthenticated, async (req, res) => {
   try {
     const image = await Image.findByPk(req.params.id);
     if (!image) {
@@ -25,12 +25,12 @@ imagesRouter.delete("/:id", isAuthenticated, async (req, res, next) => {
     await Comment.destroy({ where: { ImageId: image.id } });
     await image.destroy();
     return res.json(image);
-  } catch (e) {
+  } catch {
     return res.status(400).json({ error: "Cannot delete image" });
   }
 });
 
-imagesRouter.post("/:id/comments", isAuthenticated, async (req, res, next) => {
+imagesRouter.post("/:id/comments", isAuthenticated, async (req, res) => {
   const schema = [
     { name: "content", required: true, type: "string", location: "body" },
   ];
@@ -58,7 +58,7 @@ imagesRouter.post("/:id/comments", isAuthenticated, async (req, res, next) => {
   }
 });
 
-imagesRouter.get("/:id/comments", isAuthenticated, async (req, res, next) => {
+imagesRouter.get("/:id/comments", isAuthenticated, async (req, res) => {
   const page = req.query.page ? parseInt(req.query.page) : 1;
   const limit = req.query.limit ? parseInt(req.query.limit) : 10;
 

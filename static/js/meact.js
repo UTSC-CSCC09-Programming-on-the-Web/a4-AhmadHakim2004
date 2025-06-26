@@ -7,6 +7,7 @@
  * - `useState`: Allows you to add state to your components.
  * - `useEffect`: Allows you to perform side effects based on state dependencies.
  */
+// eslint-disable-next-line no-unused-vars
 const meact = (function () {
   "use strict";
   const module = {};

@@ -4,7 +4,7 @@ import { extractTokenFromReq } from "../utils/token-helpers.js";
 
 export const commentsRouter = Router();
 
-commentsRouter.delete("/:id", async (req, res, next) => {
+commentsRouter.delete("/:id", async (req, res) => {
   try {
     const comment = await Comment.findByPk(req.params.id);
     if (!comment) {
@@ -23,7 +23,7 @@ commentsRouter.delete("/:id", async (req, res, next) => {
 
     await comment.destroy();
     return res.json(comment);
-  } catch (e) {
+  } catch {
     return res.status(400).json({ error: "Cannot delete comment" });
   }
 });

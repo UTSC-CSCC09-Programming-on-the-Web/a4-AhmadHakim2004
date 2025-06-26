@@ -1,3 +1,5 @@
+/* global meact, apiService */
+
 (function () {
   "use strict";
 
@@ -332,7 +334,7 @@
       [error]
     );
 
-    document.querySelector("#popupBtn").addEventListener("click", function (e) {
+    document.querySelector("#popupBtn").addEventListener("click", function () {
       setImgPopupOpen(!getImgPopupOpen());
     });
 
@@ -472,19 +474,19 @@
 
     document
       .querySelector("#closeErrorBtn")
-      .addEventListener("click", function (e) {
+      .addEventListener("click", function () {
         setError(null);
       });
 
     document
       .querySelector("#signinButton")
-      .addEventListener("click", function (e) {
+      .addEventListener("click", function () {
         setSigningIn(true);
       });
 
     document
       .querySelector("#signoutButton")
-      .addEventListener("click", function (e) {
+      .addEventListener("click", function () {
         setLoadingState(true);
         apiService
           .signout()
@@ -505,7 +507,7 @@
       submit();
     });
 
-    document.querySelector("#backBtn").addEventListener("click", function (e) {
+    document.querySelector("#backBtn").addEventListener("click", function () {
       setSigningIn(false);
     });
   });
