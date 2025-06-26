@@ -8,8 +8,10 @@
   const [comments, getComments, setComments] = meact.useState(null);
   const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
   const [signingIn, getSigningIn, setSigningIn] = meact.useState(null);
-  const [onUserGallery, getOnUserGallery, setOnUserGallery] = meact.useState(null);
-  const [imgPopupOpen, getImgPopupOpen, setImgPopupOpen] = meact.useState(null);
+  const [onUserGallery, getOnUserGallery, setOnUserGallery] =
+    meact.useState(null);
+  const [imgPopupOpen, getImgPopupOpen, setImgPopupOpen] =
+    meact.useState(false);
   const [loadingState, getLoadingState, setLoadingState] = meact.useState(null);
   const [error, getError, setError] = meact.useState(null);
 
@@ -66,7 +68,8 @@
       minute: "2-digit",
       hour12: true,
     });
-    const showDeleteBtn = comment.User.id === getUser()?.id || getGallery()?.id === getUser()?.id;
+    const showDeleteBtn =
+      comment.User.id === getUser()?.id || getGallery()?.id === getUser()?.id;
     const invisible = showDeleteBtn ? "" : "invisible";
     elmt.innerHTML = `
           <div class="col-auto">
@@ -79,7 +82,7 @@
     document.querySelector("#comments").prepend(elmt);
 
     if (!showDeleteBtn) return;
-    
+
     elmt.querySelector(".delete-icon").addEventListener("click", function () {
       setLoadingState(true);
       apiService
