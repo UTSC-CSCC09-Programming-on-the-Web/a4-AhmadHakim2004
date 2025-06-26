@@ -100,5 +100,5 @@ usersRouter.get("/me", isAuthenticated, async (req, res) => {
     return res.status(404).json({ error: "User not found." });
   }
 
-  return res.json({ username: user.username });
+  return res.json({ id: user.id, username: user.username });
 });

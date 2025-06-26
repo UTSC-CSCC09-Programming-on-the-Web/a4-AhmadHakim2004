@@ -40,7 +40,7 @@ galleriesRouter.get("/", async (req, res, next) => {
         order: [["createdAt", "DESC"]],
       });
 
-      return res.json(gallery);
+      return res.json({ id: gallery.id, username: gallery.username });
     }
 
     const where =
@@ -128,10 +128,6 @@ galleriesRouter.get("/:id/images", async (req, res, next) => {
         limit: 1,
         order: [["createdAt", "DESC"]],
         where: { UserId: req.params.id },
-        include: {
-          model: User,
-          attributes: ["username"],
-        },
       });
 
       return res.json(image);
@@ -148,10 +144,6 @@ galleriesRouter.get("/:id/images", async (req, res, next) => {
       limit: 1,
       where,
       order,
-      include: {
-        model: User,
-        attributes: ["username"],
-      },
     });
 
     return res.json(image);

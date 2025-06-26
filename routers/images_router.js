@@ -89,7 +89,7 @@ imagesRouter.get("/:id/comments", isAuthenticated, async (req, res, next) => {
       include: [
         {
           model: User,
-          attributes: ["username"],
+          attributes: ["id", "username"],
         },
       ],
     });
