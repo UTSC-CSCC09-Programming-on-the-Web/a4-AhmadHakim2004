@@ -56,7 +56,7 @@ galleriesRouter.get("/", async (req, res, next) => {
       order,
     });
 
-    return res.json(gallery);
+    return res.json({ id: gallery.id, username: gallery.username });
   } catch (e) {
     return res.status(400).json({ error: "Cannot get gallery" });
   }
