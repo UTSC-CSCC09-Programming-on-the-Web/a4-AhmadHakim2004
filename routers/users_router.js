@@ -84,7 +84,7 @@ usersRouter.post("/signin", async (req, res) => {
 usersRouter.get("/signout", isAuthenticated, async function (req, res, next) {
   try {
     const token = await extractTokenFromReq(req);
-    await Token.destroy({ where: { token } });
+    await token.destroy();
   } catch (err) {
     console.log(err);
     return res.status(422).json({ error: "Couldn't sign out." });
