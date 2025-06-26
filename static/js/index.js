@@ -1,12 +1,12 @@
 (function () {
   "use strict";
 
+  const [user, getUser, setUser] = meact.useState(null);
   const [gallery, getGallery, setGallery] = meact.useState(null);
   const [image, getImage, setImage] = meact.useState(null);
   const [imageCount, getImageCount, setImageCount] = meact.useState(null);
   const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
   const [signingIn, getSigningIn, setSigningIn] = meact.useState(null);
-  const [signedIn, getSignedIn, setSignedIn] = meact.useState(null);
   const [loadingState, getLoadingState, setLoadingState] = meact.useState(null);
   const [error, getError, setError] = meact.useState(null);
 
@@ -23,16 +23,25 @@
       apiService[action](username, password)
         .then(function (res) {
           if (res.error) {
-            setSignedIn(false);
-            setError(res.error);
+            setUser(null);
+            setError(res);
             return;
           }
           sessionStorage.setItem("token", res.access_token);
-          setSignedIn(true);
+
+          apiService.me()
+            .then(setUser)
+            .catch((err)=> {
+              if (err.status === 401) {
+                setUser(null);
+              } else {
+                setError(err);
+              }
+            });
           setSigningIn(false);
         })
         .catch((er) => {
-          setSignedIn(false);
+          setUser(null);
           setError(er);
         })
         .finally(() => setLoadingState(false));
@@ -73,6 +82,18 @@
   window.addEventListener("load", function () {
     setSigningIn(false);
 
+    setLoadingState(true);
+    apiService.me()
+      .then(setUser)
+      .catch((err)=> {
+        if (err.status === 401) {
+          setUser(null);
+        } else {
+          setError(err);
+        }
+      })
+      .finally(() => setLoadingState(false));
+
     meact.useEffect(
       function () {
         const gallery = getGallery();
@@ -109,7 +130,7 @@
               class='img' 
               src='/api/images/${image.id}/picture/' 
             />`;
-            if (getSignedIn()) setCommentsPage(1);
+            if (getUser()) setCommentsPage(1);
         }
         if (getGallery()) {
           setLoadingState(false);
@@ -185,7 +206,7 @@
 
     meact.useEffect(
       function () {
-        if (getSignedIn()) {
+        if (getUser()) {
           document.querySelector("#signinButton").classList.add("hidden");
           document.querySelector("#signoutButton").classList.remove("hidden");
           document
@@ -197,7 +218,7 @@
           document.querySelector("#signedInContainer").classList.add("hidden");
         }
       },
-      [signedIn]
+      [user]
     );
 
     meact.useEffect(
@@ -395,9 +416,9 @@
         apiService
           .signout()
           .then(() => {
-            setSignedIn(false);
+            setUser(null);
             setSigningIn(false);
-            setLoadingState;
+            setLoadingState(true);
             apiService
               .getGallery()
               .then((gallery) => {

@@ -15,6 +15,7 @@ let apiService = (function () {
     return res.json().then((data) => {
       if (!res.ok) {
         const err = new Error(data.error || "Unknown error");
+        err.status = res.status;
         throw err;
       }
       return data;
@@ -111,6 +112,13 @@ let apiService = (function () {
       headers: addTokenToHeaders({ "Content-Type": "application/json" }),
     }).then(handleResponse);
   };
+
+  module.me = function () {
+    return fetch("/api/users/me", {
+      method: "GET",
+      headers: addTokenToHeaders({ "Content-Type": "application/json" }),
+    }).then(handleResponse);
+  }
 
   return module;
 })();
