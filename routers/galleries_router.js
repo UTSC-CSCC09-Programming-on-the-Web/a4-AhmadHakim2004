@@ -81,7 +81,7 @@ galleriesRouter.post(
     }
 
     const token = await extractTokenFromReq(req);
-    if (token.UserId !== user.UserId) {
+    if (token.UserId !== user.id) {
       return res.status(403).json({ error: "Forbidden" });
     }
 
