@@ -31,7 +31,6 @@
       apiService[action](username, password)
         .then(function (res) {
           if (res.error) {
-            setUser(null);
             setError(res);
             return;
           }
@@ -50,7 +49,6 @@
           setSigningIn(false);
         })
         .catch((er) => {
-          setUser(null);
           setError(er);
         })
         .finally(() => setLoadingState(false));
@@ -218,7 +216,7 @@
 
     meact.useEffect(
       function () {
-        const img = document.querySelector("#imgContainer img");
+        const img = getImage()
         if (img) {
           const imgId = img.id;
           setLoadingState(true);
@@ -419,7 +417,7 @@
       .addEventListener("click", function (e) {
         // prevent from refreshing the page on submit
         e.preventDefault();
-        const imgId = document.querySelector("#imgContainer img").id;
+        const imgId = getImage().id;
         setLoadingState(true);
         apiService
           .deleteImage(imgId)
@@ -435,7 +433,7 @@
         e.preventDefault();
         // read form elements
         const content = document.querySelector("#commentContent").value;
-        const imgId = document.querySelector("#imgContainer img").id;
+        const imgId = getImage().id;
 
         // clean form
         document.querySelector("#commentForm").reset();
@@ -483,21 +481,12 @@
     document
       .querySelector("#signoutButton")
       .addEventListener("click", function (e) {
+        setLoadingState(true);
         apiService
           .signout()
-          .then(() => {
-            setUser(null);
-            setSigningIn(false);
-            setLoadingState(true);
-            apiService
-              .getGallery()
-              .then((gallery) => {
-                if (gallery) setGallery(gallery);
-              })
-              .catch(setError)
-              .finally(() => setLoadingState(false));
-          })
-          .catch(setError);
+          .then(setUser(null))
+          .catch(setError)
+          .finally(setLoadingState(false));
       });
 
     document.querySelector("#signin").addEventListener("click", function (e) {
