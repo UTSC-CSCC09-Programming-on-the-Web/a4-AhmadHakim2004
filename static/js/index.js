@@ -7,7 +7,7 @@
   const [imageCount, getImageCount, setImageCount] = meact.useState(null);
   const [comments, getComments, setComments] = meact.useState(null);
   const [commentsPage, getCommentsPage, setCommentsPage] = meact.useState(null);
-  const [signingIn, getSigningIn, setSigningIn] = meact.useState(null);
+  const [signingIn, getSigningIn, setSigningIn] = meact.useState(false);
   const [onUserGallery, getOnUserGallery, setOnUserGallery] =
     meact.useState(null);
   const [imgPopupOpen, getImgPopupOpen, setImgPopupOpen] =
@@ -94,8 +94,6 @@
   }
 
   window.addEventListener("load", function () {
-    setSigningIn(false);
-
     setLoadingState(true);
     apiService
       .me()
@@ -113,12 +111,6 @@
       function () {
         const gallery = getGallery();
         if (gallery) {
-          setLoadingState(true);
-          apiService
-            .getImage(gallery.id)
-            .then(setImage)
-            .catch(setError)
-            .finally(() => setLoadingState(false));
           document
             .querySelector("#galleriesAvailable")
             .classList.remove("hidden");
@@ -127,7 +119,12 @@
             "#galleryAuthor"
           ).textContent = `By ${gallery.username}`;
 
-          setOnUserGallery(gallery.id === getUser()?.id);
+          setLoadingState(true);
+          apiService
+            .getImageCount(gallery.id)
+            .then((data) => setImageCount(data.total))
+            .catch(setError)
+            .finally(() => setLoadingState(false));
         } else {
           document.querySelector("#galleriesAvailable").classList.add("hidden");
           document.querySelector("#noGalleries").classList.remove("hidden");
@@ -149,36 +146,35 @@
             />`;
           if (getUser()) setCommentsPage(1);
         }
-        if (getGallery()) {
-          setLoadingState(false);
-          apiService
-            .getImageCount(getGallery().id)
-            .then((count) => setImageCount(count.total))
-            .then(() => setComments(null))
-            .catch(setError)
-            .finally(() => setLoadingState(false));
-        }
       },
       [image]
     );
 
     meact.useEffect(
       function () {
-        if (getImageCount() !== null) {
-          if (getImageCount() > 0) {
-            document.querySelector("#noImages").classList.add("hidden");
-            document
-              .querySelector("#imgAvailableContainer")
-              .classList.remove("hidden");
-            document.querySelector(
-              "#imgTotal"
-            ).textContent = `Total Images: ${getImageCount()}`;
-          } else {
-            document
-              .querySelector("#imgAvailableContainer")
-              .classList.add("hidden");
-            document.querySelector("#noImages").classList.remove("hidden");
-          }
+        if (getImageCount() !== null && getImageCount() > 0) {
+          document.querySelector("#noImages").classList.add("hidden");
+          document
+            .querySelector("#imgAvailableContainer")
+            .classList.remove("hidden");
+          document.querySelector(
+            "#imgTotal"
+          ).textContent = `Total Images: ${getImageCount()}`;
+
+          const gallery = getGallery();
+          setOnUserGallery(getUser() && gallery && getUser().id == gallery.id);
+
+          setLoadingState(true);
+          apiService
+            .getImage(gallery.id)
+            .then(setImage)
+            .catch(setError)
+            .finally(() => setLoadingState(false));
+        } else {
+          document
+            .querySelector("#imgAvailableContainer")
+            .classList.add("hidden");
+          document.querySelector("#noImages").classList.remove("hidden");
         }
       },
       [imageCount]
@@ -245,6 +241,13 @@
           document.querySelector("#signoutButton").classList.add("hidden");
           document.querySelector("#signedInContainer").classList.add("hidden");
         }
+
+        setLoadingState(true);
+        apiService
+          .getGallery()
+          .then(setGallery)
+          .catch(setError)
+          .finally(() => setLoadingState(false));
       },
       [user]
     );
@@ -263,17 +266,6 @@
             .querySelector("#notSigningInContainer")
             .classList.remove("hidden");
           document.querySelector("#signFormContainer").classList.add("hidden");
-
-          setLoadingState(true);
-          apiService
-            .getGallery()
-            .then((gallery) => {
-              if (gallery) setGallery(gallery);
-            })
-            .catch((er) => {
-              setError(er);
-            })
-            .finally(() => setLoadingState(false));
         }
       },
       [signingIn]
