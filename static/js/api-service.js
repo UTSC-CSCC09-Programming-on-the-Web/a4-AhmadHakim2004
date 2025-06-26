@@ -28,9 +28,9 @@ let apiService = (function () {
       ? `/api/galleries/?cursorId=${cursor}${directionQuery}`
       : "/api/galleries";
 
-    return fetch(query, { 
+    return fetch(query, {
       method: "GET",
-      headers: addTokenToHeaders({}) 
+      headers: addTokenToHeaders({}),
     }).then(handleResponse);
   };
 
@@ -121,7 +121,7 @@ let apiService = (function () {
       method: "GET",
       headers: addTokenToHeaders({ "Content-Type": "application/json" }),
     }).then(handleResponse);
-  }
+  };
 
   return module;
 })();

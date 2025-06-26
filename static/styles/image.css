@@ -53,12 +53,14 @@
   margin: 8px;
 }
 
-.img-btn-container, .gallery-btn-container {
+.img-btn-container,
+.gallery-btn-container {
   display: flex;
   justify-content: center;
 }
 
-.btn-img-action, .btn-gallery-action {
+.btn-img-action,
+.btn-gallery-action {
   width: 40%;
   aspect-ratio: 1;
   border: none;
@@ -67,7 +69,8 @@
   color: aliceblue;
 }
 
-.previous-img, .previous-gallery {
+.previous-img,
+.previous-gallery {
   background-image: url("../media/back-arrow.png");
 }
 
@@ -75,6 +78,7 @@
   background-image: url("../media/bin.png");
 }
 
-.next-img, .next-gallery {
+.next-img,
+.next-gallery {
   background-image: url("../media/right-arrow.png");
 }

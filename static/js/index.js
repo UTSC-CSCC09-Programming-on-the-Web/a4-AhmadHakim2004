@@ -32,9 +32,10 @@
           }
           sessionStorage.setItem("token", res.access_token);
 
-          apiService.me()
+          apiService
+            .me()
             .then(setUser)
-            .catch((err)=> {
+            .catch((err) => {
               if (err.status === 401) {
                 setUser(null);
               } else {
@@ -86,9 +87,10 @@
     setSigningIn(false);
 
     setLoadingState(true);
-    apiService.me()
+    apiService
+      .me()
       .then(setUser)
-      .catch((err)=> {
+      .catch((err) => {
         if (err.status === 401) {
           setUser(null);
         } else {
@@ -133,7 +135,7 @@
               class='img' 
               src='/api/images/${image.id}/picture/' 
             />`;
-            if (getUser()) setCommentsPage(1);
+          if (getUser()) setCommentsPage(1);
         }
         if (getGallery()) {
           setLoadingState(false);
@@ -256,10 +258,9 @@
             .then((gallery) => {
               if (gallery) setGallery(gallery);
             })
-            .catch((er) =>
-              {
-                setError(er)
-        })
+            .catch((er) => {
+              setError(er);
+            })
             .finally(() => setLoadingState(false));
         }
       },
@@ -326,7 +327,7 @@
       document.querySelector("#addImgPopup").reset();
     });
 
-        document
+    document
       .querySelector("#prevGalleryBtn")
       .addEventListener("click", function (e) {
         // prevent from refreshing the page on submit

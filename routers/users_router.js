@@ -32,7 +32,7 @@ usersRouter.post("/signup", upload.single("picture"), async (req, res) => {
     const token = Token.build({
       token: access_token,
       expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      UserId: user.id
+      UserId: user.id,
     });
     await token.save();
   } catch (err) {

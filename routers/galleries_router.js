@@ -37,7 +37,7 @@ galleriesRouter.get("/", async (req, res, next) => {
       const gallery = await User.findOne({
         limit: 1,
         where,
-        order: [["createdAt", "DESC"]]
+        order: [["createdAt", "DESC"]],
       });
 
       return res.json(gallery);
@@ -53,7 +53,7 @@ galleriesRouter.get("/", async (req, res, next) => {
     const gallery = await User.findOne({
       limit: 1,
       where,
-      order
+      order,
     });
 
     return res.json(gallery);
@@ -130,7 +130,7 @@ galleriesRouter.get("/:id/images", async (req, res, next) => {
         where: { UserId: req.params.id },
         include: {
           model: User,
-          attributes: ["username"]
+          attributes: ["username"],
         },
       });
 
@@ -150,7 +150,7 @@ galleriesRouter.get("/:id/images", async (req, res, next) => {
       order,
       include: {
         model: User,
-        attributes: ["username"]
+        attributes: ["username"],
       },
     });
 

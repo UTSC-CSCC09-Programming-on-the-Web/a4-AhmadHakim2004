@@ -10,7 +10,7 @@ export const Token = sequelize.define("Token", {
   expiresAt: {
     type: DataTypes.DATE,
     allowNull: false,
-  }
+  },
 });
 
 Token.belongsTo(User);
