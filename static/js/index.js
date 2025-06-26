@@ -216,7 +216,7 @@
 
     meact.useEffect(
       function () {
-        const img = getImage()
+        const img = getImage();
         if (img) {
           const imgId = img.id;
           setLoadingState(true);
