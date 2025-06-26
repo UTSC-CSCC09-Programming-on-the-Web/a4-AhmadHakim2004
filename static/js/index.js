@@ -20,6 +20,8 @@
         "#signForm [name=password]"
       ).value;
       const action = document.querySelector("#signForm [name=action]").value;
+
+      document.querySelector("#signForm").reset();
       setLoadingState(true);
       apiService[action](username, password)
         .then(function (res) {
