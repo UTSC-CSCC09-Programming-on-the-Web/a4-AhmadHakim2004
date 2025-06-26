@@ -316,11 +316,9 @@
       const formData = new FormData(e.target);
       setLoadingState(true);
       apiService
-        .addImage(getGallery().id, formData)
-        .then(() => apiService.getImage(getGallery().id))
-        .then((image) => {
-          if (image) setImage(image);
-        })
+        .addImage(getUser().id, formData)
+        .then(() => apiService.getGallery())
+        .then(setGallery)
         .catch(setError)
         .finally(() => setLoadingState(false));
       // clean form
