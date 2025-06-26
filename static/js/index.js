@@ -500,5 +500,9 @@
       document.querySelector("form [name=action]").value = "signup";
       submit();
     });
+
+    document.querySelector("#backBtn").addEventListener("click", function (e) {
+      setSigningIn(false);
+    });
   });
 })();

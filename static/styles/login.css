@@ -57,6 +57,14 @@
   background-color: #bfcbed;
 }
 
+.back-btn {
+  background-color: #e54b4b;
+}
+
+.back-btn:hover {
+  background-color: #ff220c;
+}
+
 .sign-form-flex {
   width: 50%;
 }
