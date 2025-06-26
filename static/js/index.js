@@ -279,6 +279,28 @@
 
     meact.useEffect(
       function () {
+        const popupBtn = document.querySelector("#popupBtn");
+        const popup = document.querySelector("#addImgPopup");
+        if (getImgPopupOpen()) {
+          popupBtn.textContent = "X";
+          popupBtn.classList.remove("popup-open");
+          popupBtn.classList.add("popup-close");
+          popup.classList.remove("hidden");
+        } else {
+          popupBtn.textContent = "+";
+          popupBtn.classList.remove("popup-close");
+          popupBtn.classList.add("popup-open");
+          popup.classList.add("hidden");
+        }
+      },
+      [imgPopupOpen]
+    );
+
+    const [onUserGallery, getOnUserGallery, setOnUserGallery] =
+      meact.useState(null);
+
+    meact.useEffect(
+      function () {
         if (getLoadingState()) {
           document.body.style.overflow = "hidden";
           document.querySelector(".loader-container").style.display = "flex";
@@ -305,35 +327,25 @@
       [error]
     );
 
-    const popupBtn = document.querySelector("#popupBtn");
-    const popup = document.querySelector("#addImgPopup");
-    popupBtn.addEventListener("click", function (e) {
-      if (popupBtn.textContent === "+") {
-        popupBtn.textContent = "X";
-        popupBtn.classList.remove("popup-open");
-        popupBtn.classList.add("popup-close");
-        popup.classList.remove("hidden");
-      } else if (popupBtn.textContent === "X") {
-        popupBtn.textContent = "+";
-        popupBtn.classList.remove("popup-close");
-        popupBtn.classList.add("popup-open");
-        popup.classList.add("hidden");
-      }
+    document.querySelector("#popupBtn").addEventListener("click", function (e) {
+      setImgPopupOpen(!getImgPopupOpen());
     });
 
-    popup.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      setLoadingState(true);
-      apiService
-        .addImage(getUser().id, formData)
-        .then(() => apiService.getGallery())
-        .then(setGallery)
-        .catch(setError)
-        .finally(() => setLoadingState(false));
-      // clean form
-      document.querySelector("#addImgPopup").reset();
-    });
+    document
+      .querySelector("#addImgPopup")
+      .addEventListener("submit", function (e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        setLoadingState(true);
+        apiService
+          .addImage(getUser().id, formData)
+          .then(() => apiService.getGallery())
+          .then(setGallery)
+          .catch(setError)
+          .finally(() => setLoadingState(false));
+        // clean form
+        document.querySelector("#addImgPopup").reset();
+      });
 
     document
       .querySelector("#prevGalleryBtn")
