@@ -15,9 +15,9 @@ commentsRouter.delete("/:id", async (req, res, next) => {
 
     const token = await extractTokenFromReq(req);
     const image = await comment.getImage();
-    const gallery = await image.getGallery();
+    const user = await image.getUser();
 
-    if (!(token.UserId === comment.UserId || token.UserId == gallery.UserId)) {
+    if (!(token.UserId === comment.UserId || token.UserId == user.id)) {
       return res.status(403).json({ error: "Forbidden." });
     }
 
