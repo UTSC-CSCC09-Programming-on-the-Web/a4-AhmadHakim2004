@@ -24,6 +24,7 @@
       const action = document.querySelector("#signForm [name=action]").value;
 
       document.querySelector("#signForm").reset();
+
       setLoadingState(true);
       apiService[action](username, password)
         .then(function (res) {
@@ -65,16 +66,20 @@
       minute: "2-digit",
       hour12: true,
     });
+    const showDeleteBtn = comment.User.id === getUser()?.id || getGallery()?.id === getUser()?.id;
+    const invisible = showDeleteBtn ? "" : "invisible";
     elmt.innerHTML = `
           <div class="col-auto">
             <div class="comment-header">${comment.User.username} (${date})</div>
             <div class="comment-content">${comment.content}</div>
           </div>
-          <div class="col-1 delete-icon btn-comment-action"></div>
+          <div class="col-1 delete-icon btn-comment-action ${invisible}"></div>
       `;
     // add this element to the document
     document.querySelector("#comments").prepend(elmt);
 
+    if (!showDeleteBtn) return;
+    
     elmt.querySelector(".delete-icon").addEventListener("click", function () {
       setLoadingState(true);
       apiService
