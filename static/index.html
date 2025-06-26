@@ -94,46 +94,48 @@
           </div>
 
           <div id="signedInContainer" class="hidden">
-            <div id="commentFormContainer" class="comment-form-container">
-              <div class="comment-form-header">Add Comment</div>
-              <form id="commentForm" class="comment-form">
-                <div class="comment-form-elem-container">
-                  <div class="comment-form-label" for="comment-content">
-                    Comment
+            <div id="commentsElems">
+              <div id="commentFormContainer" class="comment-form-container">
+                <div class="comment-form-header">Add Comment</div>
+                <form id="commentForm" class="comment-form">
+                  <div class="comment-form-elem-container">
+                    <div class="comment-form-label" for="comment-content">
+                      Comment
+                    </div>
+                    <textarea
+                      id="commentContent"
+                      class="comment-form-elem"
+                      rows="5"
+                      placeholder="Enter your comment"
+                      required
+                    ></textarea>
                   </div>
-                  <textarea
-                    id="commentContent"
-                    class="comment-form-elem"
-                    rows="5"
-                    placeholder="Enter your comment"
-                    required
-                  ></textarea>
-                </div>
-                <button type="submit" class="comment-form-btn">
-                  Add Comment
-                </button>
-              </form>
-            </div>
+                  <button type="submit" class="comment-form-btn">
+                    Add Comment
+                  </button>
+                </form>
+              </div>
 
-            <div id="commentsContainer" class="comments-container">
-              <div class="comments-header">Comments</div>
-              <div id="comments"></div>
-              <div class="row">
-                <div class="col-4 col-sm-4"></div>
-                <div class="col-1 col-sm-1 comment-btn-container">
-                  <button
-                    id="prevCommentsBtn"
-                    class="btn-comment-action previous-comments"
-                  ></button>
+              <div id="commentsContainer" class="comments-container">
+                <div class="comments-header">Comments</div>
+                <div id="comments"></div>
+                <div class="row">
+                  <div class="col-4 col-sm-4"></div>
+                  <div class="col-1 col-sm-1 comment-btn-container">
+                    <button
+                      id="prevCommentsBtn"
+                      class="btn-comment-action previous-comments"
+                    ></button>
+                  </div>
+                  <div class="col-2 col-sm-2"></div>
+                  <div class="col-1 col-sm-1 comment-btn-container">
+                    <button
+                      id="nextCommentsBtn"
+                      class="btn-comment-action next-comments"
+                    ></button>
+                  </div>
+                  <div class="col-4 col-sm-4"></div>
                 </div>
-                <div class="col-2 col-sm-2"></div>
-                <div class="col-1 col-sm-1 comment-btn-container">
-                  <button
-                    id="nextCommentsBtn"
-                    class="btn-comment-action next-comments"
-                  ></button>
-                </div>
-                <div class="col-4 col-sm-4"></div>
               </div>
             </div>
 

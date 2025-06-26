@@ -164,6 +164,7 @@
           document
             .querySelector("#imgAvailableContainer")
             .classList.remove("hidden");
+          document.querySelector("#commentsElems").classList.remove("hidden");
           document.querySelector(
             "#imgTotal"
           ).textContent = `Total Images: ${getImageCount()}`;
@@ -178,10 +179,11 @@
             .catch(setError)
             .finally(() => setLoadingState(false));
         } else {
+          document.querySelector("#noImages").classList.remove("hidden");
           document
             .querySelector("#imgAvailableContainer")
             .classList.add("hidden");
-          document.querySelector("#noImages").classList.remove("hidden");
+          document.querySelector("#commentsElems").classList.add("hidden");
         }
       },
       [imageCount]
