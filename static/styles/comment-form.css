@@ -1,0 +1,56 @@
+.comment-form-container {
+  border-bottom: 1px solid black;
+}
+
+.comment-form-header {
+  font-size: 22px;
+  font-weight: bold;
+  padding: 16px;
+  color: white;
+}
+
+.comment-form {
+  padding-left: 16px;
+}
+
+.comment-form-elem-container {
+  padding: 12px 0px;
+}
+
+.comment-form-label {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: white;
+}
+
+.comment-form-elem {
+  width: 50%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  font-family: "Public Sans";
+  background-color: #243847;
+  color: white;
+}
+
+.comment-form-elem::placeholder {
+  color: #91b2c9;
+}
+
+.comment-form-btn {
+  background-color: #bfdbed;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  width: fit-content;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.comment-form-btn:hover {
+  background-color: #bfcbed;
+}

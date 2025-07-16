@@ -1,0 +1,449 @@
+# Github Copilot Prompt: Can you rewrite the openapi.yml file to add all the new routes and modify existing ones if changes were made
+
+openapi: 3.0.0
+info:
+  title: Image & Comments API
+  version: 1.1.0
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /galleries:
+    get:
+      summary: Get the latest gallery or paginate galleries
+      parameters:
+        - in: query
+          name: cursorId
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: direction
+          schema:
+            type: string
+            enum: [prev, next]
+          required: false
+      responses:
+        "200":
+          description: Gallery object or null
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Gallery"
+        "400":
+          description: Cannot get gallery
+        "422":
+          description: Invalid query parameters
+
+  /galleries/{id}/images:
+    get:
+      summary: Get the latest image or paginate images in a gallery
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: cursorId
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: direction
+          schema:
+            type: string
+            enum: [prev, next]
+          required: false
+      responses:
+        "200":
+          description: Image object or null
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Image"
+        "400":
+          description: Cannot get image
+        "404":
+          description: Gallery not found
+        "422":
+          description: Invalid query parameters
+    post:
+      summary: Add a new image to a gallery
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                picture:
+                  type: string
+                  format: binary
+              required:
+                - title
+                - picture
+      responses:
+        "200":
+          description: Image created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Image"
+        "400":
+          description: Cannot post image
+        "403":
+          description: Forbidden
+        "404":
+          description: Gallery not found
+
+  /galleries/{id}/count:
+    get:
+      summary: Get total count of images in a gallery
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Total image count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+        "400":
+          description: Cannot get total count of images
+        "404":
+          description: Gallery not found
+
+  /users/signup:
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                picture:
+                  type: string
+                  format: binary
+              required:
+                - username
+                - password
+                - picture
+      responses:
+        "200":
+          description: User created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token_type:
+                    type: string
+                  access_token:
+                    type: string
+        "422":
+          description: User creation failed
+
+  /users/signin:
+    post:
+      summary: Sign in a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        "200":
+          description: User signed in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token_type:
+                    type: string
+                  access_token:
+                    type: string
+        "401":
+          description: Incorrect username or password
+        "422":
+          description: Token creation failed
+
+  /users/signout:
+    get:
+      summary: Sign out the current user
+      responses:
+        "200":
+          description: Signed out successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "422":
+          description: Couldn't sign out
+
+  /users/me:
+    get:
+      summary: Get current user info
+      responses:
+        "200":
+          description: User info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Gallery"
+        "404":
+          description: User not found
+
+  /images:
+    post:
+      summary: Upload a new image (legacy, not used in your routers)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                picture:
+                  type: string
+                  format: binary
+              required:
+                - title
+                - picture
+      responses:
+        "200":
+          description: Image created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Image"
+        "400":
+          description: Cannot create image
+
+  /images/{id}:
+    delete:
+      summary: Delete an image by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Image deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Image"
+        "404":
+          description: Image not found
+        "403":
+          description: Forbidden
+        "400":
+          description: Cannot delete image
+
+  /images/{id}/picture:
+    get:
+      summary: Get the image file by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Image file
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: Image not found
+
+  /images/{id}/comments:
+    post:
+      summary: Add a comment to an image
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+                - content
+      responses:
+        "200":
+          description: Comment created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        "404":
+          description: Image not found
+        "400":
+          description: Cannot create comment
+    get:
+      summary: Get comments for an image (paginated)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          required: false
+      responses:
+        "200":
+          description: List of comments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Comment"
+                  totalCount:
+                    type: integer
+        "404":
+          description: Image not found
+        "400":
+          description: Cannot get comments
+        "422":
+          description: Invalid query parameters
+
+  /comments/{id}:
+    delete:
+      summary: Delete a comment by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Comment deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        "404":
+          description: Comment not found
+        "403":
+          description: Forbidden
+        "400":
+          description: Cannot delete comment
+
+components:
+  schemas:
+    Gallery:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+    Image:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        picture:
+          type: object
+          properties:
+            path:
+              type: string
+            mimetype:
+              type: string
+        UserId:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        ImageId:
+          type: integer
+        UserId:
+          type: integer
+        User:
+          type: object
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time

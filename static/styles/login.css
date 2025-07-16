@@ -1,0 +1,76 @@
+.sign-form-container {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid black;
+}
+
+.sign-form-header {
+  font-size: 22px;
+  font-weight: bold;
+  padding: 16px;
+  color: white;
+}
+
+.sign-form {
+  padding-left: 16px;
+}
+
+.sign-form-elem-container {
+  padding: 12px 0px;
+}
+
+.sign-form-label {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: white;
+}
+
+.sign-form-elem {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  font-family: "Public Sans";
+  background-color: #243847;
+  color: white;
+}
+
+.sign-form-elem::placeholder {
+  color: #91b2c9;
+}
+
+.sign-form-btn {
+  background-color: #bfdbed;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  width: fit-content;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sign-form-btn:hover {
+  background-color: #bfcbed;
+}
+
+.back-btn {
+  background-color: #e54b4b;
+}
+
+.back-btn:hover {
+  background-color: #ff220c;
+}
+
+.sign-form-flex {
+  width: 50%;
+}
+
+.sign-btns-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}

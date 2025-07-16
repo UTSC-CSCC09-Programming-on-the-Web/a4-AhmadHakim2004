@@ -1,0 +1,84 @@
+.img-display {
+  border-bottom: 1px solid black;
+}
+
+.img-header {
+  font-size: 22px;
+  font-weight: bold;
+  padding: 16px;
+  color: white;
+}
+
+.img-title {
+  padding: 4px 16px;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+}
+
+.gallery-author,
+.img-total {
+  padding: 4px 16px;
+  font-size: 12px;
+  color: #91b2c9;
+  text-align: center;
+}
+
+.gallery-author {
+  font-style: italic;
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-container {
+  height: 500px;
+  background-color: #eff0f1;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.33);
+  padding: 1rem;
+  margin: 1rem auto;
+}
+
+.img {
+  max-height: 500px;
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.img-display .row {
+  margin: 8px;
+}
+
+.img-btn-container,
+.gallery-btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-img-action,
+.btn-gallery-action {
+  width: 40%;
+  aspect-ratio: 1;
+  border: none;
+  background-size: cover;
+  background-color: #121c21;
+  color: aliceblue;
+}
+
+.previous-img,
+.previous-gallery {
+  background-image: url("../media/back-arrow.png");
+}
+
+.delete-img {
+  background-image: url("../media/bin.png");
+}
+
+.next-img,
+.next-gallery {
+  background-image: url("../media/right-arrow.png");
+}
