@@ -113,7 +113,7 @@ let apiService = (function () {
 
   module.signout = function () {
     return fetch("/api/users/signout", {
-      method: "GET",
+      method: "POST",
       headers: addTokenToHeaders({ "Content-Type": "application/json" }),
     }).then(handleResponse);
   };

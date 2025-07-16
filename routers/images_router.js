@@ -53,7 +53,6 @@ imagesRouter.post("/:id/comments", isAuthenticated, async (req, res) => {
     });
     return res.json(comment);
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ error: "Cannot create comment" });
   }
 });
@@ -96,7 +95,6 @@ imagesRouter.get("/:id/comments", isAuthenticated, async (req, res) => {
     const totalCount = await Comment.count({ where });
     return res.json({ comments, totalCount });
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ error: "Cannot get comments" });
   }
 });

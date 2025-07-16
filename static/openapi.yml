@@ -200,7 +200,7 @@ paths:
           description: Token creation failed
 
   /users/signout:
-    get:
+    post:
       summary: Sign out the current user
       responses:
         "200":

@@ -24,7 +24,6 @@ usersRouter.post("/signup", upload.single("picture"), async (req, res) => {
   try {
     await user.save();
   } catch (err) {
-    console.log(err);
     return res.status(422).json({ error: "User creation failed." });
   }
 
@@ -36,7 +35,6 @@ usersRouter.post("/signup", upload.single("picture"), async (req, res) => {
     });
     await token.save();
   } catch (err) {
-    console.log(err);
     return res
       .status(422)
       .json({ error: "User created but token creation failed." });
@@ -71,7 +69,6 @@ usersRouter.post("/signin", async (req, res) => {
     });
     await token.save();
   } catch (err) {
-    console.log(err);
     return res.status(422).json({ error: "Token creation failed." });
   }
 
@@ -81,12 +78,11 @@ usersRouter.post("/signin", async (req, res) => {
   });
 });
 
-usersRouter.get("/signout", isAuthenticated, async function (req, res) {
+usersRouter.post("/signout", isAuthenticated, async function (req, res) {
   try {
     const token = await extractTokenFromReq(req);
     await token.destroy();
   } catch (err) {
-    console.log(err);
     return res.status(422).json({ error: "Couldn't sign out." });
   }
   return res.json({ message: "Signed out successfully." });
